@@ -17,7 +17,10 @@
     <None Remove="Images\icons8-file-100.png" />
     <None Remove="Images\icons8-hand-holding-dollar-64.png" />
     <None Remove="Images\icons8-id-50 1.png" />
+    <None Remove="Images\icons8-id-50.png" />
+    <None Remove="Images\icons8-loan-64 2.png" />
     <None Remove="Images\icons8-loan-64.png" />
+    <None Remove="Images\icons8-settings-50.png" />
     <None Remove="Images\login picture.jpg" />
   </ItemGroup>
 

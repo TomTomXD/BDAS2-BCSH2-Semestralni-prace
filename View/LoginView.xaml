@@ -11,11 +11,42 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
+        FontFamily="Open Sans"
         MouseDown="Window_MouseDown">
 
+    <Window.Resources>
+        <!--Styl pro TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerRadius="10">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <!-- Outer Border with a shadow effect -->
-        <Border CornerRadius="40" Opacity="1" Margin="10" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="14*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="11*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border CornerRadius="40" Opacity="1" Margin="10,10,10,10" Background="Transparent" Grid.ColumnSpan="3">
             <Border.BorderBrush>
                 <SolidColorBrush Color="Black" Opacity="0.9"/>
             </Border.BorderBrush>
@@ -26,13 +57,11 @@
                 <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="0"/>
             </Border.Effect>
 
-            <!-- Inner Border with image background -->
             <Border CornerRadius="40" Opacity="1">
                 <Border.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Images/login picture.jpg" />
                 </Border.Background>
 
-                <!-- Inner Gradient Border -->
                 <Border CornerRadius="40" Opacity="0.75">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -40,74 +69,48 @@
                             <GradientStop Color="#311B92" Offset="1" />
                         </LinearGradientBrush>
                     </Border.Background>
-
-                    <!-- Close Button in top-right corner -->
-                    <Button Content="✖" 
-                            HorizontalAlignment="Right" VerticalAlignment="Top"
-                            Width="30" Height="30" 
-                            Margin="0,10,10,0"
-                            FontSize="16"
-                            FontWeight="Bold"
-                            Background="Transparent" 
-                            Foreground="White" 
-                            BorderBrush="Transparent" 
-                            Cursor="Hand"
-                            Click="CloseButton_Click">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="#28AEED"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#278BEF"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter VerticalAlignment="Center"
-                                                      HorizontalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
                 </Border>
             </Border>
         </Border>
 
-        <!-- Login Title -->
-        <TextBlock Text="Přihlašte se prosím" 
-                   HorizontalAlignment="Center"
+        <TextBlock Text="My Bank" 
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Margin="0,46,0,0"
+                   Margin="207,34,0,0"
                    Foreground="White"
-                   FontSize="30"
-                   FontWeight="Bold"/>
+                   FontSize="45"
+                   FontWeight="Bold" Grid.ColumnSpan="3" Height="60" Width="185"/>
 
-        <Grid VerticalAlignment="Center" Margin="300,0,-300,0">
+        <Grid VerticalAlignment="Top" Margin="1,131,11,0" Height="286" Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="41*"/>
+                <RowDefinition Height="48*"/>
+                <RowDefinition Height="48*"/>
+                <RowDefinition Height="48*"/>
+                <RowDefinition Height="48*"/>
+                <RowDefinition Height="48*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Přihlašovací jméno:" 
-                       Grid.Row="0"
-                       Margin="0,5,0,2"
+            <TextBlock Text="Přihlašte se prosím" 
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Foreground="White"
+                   FontSize="20"
+                   FontWeight="Bold" Margin="0,6,0,0" Grid.Row="1"/>
+
+            <TextBlock Text="Email:" 
+                       Grid.Row="2"
                        HorizontalAlignment="Left"
                        Foreground="White"
-                       FontSize="13"/>
-            <TextBox Grid.Row="1"
+                       FontSize="13" VerticalAlignment="Top" Margin="2,25,0,0" RenderTransformOrigin="0.678,0.611"/>
+            <TextBox Grid.Row="3"
                      Padding="10,5"
-                     Margin="0,10,0,10"
-                     Width="230"
+                     Width="204"
                      BorderThickness="0,0,0,1"
                      HorizontalAlignment="Left"
-                     Foreground="Black">
-                <TextBox.Style>
+                     Foreground="Black" Margin="0,2,0,21">
+                <!--<TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Template">
                             <Setter.Value>
@@ -122,22 +125,21 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-                </TextBox.Style>
+                </TextBox.Style>-->
             </TextBox>
 
             <TextBlock Text="Heslo:" 
-                       Grid.Row="2"
-                       Margin="0,18,0,2"
+                       Grid.Row="4"
                        HorizontalAlignment="Left"
                        Foreground="White"
-                       FontSize="13"/>
-            <PasswordBox Grid.Row="3"
+                       FontSize="13" RenderTransformOrigin="0.615,0.927" Height="14" VerticalAlignment="Top" Margin="2,27,0,0"/>
+
+            <PasswordBox Grid.Row="5"
                          Padding="10,5"
-                         Margin="0,10,0,30"
-                         Width="230"
+                         Width="204"
                          BorderThickness="0,0,0,1"
                          HorizontalAlignment="Left"
-                         Foreground="Black">
+                         Foreground="Black" Margin="2,0,0,23">
                 <PasswordBox.Style>
                     <Style TargetType="PasswordBox">
                         <Setter Property="Template">
@@ -157,13 +159,16 @@
             </PasswordBox>
 
             <Button Content="Přihlásit se"
-                    Grid.Row="4"
+                    Grid.Row="6"
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center"
-                    Width="100" 
-                    Height="30" 
-                    Margin="65,0,0,0"
-                    Foreground="Black">
+                    FontSize="16"
+                    Width="120" 
+                    Height="30"
+                    Margin="58,0,0,0"
+                     FontWeight="Bold"
+                    Foreground="Black"
+                    Command="{Binding OpenDashboardCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Background" Value="White"/>
@@ -184,5 +189,89 @@
                 </Button.Style>
             </Button>
         </Grid>
+
+        <Border Background="LightGray" Margin="3,131,16,33" 
+        Opacity="0.4" Grid.Column="1" 
+        CornerRadius="3"/>
+
+        <Grid Grid.Column="0">
+            <TextBlock  Text="Založte si účet ještě dnes do několika minut" 
+                    TextWrapping="Wrap"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    TextAlignment="Center"
+                    Foreground="White"
+                    FontSize="20"
+                    FontWeight="Bold" Margin="0,277,0,0" Height="74" Width="226"/>
+            <Image Source="pack://application:,,,/Images/bank-card-mobile-phone-online-payment-removebg-preview.png"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Margin="0,96,0,0"
+               Width="245"
+               Height="193"/>
+            <Button 
+                    Content="Chci účet"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                           Width="120" 
+                            Height="30"
+                    Margin="0,378,0,0"
+                    FontSize="16"
+                    Foreground="Black"
+                    FontWeight="Bold"
+                    Command="{Binding OpenRegisterViewCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                                        <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- Close Button in top-right corner -->
+            <Button Content="✖" 
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Width="30" Height="30" 
+                    Margin="0,25,-245,0"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Background="Transparent" 
+                    Foreground="White" 
+                    BorderBrush="Transparent" 
+                    Cursor="Hand"
+                    Click="CloseButton_Click" RenderTransformOrigin="-0.098,0.472">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#28AEED"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#278BEF"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+
     </Grid>
 </Window>

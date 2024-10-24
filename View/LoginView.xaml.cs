@@ -1,43 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace InformacniSystemBanky.View
 {
-    /// <summary>
-    /// Interakční logika pro LoginView.xaml
-    /// </summary>
     public partial class LoginView : Window
     {
         public LoginView()
         {
             InitializeComponent();
+            DataContext = new ViewModel.LoginViewModel(this);
         }
 
-        // Metoda pro hýbání s oknem
+        // Ponecháno v modelu pouze umožňuje přesun okna, žádná logika
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
             }
         }
 
-        // Metoda pro zavření okna
+        // Ponecháno v modelu pro zavření okna, žádná logika
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
     }
 }

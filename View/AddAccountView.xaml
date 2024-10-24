@@ -1,0 +1,20 @@
+﻿<Window x:Class="InformacniSystemBanky.View.AddAccountView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InformacniSystemBanky.View"
+        mc:Ignorable="d"
+        Title="Přidat Účet" Height="400" Width="400">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox Width="200" Text="{Binding NewAccountId, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Width="200" Text="{Binding NewAccountNumber, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="200" Text="{Binding NewBalance, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="200" Text="{Binding NewPaymentLimit, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="200" Text="{Binding NewPersonId, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="200" Text="{Binding NewAccountType, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Přidat Účet" Command="{Binding AddAccountCommand}" Width="150" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Window>

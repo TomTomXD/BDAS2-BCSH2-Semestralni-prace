@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="InformacniSystemBanky.View.AccountsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Height="450" Width="800">
+
+
+    <UserControl.Resources>
+        <!-- Style for DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="AlternatingRowBackground" Value="White"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="RowHeight" Value="50"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <!-- Style for DataGridColumnHeader -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+         <!--Style for DataGridCells--> 
+        <Style TargetType="DataGridCell">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="Transparent">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="715">
+            <!-- Border to create rounded corners -->
+            <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
+                <DataGrid ItemsSource="{Binding Accounts}" AutoGenerateColumns="False" Height="292" 
+                      SelectedItem="{Binding SelectedAccount}" Width="680">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID Účtu" Binding="{Binding AccountId}" Width="*" />
+                        <DataGridTextColumn Header="Číslo Účtu" Binding="{Binding AccountNumber}" Width="*" />
+                        <DataGridTextColumn Header="Zůstatek" Binding="{Binding Balance}" Width="*" />
+                        <DataGridTextColumn Header="Limit pro Platby" Binding="{Binding PaymentLimit}" Width="*" />
+                        <DataGridTextColumn Header="Id osoby" Binding="{Binding PersonId}" Width="*" />
+                        <DataGridTextColumn Header="Typ účtu" Binding="{Binding AccountType}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Input Fields -->
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <TextBox Width="100" Text="{Binding NewAccountId, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Width="150" Text="{Binding NewAccountNumber, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Width="100" Text="{Binding NewBalance, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Width="100" Text="{Binding NewPaymentLimit, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Width="100" Text="{Binding NewPersonId, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Width="100" Text="{Binding NewAccountType, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>-->
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <Button Content="Přidat Účet" Command="{Binding AddAccountCommand}" Width="150" Margin="5" />
+                <Button Content="Smazat Vybraný Účet" Command="{Binding DeleteAccountCommand}" IsEnabled="{Binding Path=SelectedAccount}" Width="150" Margin="5" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
