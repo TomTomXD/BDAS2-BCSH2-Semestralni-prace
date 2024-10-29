@@ -18,6 +18,7 @@
     <None Remove="Images\icons8-hand-holding-dollar-64.png" />
     <None Remove="Images\icons8-id-50 1.png" />
     <None Remove="Images\icons8-loan-64.png" />
+    <None Remove="Images\icons8-users-64.png" />
     <None Remove="Images\login picture.jpg" />
   </ItemGroup>
 
@@ -51,6 +52,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-loan-64.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-users-64.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\login picture.jpg">
