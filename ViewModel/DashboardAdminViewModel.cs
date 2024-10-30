@@ -1,4 +1,5 @@
-﻿using InformacniSystemBanky.View;
+﻿using FinancniInformacniSystemBanky.View;
+using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -25,6 +26,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand LogoClickedCommand { get; }
         public ICommand ShowAllAccountCommand { get; }
         public ICommand LogOutCommand { get; }
+        public ICommand ShowAllCardsCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -33,6 +35,7 @@ namespace InformacniSystemBanky.ViewModel
             ShowProfileCommand = new RelayCommand(ShowProfile);
             LogoClickedCommand = new RelayCommand(ShowHome);
             LogOutCommand = new RelayCommand(LogOut);
+            ShowAllCardsCommand = new RelayCommand(ShowCards);
 
         }
 
@@ -75,6 +78,11 @@ namespace InformacniSystemBanky.ViewModel
                 currentWindow.Close();
             }
 
+        }
+
+        private void ShowCards()
+        {
+            CurrentViewModel = new CardsListView();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

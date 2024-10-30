@@ -12,6 +12,7 @@
     <None Remove="Images\bank-card-mobile-phone-online-payment-removebg-preview.png" />
     <None Remove="Images\icons8-bank-account-48.png" />
     <None Remove="Images\icons8-checked-identification-documents-50.png" />
+    <None Remove="Images\icons8-chip-card-96.png" />
     <None Remove="Images\icons8-circled-b-50.png" />
     <None Remove="Images\icons8-credit-card-80.png" />
     <None Remove="Images\icons8-file-100.png" />
@@ -34,6 +35,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-checked-identification-documents-50.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-chip-card-96.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-circled-b-50.png">
