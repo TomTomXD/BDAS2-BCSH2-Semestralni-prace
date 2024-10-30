@@ -48,6 +48,16 @@ namespace InformacniSystemBanky.ViewModel
         {
             var dashboardView = new DashboardKlientView();
             dashboardView.Show();
+            MessageBox.Show($"{_userRegistrationViewModel.FirstName}\n, " +
+                $"{_userRegistrationViewModel.LastName}\n, " +
+                $"{_userRegistrationViewModel.RodneCislo}\n" +
+                $"{_userRegistrationViewModel.Email}\n" +
+                $"{_userRegistrationViewModel.PhoneNumber}\n" +
+                $"{_userRegistrationViewModel.AddressStreet}\n" +
+                $"{_userRegistrationViewModel.AddressHouseNumber}\n" +
+                $"{_userRegistrationViewModel.AddressCity}\n" +
+                $"{_userRegistrationViewModel.AddressZipCode}\n",
+                "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
             _registrationCreatePassword.Close();
         }
 
