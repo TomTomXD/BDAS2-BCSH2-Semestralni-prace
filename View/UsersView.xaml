@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="FinancniInformacniSystemBanky.View.UsersView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinancniInformacniSystemBanky.View"
+        mc:Ignorable="d"
+        Height="650" Width="850">
+    
+    <UserControl.Resources>
+        <!-- Style for DataGrid -->
+    <Style TargetType="DataGrid">
+        <Setter Property="AlternatingRowBackground" Value="White"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="RowHeight" Value="50"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- Style for DataGridColumnHeader -->
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <!--Style for DataGridCells-->
+    <Style TargetType="DataGridCell">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="Transparent">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="750">
+            <!-- Border to create rounded corners -->
+            <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
+                <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False" Height="505" 
+                  SelectedItem="{Binding SelectedPerson}" Width="724">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Jméno" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Příjmení" Binding="{Binding Surename}" Width="*" />
+                        <DataGridTextColumn Header="Datum narození" Binding="{Binding DoB}" Width="*" />
+                        <DataGridTextColumn Header="Rodné číslo" Binding="{Binding NationalIdNumber}" Width="*" />
+                        <DataGridTextColumn Header="Telefon" Binding="{Binding PhoneNumber}" Width="*" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
+                        <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <Button Content="Přidat Osobu" Command="{Binding AddPersonCommand}" Width="150" Margin="5" />
+                <Button Content="Upravit údaje" Command="{Binding ChangePersonalDetailsCommand}" IsEnabled="{Binding Path=SelectedAccount}" Width="150" Margin="5" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

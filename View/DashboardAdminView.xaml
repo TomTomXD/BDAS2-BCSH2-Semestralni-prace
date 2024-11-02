@@ -83,7 +83,7 @@
 
         <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10,123,10,0" Height="617">
             <!--Uživatelé button-->
-            <Button Command="{Binding ShowAllAccountCommand}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
+            <Button Command="{Binding ShowAllPeople}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-users-64.png" Stretch="Fill" Height="40" Width="40" />
                     <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Uživatelé"/>

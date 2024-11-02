@@ -27,6 +27,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowAllAccountCommand { get; }
         public ICommand LogOutCommand { get; }
         public ICommand ShowAllCardsCommand { get; }
+        public ICommand ShowAllPeople { get; }
 
         public DashboardAdminViewModel()
         {
@@ -36,7 +37,13 @@ namespace InformacniSystemBanky.ViewModel
             LogoClickedCommand = new RelayCommand(ShowHome);
             LogOutCommand = new RelayCommand(LogOut);
             ShowAllCardsCommand = new RelayCommand(ShowCards);
+            ShowAllPeople = new RelayCommand(ShowPeople);
 
+        }
+
+        private void ShowPeople()
+        {
+            CurrentViewModel = new UsersView();
         }
 
         private void ShowAccounts()
