@@ -40,10 +40,11 @@
             <!-- Border to create rounded corners -->
             <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
                 <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False" Height="505" 
-                  SelectedItem="{Binding SelectedPerson}" Width="724">
+                  SelectedItem="{Binding SelectedPerson}" Width="724"
+                  HorizontalScrollBarVisibility="Visible">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Jméno" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="Příjmení" Binding="{Binding Surename}" Width="*" />
+                        <DataGridTextColumn Header="Příjmení" Binding="{Binding Surname}" Width="*" />
                         <DataGridTextColumn Header="Datum narození" Binding="{Binding DoB}" Width="*" />
                         <DataGridTextColumn Header="Rodné číslo" Binding="{Binding NationalIdNumber}" Width="*" />
                         <DataGridTextColumn Header="Telefon" Binding="{Binding PhoneNumber}" Width="*" />

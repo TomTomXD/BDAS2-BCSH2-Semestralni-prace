@@ -4,14 +4,13 @@ using Oracle.ManagedDataAccess.Client;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
 {
     public class UsersViewModel
     {
-        ObservableCollection<PersonDetails> People { get; set; }
+        public ObservableCollection<PersonDetails> People { get; set; }
 
         public ICommand AddPersonCommand { get; }
         public ICommand ChangePersonalDataCommand { get; }
@@ -19,6 +18,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public UsersViewModel()
         {
             People = new ObservableCollection<PersonDetails>();
+            LoadPeopleFromDatabase();
             AddPersonCommand = new RelayCommand(AddPerson);
             ChangePersonalDataCommand = new RelayCommand(ChangePersonalData);
         }
@@ -68,10 +68,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                                 }
                             }
                         }   
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nepodařilo se připojit k databázi");
                     }
                 }
                 catch (Exception ex)
