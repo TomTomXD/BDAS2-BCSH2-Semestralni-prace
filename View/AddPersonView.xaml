@@ -1,0 +1,148 @@
+﻿<Window x:Class="FinancniInformacniSystemBanky.View.AddPersonView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Přidat osobu" Height="500" Width="350"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="0,0,15,0"/>
+        </Style>
+
+        
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="DarkGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="CustomButtonStyle">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="DarkGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="348" Margin="0,20,0,0">
+        <Border CornerRadius="20"  BorderBrush="Black">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                    <GradientStop Color="#311B92" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel>
+                <TextBlock Text="Přidat osobu" 
+                           HorizontalAlignment="Center" 
+                           FontSize="24" 
+                           Foreground="White" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,20" />
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Label Content="Jméno" Width="100" Foreground="White"/>
+                        <TextBox x:Name="NameTextBox"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Label Content="Příjmení" Width="100" Foreground="White"/>
+                        <TextBox x:Name="SurnameTextBox"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Label Content="Datum narození" Width="107" Foreground="White"/>
+                        <DatePicker x:Name="DoBDatePicker" Width="186"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Label Content="Rodné číslo" Width="100" Foreground="White"/>
+                        <TextBox x:Name="NationalIdNumberTextBox"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Label Content="Telefon" Width="100" Foreground="White"/>
+                        <TextBox x:Name="PhoneNumberTextBox"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Label Content="Email" Width="100" Foreground="White"/>
+                        <TextBox x:Name="EmailTextBox"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Label Content="Role" Width="100" Foreground="White"/>
+                        <ComboBox x:Name="RoleComboBox" Width="186">
+                            <ComboBoxItem Content="Admin"/>
+                            <ComboBoxItem Content="User"/>
+                            <ComboBoxItem Content="Guest"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <Button Content="Přidat"
+                            Margin="10" 
+                            HorizontalAlignment="Center"
+                            Width="100"
+                            Style="{StaticResource CustomButtonStyle}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

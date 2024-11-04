@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using Oracle.ManagedDataAccess.Client;
 using System.Collections.ObjectModel;
@@ -113,7 +114,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
         // Obsluha tlačítka pro přidání osoby
         private void AddPerson()
         {
-            throw new NotImplementedException();
+            var addPersonView = new AddPersonView();
+            addPersonView.ShowDialog();
         }
 
         // Obsluha tlačítka pro změnu osobních údajů
