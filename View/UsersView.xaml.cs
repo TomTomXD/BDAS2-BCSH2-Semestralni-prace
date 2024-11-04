@@ -27,6 +27,7 @@ namespace FinancniInformacniSystemBanky.View
         {
             InitializeComponent();
             this.DataContext = new UsersViewModel();
+
         }
 
     }

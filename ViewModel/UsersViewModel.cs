@@ -2,15 +2,30 @@
 using InformacniSystemBanky.ViewModel;
 using Oracle.ManagedDataAccess.Client;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
+using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
 {
-    public class UsersViewModel
+    public class UsersViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<PersonDetails> People { get; set; }
+        public ICollectionView FilteredPeople { get; set; }
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                FilteredPeople.Refresh();
+            }
+        }
 
         public ICommand AddPersonCommand { get; }
         public ICommand ChangePersonalDataCommand { get; }
@@ -18,9 +33,27 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public UsersViewModel()
         {
             People = new ObservableCollection<PersonDetails>();
+            FilteredPeople = CollectionViewSource.GetDefaultView(People);
+            FilteredPeople.Filter = FilterPeople;
             LoadPeopleFromDatabase();
             AddPersonCommand = new RelayCommand(AddPerson);
             ChangePersonalDataCommand = new RelayCommand(ChangePersonalData);
+        }
+
+        private bool FilterPeople(object obj)
+        {
+            if (obj is PersonDetails person)
+            {
+                return string.IsNullOrEmpty(SearchText) ||
+                       person.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                       person.Surname.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                       person.DoB.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                       person.NationalIdNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                       person.PhoneNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                       person.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                       person.Role.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
         }
 
         // Metoda pro načtení osob z databáze
@@ -64,10 +97,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
                                         PhoneNumber = reader.GetString(4),
                                         Email = reader.GetString(5),
                                         Role = reader.GetString(6)
-                                    }); 
+                                    });
                                 }
                             }
-                        }   
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -89,5 +122,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
             throw new NotImplementedException();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
