@@ -163,6 +163,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button Content="Přidat Osobu" Command="{Binding AddPersonCommand}" Width="150" Margin="5" />
                 <Button Content="Upravit údaje" Command="{Binding ChangePersonalDetailsCommand}" IsEnabled="{Binding Path=SelectedAccount}" Width="150" Margin="5" />
+                <Button Content="Odebrat" Command="{Binding DeletePersonCommand}" IsEnabled="{Binding SelectedPerson}" Width="150" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>

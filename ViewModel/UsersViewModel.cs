@@ -28,8 +28,20 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
+        private PersonDetails selectedPerson;
+        public PersonDetails SelectedPerson
+        {
+            get => selectedPerson;
+            set
+            {
+                selectedPerson = value;
+                OnPropertyChanged(nameof(SelectedPerson));
+            }
+        }
+
         public ICommand AddPersonCommand { get; }
         public ICommand ChangePersonalDataCommand { get; }
+        public ICommand DeletePersonCommand { get; }
 
         public UsersViewModel()
         {
@@ -39,6 +51,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             LoadPeopleFromDatabase();
             AddPersonCommand = new RelayCommand(AddPerson);
             ChangePersonalDataCommand = new RelayCommand(ChangePersonalData);
+            DeletePersonCommand = new RelayCommand(DeletePerson, CanDeletePerson);
         }
 
         private bool FilterPeople(object obj)
@@ -60,9 +73,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
         // Metoda pro načtení osob z databáze
         private void LoadPeopleFromDatabase()
         {
-            string userId = ConfigurationManager.AppSettings["userId"];
-            string password = ConfigurationManager.AppSettings["password"];
-            string dataSource = ConfigurationManager.AppSettings["dataSource"];
+            string userId = ConfigurationManager.AppSettings["DbUserId"];
+            string password = ConfigurationManager.AppSettings["DbPassword"];
+            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
 
             string connectionString = $"User Id={userId};Password={password};Data Source={dataSource}";
 
@@ -122,6 +135,54 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private void ChangePersonalData()
         {
             throw new NotImplementedException();
+        }
+
+        private void DeletePerson()
+        {
+            if (SelectedPerson != null)
+            {
+                string userId = ConfigurationManager.AppSettings["DbUserId"];
+                string password = ConfigurationManager.AppSettings["DbPassword"];
+                string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
+                string connectionString = $"User Id={userId};Password={password};Data Source={dataSource}";
+
+                using (var connection = new OracleConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        // SQL DELETE command
+                        string deleteQuery = "DELETE FROM OSOBA WHERE RODNE_CISLO = :nationalId";
+
+                        using (var deleteCommand = new OracleCommand(deleteQuery, connection))
+                        {
+                            // nemusíme řešit id, rodné číslo je pro každého unikátní, můžeme odstranit na základě něj
+                            deleteCommand.Parameters.Add(new OracleParameter(":nationalId", SelectedPerson.NationalIdNumber));
+
+                            int rowsAffected = deleteCommand.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                People.Remove(SelectedPerson);
+                                MessageBox.Show("Osoba byla úspěšně odebrána.");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Nepodařilo se odebrat osobu z databáze.");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Chyba při odstraňování osoby: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private bool CanDeletePerson()
+        {
+            return SelectedPerson != null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

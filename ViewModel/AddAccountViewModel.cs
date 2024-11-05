@@ -23,7 +23,6 @@ namespace InformacniSystemBanky.ViewModel
 
         private void AddAccountToDatabase()
         {
-            // Retrieve settings from App.config
             string userId = ConfigurationManager.AppSettings["DbUserId"];
             string password = ConfigurationManager.AppSettings["DbPassword"];
             string dataSource = ConfigurationManager.AppSettings["DbDataSource"];

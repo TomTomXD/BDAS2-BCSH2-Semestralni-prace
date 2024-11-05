@@ -142,15 +142,16 @@
         <Style TargetType="Button">
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10">
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
                             <ContentPresenter VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"/>
+                                      HorizontalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -160,8 +161,12 @@
                     <Setter Property="Background" Value="DarkGray"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
+
 
         <Style TargetType="DatePicker">
             <Setter Property="Width" Value="150"/>
@@ -196,7 +201,7 @@
     </Window.Resources>
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Width="698" Margin="0,20,0,0">
-        <Border Margin="0,0,0,-175">
+        <Border Margin="0,0,0,-175" CornerRadius="20">
             <Border.Background>
                 <SolidColorBrush Color="DeepSkyBlue" Opacity="1"/>
             </Border.Background>
@@ -243,19 +248,19 @@
                     </Grid.RowDefinitions>
 
                     <Label Content="Jméno" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="NameTextBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10"/>
+                    <TextBox x:Name="NameTextBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Příjmení" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="SurnameTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10"/>
+                    <TextBox x:Name="SurnameTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10" Text="{Binding Surname, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Label Content="Dat. narození" Grid.Column="0" Grid.Row="1" Foreground="White" Margin="0,0,0,10"/>
-                    <DatePicker x:Name="DoBDatePicker" Grid.Column="1" Grid.Row="1" Margin="0,0,0,10"/>
+                    <DatePicker x:Name="DoBDatePicker" Grid.Column="1" Grid.Row="1" Margin="0,0,0,10" SelectedDate="{Binding DoB}"/>
                     <Label Content="Rodné číslo" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="NationalIdNumberTextBox" Grid.Column="3" Grid.Row="1" Margin="0,0,0,10"/>
+                    <TextBox x:Name="NationalIdNumberTextBox" Grid.Column="3" Grid.Row="1" Margin="0,0,0,10" Text="{Binding NationalIdNumber, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Label Content="Telefon" Grid.Column="0" Grid.Row="2" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="PhoneNumberTextBox" Grid.Column="1" Grid.Row="2" Margin="0,0,0,10"/>
+                    <TextBox x:Name="PhoneNumberTextBox" Grid.Column="1" Grid.Row="2" Margin="0,0,0,10" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Email" Grid.Column="2" Grid.Row="2" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="EmailTextBox" Grid.Column="3" Grid.Row="2" Margin="0,0,0,10"/>
+                    <TextBox x:Name="EmailTextBox" Grid.Column="3" Grid.Row="2" Margin="0,0,0,10" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <!-- Separator -->
@@ -298,14 +303,17 @@
                     </Grid.RowDefinitions>
 
                     <Label Content="Ulice" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="StreetTextBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10"/>
-                    <Label Content="Číslo popisné" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="HouseNumberTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10"/>
+                    <TextBox x:Name="StreetTextBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10" Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="Číslo popisné" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="0,0,0,10"/>
+                    <TextBox x:Name="HouseNumberTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10" 
+              Text="{Binding HouseNumber, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Label Content="Město" Grid.Column="0" Grid.Row="1" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="CityTextBox" Grid.Column="1" Grid.Row="1" Margin="0,0,0,10"/>
+                    <TextBox x:Name="CityTextBox" Grid.Column="1" Grid.Row="1" Margin="0,0,0,10" 
+              Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="PSČ" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBox x:Name="PostalCodeTextBox" Grid.Column="3" Grid.Row="1" Margin="0,0,0,10"/>
+                    <TextBox x:Name="PostalCodeTextBox" Grid.Column="3" Grid.Row="1" Margin="0,0,0,10" 
+              Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <!-- Separator -->
@@ -345,27 +353,31 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Content="Role" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="34,0,33,10"/>
-                    <ComboBox x:Name="RoleComboBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10">
-                        <ComboBoxItem Content="Admin"/>
-                        <ComboBoxItem Content="User"/>
-                        <ComboBoxItem Content="Guest"/>
-                    </ComboBox>
+                    <Label Content="Role" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="34,5,33,5"/>
+                    <ComboBox x:Name="RoleComboBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10" ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}"/>
 
                     <Label Content="Heslo" Grid.Column="2" Foreground="White" Margin="34,5,33,5" Width="NaN"/>
-                    <PasswordBox Grid.Column="3" Margin="0,4,0,10" 
-                             HorizontalAlignment="Center" Width="147"/>
+                    <PasswordBox x:Name="PasswordBox" 
+             Grid.Column="3" 
+             Margin="0,4,0,10" 
+             HorizontalAlignment="Center" 
+             Width="147" 
+             PasswordChanged="PasswordBox_PasswordChanged"/>
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                     <Button Content="Zrušit" 
                             Margin="10" 
                             Width="109" 
-                            Style="{StaticResource CustomButtonStyle}" Height="33"/>
+                             Height="33"
+                            Command="{Binding CancelAddingNewPersonCommand}"
+                            Style="{StaticResource CustomButtonStyle}"/>
                     <Button Content="Přidat"
                             Margin="10" 
                             Width="109"
-                            Style="{StaticResource CustomButtonStyle}" Height="33"/>
+                             Height="33"
+                            Command="{Binding AddNewPersonCommand}"
+                            Style="{StaticResource CustomButtonStyle}"/>
                 </StackPanel>
             </StackPanel>
         </Border>
