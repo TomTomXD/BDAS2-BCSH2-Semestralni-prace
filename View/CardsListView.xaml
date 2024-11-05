@@ -2,8 +2,22 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Height="500" Width="700">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <WrapPanel x:Name="CardsWrapPanel" Orientation="Horizontal">
-        </WrapPanel>
-    </ScrollViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
+            <WrapPanel x:Name="CardsWrapPanel" Orientation="Horizontal">
+            </WrapPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Grid.Row="1">
+            <Button Content="Přidat kartu" Width="150" Margin="5" />
+            <Button Content="Upravit kartu" Width="150" Margin="5" />
+            <Button Content="Odebrat kartu" Width="150" Margin="5" />
+        </StackPanel>
+    </Grid>
 </UserControl>

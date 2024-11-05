@@ -130,6 +130,66 @@ namespace FinancniInformacniSystemBanky.ViewModel
             CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
         }
 
+        public AddUserViewModel(PersonDetails person) : this()
+        {
+            Name = person.Name;
+            Surname = person.Surname;
+            DoB = person.DoB;
+            NationalIdNumber = person.NationalIdNumber;
+            PhoneNumber = person.PhoneNumber;
+            Email = person.Email;
+            SelectedRole = person.Role;
+
+            LoadAddressFromDatabase(person.NationalIdNumber);
+        }
+
+        private void LoadAddressFromDatabase(string nationalIdNumber)
+        {
+            string userId = ConfigurationManager.AppSettings["DbUserId"];
+            string password = ConfigurationManager.AppSettings["DbPassword"];
+            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
+
+            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource};";
+            using (var connection = new OracleConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {
+                        string query = "SELECT a.ulice, a.cislo_popisne, a.mesto, a.psc " +
+                                       "FROM ADRESA a " +
+                                       "JOIN OSOBA o ON a.id_adresa = o.id_adresa " +
+                                       "WHERE o.rodne_cislo = :NationalIdNumber";
+
+                        using (var command = new OracleCommand(query, connection))
+                        {
+                            command.Parameters.Add(new OracleParameter("NationalIdNumber", nationalIdNumber));
+                            using (var reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    Street = reader["ulice"].ToString();
+                                    HouseNumber = Convert.ToInt32(reader["cislo_popisne"]);
+                                    City = reader["mesto"].ToString();
+                                    PostalCode = Convert.ToInt32(reader["psc"]);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nepodařilo se připojit k databázi.");
+                    }
+                }
+                catch (OracleException ex)
+                {
+                    MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
+                }
+            }
+        }
+
+
         private void LoadRolesFromDatabase()
         {
 
@@ -333,6 +393,63 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 currentWindow.Close();
             }
         }
+
+
+        private void UpdatePersonInDatabase()
+        {
+            string userId = ConfigurationManager.AppSettings["DbUserId"];
+            string password = ConfigurationManager.AppSettings["DbPassword"];
+            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
+
+            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource};";
+            using (var connection = new OracleConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {
+                        string updatePersonQuery = "UPDATE OSOBA SET jmeno = :Name, prijmeni = :Surname, datum_narozeni = :DoB, telefon = :PhoneNumber, email = :Email, id_role = (SELECT id_role FROM ROLE WHERE role = :Role) WHERE rodne_cislo = :NationalIdNumber";
+
+                        using (var command = new OracleCommand(updatePersonQuery, connection))
+                        {
+                            command.Parameters.Add(new OracleParameter("Name", Name));
+                            command.Parameters.Add(new OracleParameter("Surname", Surname));
+                            command.Parameters.Add(new OracleParameter("DoB", DoB));
+                            command.Parameters.Add(new OracleParameter("PhoneNumber", PhoneNumber));
+                            command.Parameters.Add(new OracleParameter("Email", Email));
+                            command.Parameters.Add(new OracleParameter("Role", SelectedRole));
+                            command.Parameters.Add(new OracleParameter("NationalIdNumber", NationalIdNumber));
+
+                            command.ExecuteNonQuery();
+                        }
+
+                        string updateAddressQuery = "UPDATE ADRESA SET ulice = :Street, cislo_popisne = :HouseNumber, mesto = :City, psc = :PostalCode " +
+                                                    "WHERE id_adresa = (SELECT id_adresa FROM OSOBA WHERE rodne_cislo = :NationalIdNumber)";
+
+                        using (var command = new OracleCommand(updateAddressQuery, connection))
+                        {
+                            command.Parameters.Add(new OracleParameter("Street", Street));
+                            command.Parameters.Add(new OracleParameter("HouseNumber", HouseNumber));
+                            command.Parameters.Add(new OracleParameter("City", City));
+                            command.Parameters.Add(new OracleParameter("PostalCode", PostalCode));
+                            command.Parameters.Add(new OracleParameter("NationalIdNumber", NationalIdNumber));
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nepodařilo se připojit k databázi.");
+                    }
+                }
+                catch (OracleException ex)
+                {
+                    MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
+                }
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

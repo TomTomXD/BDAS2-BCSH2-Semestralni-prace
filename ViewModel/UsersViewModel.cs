@@ -138,12 +138,27 @@ namespace FinancniInformacniSystemBanky.ViewModel
         // Obsluha tlačítka pro změnu osobních údajů
         private void ChangePersonalData()
         {
-            throw new NotImplementedException();
+            {
+                if (SelectedPerson != null)
+                {
+                    var addUserViewModel = new AddUserViewModel(SelectedPerson);
+                    var addPersonView = new AddPersonView
+                    {
+                        DataContext = addUserViewModel
+                    };
+                    addPersonView.ShowDialog();
+                }
+            }
         }
 
-        // Obsluha tlačítka pro smazání osoby
-        private void DeletePerson()
-        {
+            private bool CanEditPerson()
+            {
+                return SelectedPerson != null;
+            }
+
+            // Obsluha tlačítka pro smazání osoby
+            private void DeletePerson()
+            {
             if (SelectedPerson != null)
             {
                 string userId = ConfigurationManager.AppSettings["DbUserId"];
