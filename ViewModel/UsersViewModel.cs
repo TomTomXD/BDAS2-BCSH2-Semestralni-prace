@@ -5,7 +5,6 @@ using Oracle.ManagedDataAccess.Client;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
-using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -128,7 +127,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private void AddPerson()
         {
             var addUserViewModel = new AddUserViewModel();
-            addUserViewModel.PersonAdded += OnPersonAdded; // Subscribe to the event
+            addUserViewModel.PersonAdded += OnPersonAdded;
             var addPersonView = new AddPersonView
             {
                 DataContext = addUserViewModel
@@ -142,6 +141,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             throw new NotImplementedException();
         }
 
+        // Obsluha tlačítka pro smazání osoby
         private void DeletePerson()
         {
             if (SelectedPerson != null)
@@ -157,14 +157,29 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     {
                         connection.Open();
 
-                        // SQL DELETE command
-                        string deleteQuery = "DELETE FROM OSOBA WHERE RODNE_CISLO = :nationalId";
-
-                        using (var deleteCommand = new OracleCommand(deleteQuery, connection))
+                        var getIdOfDeletedPersonQuery = "SELECT ID_OSOBA FROM OSOBA WHERE RODNE_CISLO = :nationalId";
+                        int idOfDeletedPerson;
+                        using (var getIdOfDeletedCommand = new OracleCommand(getIdOfDeletedPersonQuery, connection))
                         {
-                            // nemusíme řešit id, rodné číslo je pro každého unikátní, můžeme odstranit na základě něj
-                            deleteCommand.Parameters.Add(new OracleParameter(":nationalId", SelectedPerson.NationalIdNumber));
+                            getIdOfDeletedCommand.Parameters.Add(new OracleParameter(":nationalId", SelectedPerson.NationalIdNumber));
+                            idOfDeletedPerson = Convert.ToInt32(getIdOfDeletedCommand.ExecuteScalar());
+                        }
 
+                        // SQL DELETE password command
+                        string deletePasswordQuery = "DELETE FROM HESLO WHERE ID_OSOBA = :id";
+
+                        using (var deletePasswordCommand = new OracleCommand(deletePasswordQuery, connection))
+                        {
+                            deletePasswordCommand.Parameters.Add(new OracleParameter(":id", idOfDeletedPerson));
+                            deletePasswordCommand.ExecuteNonQuery();
+                        }
+
+                        // SQL DELETE person command
+                        string deletePersonQuery = "DELETE FROM OSOBA WHERE RODNE_CISLO = :nationalId";
+
+                        using (var deleteCommand = new OracleCommand(deletePersonQuery, connection))
+                        {
+                            deleteCommand.Parameters.Add(new OracleParameter(":nationalId", SelectedPerson.NationalIdNumber));
                             int rowsAffected = deleteCommand.ExecuteNonQuery();
                             if (rowsAffected > 0)
                             {
@@ -185,6 +200,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
             LoadPeopleFromDatabase();
         }
+
 
         private bool CanDeletePerson()
         {
