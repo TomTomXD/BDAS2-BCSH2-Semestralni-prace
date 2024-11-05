@@ -12,13 +12,13 @@ namespace FinancniInformacniSystemBanky.View
         public AddPersonView()
         {
             InitializeComponent();
-            this.DataContext = new AddUserViewModel();
+            this.DataContext = new AddOrEditUserViewModel();
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox pb = sender as PasswordBox;
-            if (DataContext is AddUserViewModel viewModel)
+            if (DataContext is AddOrEditUserViewModel viewModel)
             {
                 viewModel.Password = pb.Password;
             }

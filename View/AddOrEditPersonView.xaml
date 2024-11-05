@@ -215,12 +215,13 @@
                 </LinearGradientBrush>
             </Border.Background>
             <StackPanel>
-                <TextBlock Text="Přidat osobu" 
-                           HorizontalAlignment="Center" 
-                           FontSize="24" 
-                           Foreground="White" 
-                           FontWeight="Bold" 
-                           Margin="0,20,0,20"/>
+                <Label Content="{Binding ActionLabelText}"
+                       FontSize="24"
+                       Foreground="White"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,20,0,20"
+                       Width="180"/>
 
                 <TextBlock Text="Osobní údaje" 
                            FontSize="18" 
@@ -372,7 +373,7 @@
                              Height="33"
                             Command="{Binding CancelAddingNewPersonCommand}"
                             Style="{StaticResource CustomButtonStyle}"/>
-                    <Button Content="Přidat"
+                    <Button Content="{Binding ActionButtonText}"
                             Margin="10" 
                             Width="109"
                              Height="33"

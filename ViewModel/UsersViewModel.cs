@@ -126,7 +126,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         // Obsluha tlačítka pro přidání osoby
         private void AddPerson()
         {
-            var addUserViewModel = new AddUserViewModel();
+            var addUserViewModel = new AddOrEditUserViewModel();
             addUserViewModel.PersonAdded += OnPersonAdded;
             var addPersonView = new AddPersonView
             {
@@ -141,7 +141,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             {
                 if (SelectedPerson != null)
                 {
-                    var addUserViewModel = new AddUserViewModel(SelectedPerson);
+                    var addUserViewModel = new AddOrEditUserViewModel(SelectedPerson);
                     var addPersonView = new AddPersonView
                     {
                         DataContext = addUserViewModel

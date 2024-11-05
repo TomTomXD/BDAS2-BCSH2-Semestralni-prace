@@ -6,18 +6,30 @@ using Oracle.ManagedDataAccess.Client;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
 {
-    public class AddUserViewModel : INotifyPropertyChanged 
+    public class AddOrEditUserViewModel : INotifyPropertyChanged 
     {
         public ObservableCollection<string> Roles { get; set; }
         public ICommand AddNewPersonCommand { get; }
         public ICommand CancelAddingNewPersonCommand { get; }
+
+        private string actionLabelText;
+        public string ActionLabelText
+        {
+            get => actionLabelText;
+            set { actionLabelText = value; OnPropertyChanged(nameof(ActionLabelText)); }
+        }
+
+        private string actionButtonText;
+        public string ActionButtonText
+        {
+            get => actionButtonText;
+            set { actionButtonText = value; OnPropertyChanged(nameof(ActionButtonText)); }
+        }
 
         private string name;
         public string Name
@@ -122,15 +134,18 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         public List<string> PersonTypes { get; } = new List<string> { "K", "Z" };
 
-        public AddUserViewModel()
+        public AddOrEditUserViewModel()
         {
             Roles = new ObservableCollection<string>();
-            LoadRolesFromDatabase();
             AddNewPersonCommand = new RelayCommand(AddNewPerson);
             CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
+            
+            actionLabelText = "Přidat osobu";
+            actionButtonText = "Přidat";
+            LoadRolesFromDatabase();
         }
 
-        public AddUserViewModel(PersonDetails person) : this()
+        public AddOrEditUserViewModel(PersonDetails person) : this()
         {
             Name = person.Name;
             Surname = person.Surname;
@@ -140,6 +155,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Email = person.Email;
             SelectedRole = person.Role;
 
+            actionLabelText = "Upravit osobu";
+            actionButtonText = "Upravit";
             LoadAddressFromDatabase(person.NationalIdNumber);
         }
 
