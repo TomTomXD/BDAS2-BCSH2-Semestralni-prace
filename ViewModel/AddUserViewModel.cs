@@ -118,6 +118,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
+        public event Action PersonAdded;
+
         public List<string> PersonTypes { get; } = new List<string> { "K", "Z" };
 
         public AddUserViewModel()
@@ -125,7 +127,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Roles = new ObservableCollection<string>();
             LoadRolesFromDatabase();
             AddNewPersonCommand = new RelayCommand(AddNewPerson);
-            CancelAddingNewPersonCommand = new RelayCommand(CancelAddingNewPerson);
+            CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
         }
 
         private void LoadRolesFromDatabase()
@@ -283,6 +285,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     {
                         insertPersonCommand.ExecuteNonQuery();
                         MessageBox.Show("Person added successfully!");
+                        PersonAdded?.Invoke();
                     }
                     catch (Exception ex)
                     {
@@ -290,9 +293,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     }
                 }
             }
+            CloseAddingWindow();
         }
 
-        private void CancelAddingNewPerson()
+        private void CloseAddingWindow()
         {
             var currentWindow = Application.Current.Windows.OfType<AddPersonView>().FirstOrDefault();
             if (currentWindow != null)

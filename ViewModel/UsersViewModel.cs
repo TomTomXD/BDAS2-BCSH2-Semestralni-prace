@@ -127,7 +127,12 @@ namespace FinancniInformacniSystemBanky.ViewModel
         // Obsluha tlačítka pro přidání osoby
         private void AddPerson()
         {
-            var addPersonView = new AddPersonView();
+            var addUserViewModel = new AddUserViewModel();
+            addUserViewModel.PersonAdded += OnPersonAdded; // Subscribe to the event
+            var addPersonView = new AddPersonView
+            {
+                DataContext = addUserViewModel
+            };
             addPersonView.ShowDialog();
         }
 
@@ -178,6 +183,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     }
                 }
             }
+            LoadPeopleFromDatabase();
         }
 
         private bool CanDeletePerson()
@@ -189,6 +195,11 @@ namespace FinancniInformacniSystemBanky.ViewModel
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void OnPersonAdded()
+        {
+            LoadPeopleFromDatabase();
         }
     }
 }
