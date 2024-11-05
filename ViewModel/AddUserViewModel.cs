@@ -260,7 +260,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 using (var getPersonIdCommand = new OracleCommand(getNextPersonIdQuery, connection))
                 {
                     personId = Convert.ToInt32(getPersonIdCommand.ExecuteScalar());
-                    MessageBox.Show(personId.ToString());
                 }
 
                 string insertPersonQuery = "INSERT INTO OSOBA (ID_OSOBA, JMENO, PRIJMENI, DATUM_NAROZENI, RODNE_CISLO, " +
@@ -285,14 +284,44 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     {
                         insertPersonCommand.ExecuteNonQuery();
                         MessageBox.Show("Person added successfully!");
-                        PersonAdded?.Invoke();
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show($"Error adding person: {ex.Message}");
                     }
                 }
+
+                string getNextPasswordIdQuery = "SELECT SEQ_HESLO.NEXTVAL FROM DUAL";
+                int passwordId;
+                using (var getPasswordIdCommand = new OracleCommand(getNextPersonIdQuery, connection))
+                {
+                    passwordId = Convert.ToInt32(getPasswordIdCommand.ExecuteScalar());
+                    MessageBox.Show(passwordId.ToString());
+                }
+
+                string insertPasswordQuery = "Insert into HESLO (ID_HESLO, HASH, SALT, ID_OSOBA) " +
+                                             "VALUES (:idPassword, :hashedPassword, :salt, :idPerson)";
+
+                using (var insertPasswordCommand = new OracleCommand(insertPasswordQuery, connection))
+                {
+                    var salt = PasswordHasher.GenerateSalt();
+                    insertPasswordCommand.Parameters.Add(new OracleParameter(":idPassword", passwordId));
+                    insertPasswordCommand.Parameters.Add(new OracleParameter(":hashedPassword", PasswordHasher.HashPassword(Password, salt)));
+                    insertPasswordCommand.Parameters.Add(new OracleParameter(":salt", salt));
+                    insertPasswordCommand.Parameters.Add(new OracleParameter(":idPerson", personId));
+
+                    try
+                    {
+                        insertPasswordCommand.ExecuteNonQuery();
+                        MessageBox.Show("Password added successfully!");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error adding password: {ex.Message}");
+                    }
+                }
             }
+            PersonAdded?.Invoke();
             CloseAddingWindow();
         }
 
