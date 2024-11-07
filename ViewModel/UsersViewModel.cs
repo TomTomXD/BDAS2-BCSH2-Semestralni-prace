@@ -151,14 +151,14 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-            private bool CanEditPerson()
-            {
-                return SelectedPerson != null;
-            }
+        private bool CanEditPerson()
+        {
+            return SelectedPerson != null;
+        }
 
-            // Obsluha tlačítka pro smazání osoby
-            private void DeletePerson()
-            {
+        // Obsluha tlačítka pro smazání osoby
+        private void DeletePerson()
+        {
             if (SelectedPerson != null)
             {
                 string userId = ConfigurationManager.AppSettings["DbUserId"];
@@ -214,6 +214,27 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 }
             }
             LoadPeopleFromDatabase();
+        }
+
+        private int GetIdOfPerson(string nationalId)
+        {
+            string userId = ConfigurationManager.AppSettings["DbUserId"];
+            string password = ConfigurationManager.AppSettings["DbPassword"];
+            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
+            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource}";
+
+            using (var connection = new OracleConnection(connectionString))
+            {
+                connection.Open();
+                var getIdOfPersonQuery = "SELECT ID_OSOBA FROM OSOBA WHERE RODNE_CISLO = :nationalId";
+                int idOfPerson;
+                using (var getIdOfPersonCommand = new OracleCommand(getIdOfPersonQuery, connection))
+                {
+                    getIdOfPersonCommand.Parameters.Add(new OracleParameter(":nationalId", nationalId));
+                    idOfPerson = Convert.ToInt32(getIdOfPersonCommand.ExecuteScalar());
+                }
+                return idOfPerson;
+            }
         }
 
 
