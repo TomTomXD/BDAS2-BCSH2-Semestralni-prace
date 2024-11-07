@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FinancniInformacniSystemBanky.Model
 {
-    public class Password
+    public class EmployeeDetails
     {
-        public byte[] Salt { get; set; }
-        public string HashedPassword { get; set; }
+        public string Department { get; set; }
+        public string Position { get; set; }
     }
 }
