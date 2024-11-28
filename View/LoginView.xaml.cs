@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace InformacniSystemBanky.View
@@ -11,7 +12,6 @@ namespace InformacniSystemBanky.View
             DataContext = new ViewModel.LoginViewModel(this);
         }
 
-        // Ponecháno v modelu pouze umožňuje přesun okna, žádná logika
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -20,10 +20,17 @@ namespace InformacniSystemBanky.View
             }
         }
 
-        // Ponecháno v modelu pro zavření okna, žádná logika
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ViewModel.LoginViewModel viewModel)
+            {
+                viewModel.Heslo = ((PasswordBox)sender).Password;
+            }
         }
     }
 }

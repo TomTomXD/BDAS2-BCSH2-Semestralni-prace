@@ -9,11 +9,12 @@ namespace InformacniSystemBanky.ViewModel
     {
         private string _firstName;
         private string _lastName;
+        private DateTime _birthDate;
+        private string _rodneCislo;
         private string _addressStreet;
         private string _addressHouseNumber;
         private string _addressCity;
         private string _addressZipCode;
-        private string _rodneCislo;
         private string _phoneNumber;
         private string _email;
         private string _password;
@@ -125,6 +126,16 @@ namespace InformacniSystemBanky.ViewModel
             set
             {
                 _email = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime DateOfBirth
+        {
+            get => _birthDate;
+            set
+            {
+                _birthDate = value;
                 OnPropertyChanged();
             }
         }

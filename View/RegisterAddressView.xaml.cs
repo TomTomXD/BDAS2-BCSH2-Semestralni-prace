@@ -1,5 +1,4 @@
-﻿// View/RegisterAddressView.xaml.cs
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using InformacniSystemBanky.ViewModel;

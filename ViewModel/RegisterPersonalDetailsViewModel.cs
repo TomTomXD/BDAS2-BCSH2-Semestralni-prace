@@ -18,6 +18,7 @@ namespace InformacniSystemBanky.ViewModel
             _registerPersonalDetailsView = registerPersonalDetailsView;
             _userRegistrationViewModel = userRegistrationViewModel;
             OpenRegisterAddressViewCommand = new RelayCommand(OpenRegisterAddressView, CanExecuteOpenRegisterAddressView);
+            DateOfBirth = DateTime.Now;         // nastavení defaultní hodnoty pro datum narození na dnešní datum
         }
 
         public string FirstName
@@ -53,6 +54,17 @@ namespace InformacniSystemBanky.ViewModel
             }
         }
 
+        public DateTime? DateOfBirth
+        {
+            get => _userRegistrationViewModel.DateOfBirth;
+            set
+            {
+                _userRegistrationViewModel.DateOfBirth = (DateTime)value;
+                OnPropertyChanged(nameof(DateOfBirth));
+                CommandManager.InvalidateRequerySuggested();
+            }
+        }
+
         public string PhoneNumber
         {
             get => _userRegistrationViewModel.PhoneNumber;
@@ -79,7 +91,8 @@ namespace InformacniSystemBanky.ViewModel
         {
             return !string.IsNullOrWhiteSpace(FirstName) &&
                    !string.IsNullOrWhiteSpace(LastName) &&
-                   //!string.IsNullOrWhiteSpace(RodneCislo) &&
+                   !DateOfBirth.Equals(null) &&
+                   !string.IsNullOrWhiteSpace(RodneCislo) &&
                    !string.IsNullOrWhiteSpace(PhoneNumber) &&
                    !string.IsNullOrWhiteSpace(Email);
         }

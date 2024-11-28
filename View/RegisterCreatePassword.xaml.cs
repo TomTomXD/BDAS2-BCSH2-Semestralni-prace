@@ -39,7 +39,7 @@ namespace InformacniSystemBanky.View
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (DataContext is UserRegistrationViewModel viewModel)
+            if (DataContext is RegisterCreatePasswordViewModel viewModel)
             {
                 viewModel.Password = ((PasswordBox)sender).Password;
             }
@@ -47,10 +47,11 @@ namespace InformacniSystemBanky.View
 
         private void PasswordBox_PasswordAgainChanged(object sender, RoutedEventArgs e)
         {
-            if (DataContext is UserRegistrationViewModel viewModel)
+            if (DataContext is RegisterCreatePasswordViewModel viewModel)
             {
                 viewModel.PasswordAgain = ((PasswordBox)sender).Password;
             }
         }
+
     }
 }
