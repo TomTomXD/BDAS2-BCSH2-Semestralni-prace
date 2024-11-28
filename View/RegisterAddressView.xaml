@@ -12,31 +12,6 @@
         ResizeMode="NoResize"
         FontFamily="Open Sans"
         Title="RegisterAddressView" Height="550" Width="700">
-    <Window.Resources>
-        <!--Styl pro TextBox -->
-        <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="10">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
 
     <Grid HorizontalAlignment="Right" Width="700">
         <Grid.RowDefinitions>
@@ -89,163 +64,78 @@
         <TextBlock Text="Ulice:" 
             Grid.Row="1"
             HorizontalAlignment="Left"
-            Foreground="White"
-            FontSize="20" 
             VerticalAlignment="Top" 
             Margin="170,26,0,0" 
-            FontWeight="SemiBold"
-            RenderTransformOrigin="0.679,0.547" Height="24" Width="66"/>
+            Style="{StaticResource TextBlockForm}"/>
         <TextBox Grid.Row="1"
-    Padding="10,5"
-    Height="25"
-    BorderThickness="0,0,0,1"
-    Foreground="Black"
-    Margin="307,26,0,24" 
-    RenderTransformOrigin="0.556,0.45"
-    Text="{Binding AddressStreet, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left">
+                 Margin="307,26,0,24" 
+                 Style="{StaticResource TextBoxClassic}"
+                 Text="{Binding AddressStreet, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="212">
         </TextBox>
         <TextBlock  Text="Číslo popisné:" 
                     Grid.Row="2"
                     HorizontalAlignment="Left"
-                    Foreground="White"
-                    FontSize="20" 
                     VerticalAlignment="Top" 
                     Margin="96,29,0,0" 
-                    FontWeight="SemiBold"
-                    RenderTransformOrigin="0.679,0.547" Height="24" Width="152"/>
+                   Style="{StaticResource TextBlockForm}"/>
         <TextBox Grid.Row="2"
             Padding="10,5"
-         Height="25"
-            BorderThickness="0,0,0,1"
-            Foreground="Black"
             Margin="307,25,0,25" 
-            RenderTransformOrigin="0.556,0.45"
-         Text="{Binding AddressHouseNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" >
+            Style="{StaticResource TextBoxClassic}"
+            Text="{Binding AddressHouseNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="212" >
         </TextBox>
         <TextBlock  Text="PSČ:" 
                     Grid.Row="3"
                     HorizontalAlignment="Left"
-                    Foreground="White"
-                    FontSize="20" 
                     VerticalAlignment="Center" 
                     Margin="184,0,0,0" 
-                    FontWeight="SemiBold"
-                    RenderTransformOrigin="0.679,0.547" Height="24" Width="98"/>
+                    Style="{StaticResource TextBlockForm}"/>
         <TextBox    Grid.Row="3"
                     Padding="10,5"
-                    Height="25"
-                    BorderThickness="0,0,0,1"
-                    Foreground="Black"
                     Margin="307,25,0,25" 
-                    RenderTransformOrigin="0.556,0.45"
+                    Style="{StaticResource TextBoxClassic}"
                     Text="{Binding AddressZipCode, UpdateSourceTrigger=PropertyChanged}" 
                     HorizontalAlignment="Left" 
-                    PreviewTextInput="NumberValidation"/>
+                    PreviewTextInput="NumberValidation" Width="212"/>
         <TextBlock  Text="Město:" 
                     Grid.Row="4"
                     HorizontalAlignment="Left"
-                    Foreground="White"
-                    FontSize="20" 
                     VerticalAlignment="Top" 
                     Margin="154,20,0,0" 
-                    FontWeight="SemiBold"
-                    RenderTransformOrigin="0.679,0.547" Height="24" Width="98"/>
+                    Style="{StaticResource TextBlockForm}"/>
         <TextBox    Grid.Row="4"
                     Padding="10,5"
-                    Height="25"
-                    BorderThickness="0,0,0,1"
-                    Foreground="Black"
                     Margin="307,25,0,25" 
-                    RenderTransformOrigin="0.556,0.45"
+                    Style="{StaticResource TextBoxClassic}"
                     Text="{Binding AddressCity, UpdateSourceTrigger=PropertyChanged}" 
-                    HorizontalAlignment="Left"/>
+                    HorizontalAlignment="Left" Width="212"/>
 
-        <!-- 'Next' Button -->
         <Button Content="Pokračovat"
         Grid.Row="5" 
         VerticalAlignment="Center" 
-        Height="40"
-        Width="120"
-        FontWeight="Bold"
-        FontSize="16"
+        Style="{StaticResource ButtonClassic}"
         Foreground="Black" Margin="530,0,50,0"
         Command="{Binding GoNextCommand}">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10">
-                                    <ContentPresenter VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
         </Button>
+        
         <!-- Close Button in top-right corner -->
         <Button Content="✖" 
         HorizontalAlignment="Right" VerticalAlignment="Top"
         Width="30" Height="30" 
         Margin="0,22,39,0"
-        FontSize="16"
-        FontWeight="Bold"
         Background="Transparent" 
         Foreground="White" 
         BorderBrush="Transparent" 
         Cursor="Hand"
-        Click="CloseButton_Click">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#28AEED"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#278BEF"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter VerticalAlignment="Center"
-                                  HorizontalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        Click="CloseButton_Click"
+        Style="{StaticResource CloseButton}"/>
+
         <Button Content="Zpět"
             Grid.Row="5" 
             VerticalAlignment="Bottom" 
-            Height="40"
-            FontWeight="Bold"
-            FontSize="16"
-            Foreground="Black" Margin="50,0,530,42"
-            Command="{Binding GoBackCommand}"  >
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="10">
-                                    <ContentPresenter VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+            Margin="50,0,530,42"
+            Style="{StaticResource ButtonClassic}"
+            Command="{Binding GoBackCommand}"/>
+
     </Grid>
 </Window>

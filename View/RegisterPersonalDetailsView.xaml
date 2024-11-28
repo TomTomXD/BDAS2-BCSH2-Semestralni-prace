@@ -44,53 +44,6 @@
             </Style.Triggers>
         </Style>
 
-        <!--Styl pro Pokračovací button -->
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="10">
-                            <ContentPresenter VerticalAlignment="Center"
-                                          HorizontalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="DarkGray"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!--Styl pro TextBox -->
-        <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="Width" Value="180"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
 
 
@@ -144,28 +97,24 @@
         <TextBlock Text="Jméno:" 
             Grid.Row="1"
             HorizontalAlignment="Left"
-            Foreground="White"
-            FontSize="20" 
             VerticalAlignment="Top" 
             Margin="40,27,0,0" 
-            FontWeight="SemiBold"
-            RenderTransformOrigin="0.679,0.547" Height="24" Width="65"/>
+            Style="{StaticResource TextBlockForm}"/>
         <TextBox Grid.Row="1"
                  Margin="119,27,401,39"
+                 Style="{StaticResource TextBoxClassic}"
                  Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
 
         <TextBlock  Text="Příjmení:" 
                     Grid.Row="1"
                     HorizontalAlignment="Left"
-                    Foreground="White"
-                    FontSize="20" 
                     VerticalAlignment="Top" 
                     Margin="375,27,0,0" 
-                    FontWeight="SemiBold"
-                    RenderTransformOrigin="0.679,0.547" Height="24" Width="80"/>
+                    Style="{StaticResource TextBlockForm}"/>
         <TextBox Grid.Row="1"
                  Margin="476,27,44,39" 
+                 Style="{StaticResource TextBoxClassic}"
                  Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
 
@@ -173,12 +122,8 @@
             Grid.Row="2"
             HorizontalAlignment="Left" 
             VerticalAlignment="Top"
-            TextAlignment="Left"
-            TextWrapping="Wrap"
-            FontSize="20" 
-            Foreground="White" 
-            FontWeight="SemiBold"
-            Margin="384,16,0,0" Height="20" Width="71"/>
+            Margin="384,16,0,0" 
+            Style="{StaticResource TextBlockForm}"/>
 
         <DatePicker Grid.Row="2"       
                     Margin="40,49,457,40"/>
@@ -202,47 +147,21 @@
 
         <!-- 'Next' Button -->
         <Button Content="Pokračovat"
-        Grid.Row="4"
-        HorizontalAlignment="Center" 
-        VerticalAlignment="Top"
-        Width="120" 
-        Height="40"
-        FontWeight="Bold"
-        FontSize="16"
-        Foreground="Black" Margin="0,23,0,0" 
-        Command="{Binding OpenRegisterAddressViewCommand}"/>
+                Grid.Row="4"
+                HorizontalAlignment="Center" 
+                Style="{StaticResource ButtonClassic}"
+                Command="{Binding OpenRegisterAddressViewCommand}"/>
 
         <!-- Close Button in top-right corner -->
         <Button Content="✖" 
         HorizontalAlignment="Right" VerticalAlignment="Top"
-        Width="30" Height="30" 
         Margin="0,23,32,0"
-        FontSize="16"
-        FontWeight="Bold"
         Background="Transparent" 
         Foreground="White" 
         BorderBrush="Transparent" 
         Cursor="Hand"
-        Click="CloseButton_Click" RenderTransformOrigin="-0.098,0.472">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#28AEED"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#278BEF"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter VerticalAlignment="Center"
-                                  HorizontalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        Click="CloseButton_Click" RenderTransformOrigin="-0.098,0.472"
+        Style="{StaticResource CloseButton}"/>
         <RadioButton Content="Muž"
                  GroupName="Gender"
                  Foreground="White"
@@ -257,19 +176,15 @@
                  FontWeight="SemiBold"
                  Height="30"
                  Style="{StaticResource CustomRadioButtonStyle}" Margin="531,13,-15,86" Grid.Row="2" />
-
-
         <TextBlock Text="Rodné číslo:" 
             Grid.Row="2"
             HorizontalAlignment="Left"
-            Foreground="White"
-            FontSize="20" 
             VerticalAlignment="Top" 
-            Margin="343,77,0,0" 
-            FontWeight="SemiBold"
-            RenderTransformOrigin="0.679,0.547" Height="24" Width="113"/>
+            Margin="343,77,0,0"
+            Style="{StaticResource TextBlockForm}"/>
         <TextBox Grid.Row="2"
             Margin="476,76,44,28"
+            Style="{StaticResource TextBoxClassic}"
             Text="{Binding RodneCislo, UpdateSourceTrigger=PropertyChanged}"
             PreviewTextInput="NumberValidation"/>
 
@@ -278,36 +193,28 @@
             HorizontalAlignment="Left" 
             VerticalAlignment="Top"
             TextAlignment="Left"
-            TextWrapping="Wrap"
-            FontSize="20" 
-            Foreground="White" 
-            FontWeight="SemiBold"
-            Margin="40,16,0,0" Height="20" Width="188"/>
+            Margin="40,16,0,0"
+            Style="{StaticResource TextBlockForm}"/>
         <TextBlock Text="Email:" 
             Grid.Row="3"
             HorizontalAlignment="Left"
-            Foreground="White"
-            FontSize="20" 
             VerticalAlignment="Top" 
             Margin="40,35,0,0" 
-            FontWeight="SemiBold"
-            RenderTransformOrigin="0.679,0.547" Height="24" Width="64"/>
+            Style="{StaticResource TextBlockForm}"/>
         <TextBox Grid.Row="3"
-           
             Margin="119,34,401,20"
+            Style="{StaticResource TextBoxClassic}"
             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
         <TextBlock Text="Telefoní číslo:" 
             Grid.Row="3"
             HorizontalAlignment="Left"
-            Foreground="White"
-            FontSize="20" 
             VerticalAlignment="Top" 
-            Margin="325,35,0,0" 
-            FontWeight="SemiBold"
-            RenderTransformOrigin="0.679,0.547" Height="24" Width="136"/>
+                Margin="331,35,0,0"
+            Style="{StaticResource TextBlockForm}"/>
         <TextBox Grid.Row="3"
             Margin="476,34,44,20"
+            Style="{StaticResource TextBoxClassic}"
             Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
             MaxLength="9"
             PreviewTextInput="NumberValidation"/>

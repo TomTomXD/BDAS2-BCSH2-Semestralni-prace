@@ -14,31 +14,6 @@
         FontFamily="Open Sans"
         MouseDown="Window_MouseDown">
 
-    <Window.Resources>
-        <!--Styl pro TextBox -->
-        <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="Width" Value="180"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                         BorderBrush="{TemplateBinding BorderBrush}"
-                         BorderThickness="{TemplateBinding BorderThickness}"
-                         CornerRadius="10">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="14*"/>
@@ -109,23 +84,8 @@
                      Width="204"
                      BorderThickness="0,0,0,1"
                      HorizontalAlignment="Left"
+                     Style="{StaticResource TextBoxClassic}"
                      Foreground="Black" Margin="0,2,0,21">
-                <!--<TextBox.Style>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="TextBox">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="10">
-                                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </TextBox.Style>-->
             </TextBox>
 
             <TextBlock Text="Heslo:" 
@@ -139,54 +99,17 @@
                          Width="204"
                          BorderThickness="0,0,0,1"
                          HorizontalAlignment="Left"
+                         Style="{StaticResource PasswordBoxClassic}"
                          Foreground="Black" Margin="2,0,0,23">
-                <PasswordBox.Style>
-                    <Style TargetType="PasswordBox">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="PasswordBox">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="10">
-                                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </PasswordBox.Style>
             </PasswordBox>
 
             <Button Content="Přihlásit se"
                     Grid.Row="6"
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center"
-                    FontSize="16"
-                    Width="120" 
-                    Height="30"
                     Margin="58,0,0,0"
-                     FontWeight="Bold"
-                    Foreground="Black"
+                    Style="{StaticResource ButtonClassic}"
                     Command="{Binding OpenDashboardCommand}">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="10">
-                                        <ContentPresenter VerticalAlignment="Center"
-                                                          HorizontalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
             </Button>
         </Grid>
 
@@ -211,67 +134,19 @@
                Height="193"/>
             <Button 
                     Content="Chci účet"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                           Width="120" 
-                            Height="30"
-                    Margin="0,378,0,0"
-                    FontSize="16"
-                    Foreground="Black"
-                    FontWeight="Bold"
-                    Command="{Binding OpenRegisterViewCommand}">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10">
-                                        <ContentPresenter VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
+                    Margin="0,374,0,0"
+                    Style="{StaticResource ButtonClassic}"
+                    Command="{Binding OpenRegisterViewCommand}"/>
 
-            <!-- Close Button in top-right corner -->
             <Button Content="✖" 
                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Width="30" Height="30" 
                     Margin="0,25,-245,0"
-                    FontSize="16"
-                    FontWeight="Bold"
                     Background="Transparent" 
                     Foreground="White" 
                     BorderBrush="Transparent" 
                     Cursor="Hand"
-                    Click="CloseButton_Click" RenderTransformOrigin="-0.098,0.472">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="#28AEED"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#278BEF"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter VerticalAlignment="Center"
-                          HorizontalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+                    Click="CloseButton_Click" RenderTransformOrigin="-0.098,0.472"
+                    Style="{StaticResource CloseButton}"/>
         </Grid>
-
     </Grid>
 </Window>
