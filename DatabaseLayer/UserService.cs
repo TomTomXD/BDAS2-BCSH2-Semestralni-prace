@@ -1,4 +1,5 @@
-﻿using InformacniSystemBanky.Model;
+﻿using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,27 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 // Ověření hesla
                 if (PasswordHasher.VerifyPassword(heslo, user.Hash))
                 {
+                    // Získání ID uživatele a role
+                    var userInfo = _databaseService.ExecuteSelect("SELECT o.id_osoba, o.id_role " +
+                                                                  "FROM OSOBY o " +
+                                                                  "WHERE o.email = :p_email", reader =>
+                                                                  {
+                                                                      return new
+                                                                      {
+                                                                          UserId = reader.GetInt32(0),
+                                                                          RoleId = reader.GetInt32(1)
+                                                                      };
+                                                                  }, command =>
+                                                                  {
+                                                                      command.Parameters.Add(new OracleParameter("p_email", OracleDbType.Varchar2)
+                                                                      {
+                                                                          Value = email
+                                                                      });
+                                                                  }).First();
+
+                    // Nastavení přihlášeného uživatele v Session
+                    Session.Instance.SetUser(userInfo.UserId, userInfo.RoleId);
+
                     MessageBox.Show("Uživatel přihlášen.", "Přihlášení", MessageBoxButton.OK, MessageBoxImage.Information);
                     return true; // Přihlášení úspěšné
                 }
@@ -112,9 +134,6 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
             return false; // Vrátí false, pokud došlo k chybě
         }
-
-
-
     }
 
 }

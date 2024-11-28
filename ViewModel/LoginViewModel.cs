@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
@@ -34,23 +35,44 @@ namespace InformacniSystemBanky.ViewModel
         }
 
         public ICommand OpenRegisterViewCommand { get; }
-        public ICommand OpenDashboardCommand { get; }
+        public ICommand LoginCommand { get; }
 
         public LoginViewModel(Window loginView)
         {
             _loginView = loginView;
             _userService = new UserService();
             OpenRegisterViewCommand = new RelayCommand(OpenRegisterView);
-            OpenDashboardCommand = new RelayCommand(OpenDashboard);
+            LoginCommand = new RelayCommand(Login);
         }
 
-        private void OpenDashboard()
+        private void Login()
         {
             if (_userService.LoginUser(Email, Heslo))
             {
                 // Přihlášení úspěšné, otevřete zatím admin dashboard pro testování a ladění loginů
-                var dashboardView = new DashboardAdminView();
-                dashboardView.Show();
+                switch (Session.Instance.LoggedInRoleId)
+                {
+                    case 1:
+                        var dashboardKlientView = new DashboardKlientView();
+                        dashboardKlientView.Show();
+                        break;
+                    case 2:
+                        //var dashboardView = new DashboardNotVerifiedClientView();
+                        //dashboardView.Show();
+                        break;
+                    case 3:
+                        //var dashboardView = new DashboardEmployeeView();
+                        //dashboardView.Show();
+                        break;
+                    case 4:
+                        var dashboardAdminView = new DashboardAdminView();
+                        dashboardAdminView.Show();
+                        break;
+                    default:
+                        MessageBox.Show("Nepodporovaná role uživatele.", "Chyba přihlášení", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
+                               
                 _loginView.Close();
             }
             else
@@ -62,11 +84,9 @@ namespace InformacniSystemBanky.ViewModel
 
         private void OpenRegisterView()
         {
-            // Vytvoření instance UserRegistrationViewModel
-            var userRegistrationViewModel = new UserRegistrationViewModel();
 
             // Vytvoření instance nového okna s ViewModel
-            var registerView = new RegisterPersonalDetailsView(userRegistrationViewModel);
+            var registerView = new RegisterPersonalDetailsView(new UserRegistrationViewModel());
 
             // Zobrazení nového okna
             registerView.Show();

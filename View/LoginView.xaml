@@ -110,7 +110,7 @@
                     VerticalAlignment="Center"
                     Margin="58,0,0,0"
                     Style="{StaticResource ButtonClassic}"
-                    Command="{Binding OpenDashboardCommand}">
+                    Command="{Binding LoginCommand}">
             </Button>
         </Grid>
 
