@@ -60,7 +60,7 @@
                    TextWrapping="Wrap"
                    FontSize="28" 
                    Foreground="White" 
-                   FontWeight="Bold" Grid.Row="0" Height="91" Width="359" RenderTransformOrigin="0.496,0.697" Margin="172,50,0,0" Grid.RowSpan="2"/>
+                   FontWeight="Bold" Grid.Row="0" Height="44" Width="359" RenderTransformOrigin="0.496,0.697" Margin="172,50,0,0"/>
         <TextBlock Text="Ulice:" 
             Grid.Row="1"
             HorizontalAlignment="Left"
@@ -117,7 +117,7 @@
         Foreground="Black" Margin="530,0,50,0"
         Command="{Binding GoNextCommand}">
         </Button>
-        
+
         <!-- Close Button in top-right corner -->
         <Button Content="✖" 
         HorizontalAlignment="Right" VerticalAlignment="Top"
