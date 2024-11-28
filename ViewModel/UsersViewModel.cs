@@ -1,4 +1,5 @@
-﻿using FinancniInformacniSystemBanky.Model;
+﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using Oracle.ManagedDataAccess.Client;
@@ -42,15 +43,36 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ICommand ChangePersonalDataCommand { get; }
         public ICommand DeletePersonCommand { get; }
 
+        // Přidejte instanci PersonDetailsService
+        private readonly PersonDetailsService _personDetailsService;
+
         public UsersViewModel()
         {
             People = new ObservableCollection<PersonDetails>();
             FilteredPeople = CollectionViewSource.GetDefaultView(People);
             FilteredPeople.Filter = FilterPeople;
+
+            var databaseService = new DatabaseService();
+            _personDetailsService = new PersonDetailsService(databaseService);
+
             LoadPeopleFromDatabase();
+
             AddPersonCommand = new RelayCommand(AddPerson);
             ChangePersonalDataCommand = new RelayCommand(ChangePersonalData);
             DeletePersonCommand = new RelayCommand(DeletePerson, CanDeletePerson);
+        }
+
+
+        // Metoda pro načtení osob z databáze
+        private void LoadPeopleFromDatabase()
+        {
+            var peopleFromDb = _personDetailsService.GetPersonDetails();
+
+            People.Clear();
+            foreach (var person in peopleFromDb)
+            {
+                People.Add(person);
+            }
         }
 
         private bool FilterPeople(object obj)
@@ -68,61 +90,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
             return false;
         }
-
-        // Metoda pro načtení osob z databáze
-        private void LoadPeopleFromDatabase()
-        {
-            string userId = ConfigurationManager.AppSettings["DbUserId"];
-            string password = ConfigurationManager.AppSettings["DbPassword"];
-            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
-
-            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource}";
-
-            using (var connection = new OracleConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        string query = "SELECT o.jmeno," +
-                            "o.prijmeni," +
-                            "o.datum_narozeni," +
-                            "o.rodne_cislo," +
-                            "o.telefon," +
-                            "o.email," +
-                            "r.role " +
-                            "FROM OSOBA O " +
-                            "JOIN ROLE r on o.id_role = r.id_role";
-
-                        using (var command = new OracleCommand(query, connection))
-                        {
-                            using (var reader = command.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    People.Add(new PersonDetails
-                                    {
-                                        Name = reader.GetString(0),
-                                        Surname = reader.GetString(1),
-                                        DoB = reader.GetDateTime(2),
-                                        NationalIdNumber = reader.GetString(3),
-                                        PhoneNumber = reader.GetString(4),
-                                        Email = reader.GetString(5),
-                                        Role = reader.GetString(6)
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Nepodařilo se připojit k databázi: " + ex.Message);
-                }
-            }
-        }
-
         // Obsluha tlačítka pro přidání osoby
         private void AddPerson()
         {
