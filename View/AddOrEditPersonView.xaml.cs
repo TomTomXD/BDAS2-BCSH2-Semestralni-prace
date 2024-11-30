@@ -1,6 +1,8 @@
 ﻿using FinancniInformacniSystemBanky.ViewModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.View
 {
@@ -12,16 +14,23 @@ namespace FinancniInformacniSystemBanky.View
         public AddPersonView()
         {
             InitializeComponent();
-            this.DataContext = new AddOrEditUserViewModel();
+            this.DataContext = new UsersView();
         }
 
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        //private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        //{
+        //    PasswordBox pb = sender as PasswordBox;
+        //    if (DataContext is UsersView viewModel)
+        //    {
+        //        viewModel.Password = pb.Password;
+        //    }
+        //}
+
+        // Pomocná metoda, která reguluje povolené znaky v komponentě TextBox
+        private void NumberValidation(object sender, TextCompositionEventArgs e)
         {
-            PasswordBox pb = sender as PasswordBox;
-            if (DataContext is AddOrEditUserViewModel viewModel)
-            {
-                viewModel.Password = pb.Password;
-            }
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

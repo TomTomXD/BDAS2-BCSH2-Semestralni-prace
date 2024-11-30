@@ -182,7 +182,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         public List<string> PersonTypes { get; } = new List<string> { "K", "Z" };
 
-        // Bez parametrický konstruktor pro přidání nové osoby
         public AddOrEditUserViewModel()
         {
             Roles = new ObservableCollection<string>();
@@ -209,53 +208,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             actionLabelText = "Upravit osobu";
             actionButtonText = "Upravit";
-            LoadAddressFromDatabase(person.NationalIdNumber);
-        }
-
-        private void LoadAddressFromDatabase(string nationalIdNumber)
-        {
-            string userId = ConfigurationManager.AppSettings["DbUserId"];
-            string password = ConfigurationManager.AppSettings["DbPassword"];
-            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
-
-            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource};";
-            using (var connection = new OracleConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        string query = "SELECT a.ulice, a.cislo_popisne, a.mesto, a.psc " +
-                                       "FROM ADRESA a " +
-                                       "JOIN OSOBA o ON a.id_adresa = o.id_adresa " +
-                                       "WHERE o.rodne_cislo = :NationalIdNumber";
-
-                        using (var command = new OracleCommand(query, connection))
-                        {
-                            command.Parameters.Add(new OracleParameter("NationalIdNumber", nationalIdNumber));
-                            using (var reader = command.ExecuteReader())
-                            {
-                                if (reader.Read())
-                                {
-                                    Street = reader["ulice"].ToString();
-                                    HouseNumber = Convert.ToInt32(reader["cislo_popisne"]);
-                                    City = reader["mesto"].ToString();
-                                    PostalCode = Convert.ToInt32(reader["psc"]);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nepodařilo se připojit k databázi.");
-                    }
-                }
-                catch (OracleException ex)
-                {
-                    MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
-                }
-            }
         }
 
         private void LoadRolesFromDatabase()
@@ -285,79 +237,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     MessageBox.Show($"Error in fetching roles: {ex.Message}");
                 }
             }
-        }
-
-        private void AddNewPerson()
-        {
-
-            var person = new PersonDetails
-            {
-                Name = Name,
-                Surname = Surname,
-                DoB = DoB,
-                NationalIdNumber = NationalIdNumber,
-                PhoneNumber = PhoneNumber,
-                Email = Email,
-                Role = SelectedRole
-            };
-
-            var address = new Address
-            {
-                Street = Street,
-                HouseNumber = HouseNumber,
-                City = City,
-                PostalCode = PostalCode
-            };
-
-            var password = new Password
-            {
-                Salt = PasswordHasher.GenerateSalt(),
-                HashedPassword = PasswordHasher.HashPassword(Password, PasswordHasher.GenerateSalt())
-            };
-
-            var employeeDetails = new EmployeeDetails
-            {
-                Department = Department,
-                Position = Position
-            };
-
-            // sestavení connection stringu
-            string dbUserId = ConfigurationManager.AppSettings["DbUserId"];
-            string dbPassword = ConfigurationManager.AppSettings["DbPassword"];
-            string dbDataSource = ConfigurationManager.AppSettings["DbDataSource"];
-
-            string connectionString = $"User Id={dbUserId};Password={dbPassword};Data Source={dbDataSource}";
-
-            using (OracleConnection connection = new OracleConnection(connectionString))
-            {
-                connection.Open();
-                using (OracleCommand addPersonCommand = new OracleCommand("insert_osoba_adresa_heslo", connection))
-                {
-                    addPersonCommand.CommandType = CommandType.StoredProcedure;
-
-                    addPersonCommand.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = person.Name;
-                    addPersonCommand.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = person.Surname;
-                    addPersonCommand.Parameters.Add("p_datum_narozeni", OracleDbType.Date).Value = person.DoB;
-                    addPersonCommand.Parameters.Add("p_rodne_cislo", OracleDbType.Varchar2).Value = person.NationalIdNumber;
-                    addPersonCommand.Parameters.Add("p_telefon", OracleDbType.Char).Value = person.PhoneNumber;
-                    addPersonCommand.Parameters.Add("p_email", OracleDbType.Varchar2).Value = person.Email;
-                    addPersonCommand.Parameters.Add("p_typ_osoby", OracleDbType.Char).Value = SelectedPersonType;
-                    addPersonCommand.Parameters.Add("p_id_role", OracleDbType.Int32).Value = GetRoleId(person.Role);
-                    addPersonCommand.Parameters.Add("p_ulice", OracleDbType.Varchar2).Value = address.Street;
-                    addPersonCommand.Parameters.Add("p_cislo_popisne", OracleDbType.Char).Value = address.HouseNumber.ToString();
-                    addPersonCommand.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = address.City;
-                    addPersonCommand.Parameters.Add("p_psc", OracleDbType.Int32).Value = address.PostalCode;
-                    addPersonCommand.Parameters.Add("p_hash", OracleDbType.Varchar2).Value = password.HashedPassword;
-                    addPersonCommand.Parameters.Add("p_salt", OracleDbType.Varchar2).Value = password.Salt;
-                    addPersonCommand.Parameters.Add("p_oddeleni", OracleDbType.Varchar2).Value = employeeDetails.Department;
-                    addPersonCommand.Parameters.Add("p_pozice", OracleDbType.Varchar2).Value = employeeDetails.Position;
-
-                    addPersonCommand.ExecuteNonQuery();
-                }
-            }
-
-            PersonAdded?.Invoke();
-            CloseAddingWindow();
         }
 
         private int GetRoleId(string roleName)
@@ -392,61 +271,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             if (currentWindow != null)
             {
                 currentWindow.Close();
-            }
-        }
-
-        private void UpdatePersonInDatabase()
-        {
-            string userId = ConfigurationManager.AppSettings["DbUserId"];
-            string password = ConfigurationManager.AppSettings["DbPassword"];
-            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
-
-            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource};";
-            using (var connection = new OracleConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        string updatePersonQuery = "UPDATE OSOBA SET jmeno = :Name, prijmeni = :Surname, datum_narozeni = :DoB, telefon = :PhoneNumber, email = :Email, id_role = (SELECT id_role FROM ROLE WHERE role = :Role) WHERE rodne_cislo = :NationalIdNumber";
-
-                        using (var command = new OracleCommand(updatePersonQuery, connection))
-                        {
-                            command.Parameters.Add(new OracleParameter("Name", Name));
-                            command.Parameters.Add(new OracleParameter("Surname", Surname));
-                            command.Parameters.Add(new OracleParameter("DoB", DoB));
-                            command.Parameters.Add(new OracleParameter("PhoneNumber", PhoneNumber));
-                            command.Parameters.Add(new OracleParameter("Email", Email));
-                            command.Parameters.Add(new OracleParameter("Role", SelectedRole));
-                            command.Parameters.Add(new OracleParameter("NationalIdNumber", NationalIdNumber));
-
-                            command.ExecuteNonQuery();
-                        }
-
-                        string updateAddressQuery = "UPDATE ADRESA SET ulice = :Street, cislo_popisne = :HouseNumber, mesto = :City, psc = :PostalCode " +
-                                                    "WHERE id_adresa = (SELECT id_adresa FROM OSOBA WHERE rodne_cislo = :NationalIdNumber)";
-
-                        using (var command = new OracleCommand(updateAddressQuery, connection))
-                        {
-                            command.Parameters.Add(new OracleParameter("Street", Street));
-                            command.Parameters.Add(new OracleParameter("HouseNumber", HouseNumber));
-                            command.Parameters.Add(new OracleParameter("City", City));
-                            command.Parameters.Add(new OracleParameter("PostalCode", PostalCode));
-                            command.Parameters.Add(new OracleParameter("NationalIdNumber", NationalIdNumber));
-
-                            command.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nepodařilo se připojit k databázi.");
-                    }
-                }
-                catch (OracleException ex)
-                {
-                    MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
-                }
             }
         }
 
