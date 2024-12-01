@@ -18,7 +18,6 @@ namespace InformacniSystemBanky.View
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 this.DragMove();
-                MessageBox.Show("DragMove");
             }
         }
     }

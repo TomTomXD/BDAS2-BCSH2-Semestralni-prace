@@ -17,7 +17,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
     {
         public ObservableCollection<string> Roles { get; set; }
         public ICommand AddNewPersonCommand { get; }
-        public ICommand CancelAddingNewPersonCommand { get; }
+        public ICommand CancelAddingOrUpdatingPersonCommand { get; }
+        public ICommand EditPersonCommand { get; }
         public event Action PersonAdded;
         public List<string> PersonTypes { get; } = new List<string> { "K", "Z" };
 
@@ -38,6 +39,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string city;
         private int postalCode;
         private string password;
+        private int _id;
 
         private Visibility departmentVisibility;
         private Visibility positionVisibility;
@@ -45,6 +47,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private readonly RolesService _rolesService;
         private readonly PersonDetailsService _personDetailsService;
         private readonly UserService _userService;
+
         public string Department
         {
             get { return department; }
@@ -54,7 +57,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(Department));
             }
         }
-
         public string Position
         {
             get { return position; }
@@ -64,55 +66,46 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(Position));
             }
         }
-
         public string ActionLabelText
         {
             get => actionLabelText;
             set { actionLabelText = value; OnPropertyChanged(nameof(ActionLabelText)); }
         }
-
         public string ActionButtonText
         {
             get => actionButtonText;
             set { actionButtonText = value; OnPropertyChanged(nameof(ActionButtonText)); }
         }
-
         public string Name
         {
             get => name;
             set { name = value; OnPropertyChanged(nameof(Name)); }
         }
-
         public string Surname
         {
             get => surname;
             set { surname = value; OnPropertyChanged(nameof(Surname)); }
         }
-
         public DateTime DoB
         {
             get => doB;
             set { doB = value; OnPropertyChanged(nameof(DoB)); }
         }
-
         public string NationalIdNumber
         {
             get => nationalIdNumber;
             set { nationalIdNumber = value; OnPropertyChanged(nameof(NationalIdNumber)); }
         }
-
         public string PhoneNumber
         {
             get => phoneNumber;
             set { phoneNumber = value; OnPropertyChanged(nameof(PhoneNumber)); }
         }
-
         public string Email
         {
             get => email;
             set { email = value; OnPropertyChanged(nameof(Email)); }
         }
-
         public string SelectedRole
         {
             get => selectedRole;
@@ -122,37 +115,31 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(SelectedRole));
             }
         }
-
         public string Street
         {
             get => street;
             set { street = value; OnPropertyChanged(nameof(Street)); }
         }
-
         public int HouseNumber
         {
             get => houseNumber;
             set { houseNumber = value; OnPropertyChanged(nameof(HouseNumber)); }
         }
-
         public string City
         {
             get => city;
             set { city = value; OnPropertyChanged(nameof(City)); }
         }
-
         public int PostalCode
         {
             get => postalCode;
             set { postalCode = value; OnPropertyChanged(nameof(PostalCode)); }
         }
-
         public string Password
         {
             get => password;
             set { password = value; OnPropertyChanged(nameof(Password)); }
         }
-
         public string SelectedPersonType
         {
             get => selectedPersonType;
@@ -163,7 +150,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 UpdateVisibility();
             }
         }
-
         public Visibility DepartmentVisibility
         {
             get => departmentVisibility;
@@ -173,7 +159,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(DepartmentVisibility));
             }
         }
-
         public Visibility PositionVisibility
         {
             get => positionVisibility;
@@ -184,7 +169,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-
         // Bezparametrický konstruktor pro přidání nové osoby
         public AddOrEditUserViewModel()
         {
@@ -194,7 +178,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             Roles = new ObservableCollection<string>(_rolesService.GetRoles());
             AddNewPersonCommand = new RelayCommand(AddNewPerson);
-            CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
+            CancelAddingOrUpdatingPersonCommand = new RelayCommand(CloseAddingWindow);
 
             // Nastavení defaultních hodnot pro dnešní datum v datepickeru
             DoB = DateTime.Now;
@@ -207,8 +191,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
         }
 
         // Konstruktor pro editaci osoby
-        public AddOrEditUserViewModel(PersonDetails person) : this()
+        public AddOrEditUserViewModel(int id, PersonDetails person, Address adress, char personType, EmployeeDetails? employeeDetails = null) : this()
         {
+            _id = id;
             Name = person.Name;
             Surname = person.Surname;
             DoB = person.DoB;
@@ -217,8 +202,54 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Email = person.Email;
             SelectedRole = person.Role;
 
+            HouseNumber = Convert.ToInt32(adress.HouseNumber);
+            Street = adress.Street;
+            City = adress.City;
+            PostalCode = Convert.ToInt32(adress.PostalCode);
+
             actionLabelText = "Upravit osobu";
             actionButtonText = "Upravit";
+
+            Roles = new ObservableCollection<string>(_rolesService.GetRoles());
+            EditPersonCommand = new RelayCommand(EditPerson);
+            CancelAddingOrUpdatingPersonCommand = new RelayCommand(CloseAddingWindow);
+
+            SelectedPersonType = personType.ToString();
+
+            if (employeeDetails != null)
+            {
+                Department = employeeDetails.Department;
+                Position = employeeDetails.Position;
+            }
+            else
+            {
+            DepartmentVisibility = Visibility.Hidden;
+            PositionVisibility = Visibility.Hidden;
+            }
+        }
+
+        private void EditPerson()
+        {
+            // Předpokládejme, že id_role a typ_osoby jsou dostupné ve vaší třídě
+            int idRole = _rolesService.GetRoleId(SelectedRole);
+            char typOsoby = Convert.ToChar(SelectedPersonType);
+
+            _userService.EditUserDetails(_id,
+                Name, 
+                Surname, 
+                DoB, 
+                NationalIdNumber, 
+                PhoneNumber, 
+                Email, 
+                Street, 
+                HouseNumber.ToString(), 
+                City, 
+                PostalCode, 
+                idRole, 
+                typOsoby, 
+                Department, 
+                Position, 
+                Password);
         }
 
         private void AddNewPerson()

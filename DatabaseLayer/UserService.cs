@@ -14,10 +14,12 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
     public class UserService
     {
         private readonly DatabaseService _databaseService;
+        private readonly PersonDetailsService _personalDetails;
 
         public UserService()
         {
             _databaseService = new DatabaseService();
+            _personalDetails = new PersonDetailsService();
         }
 
         public bool RegisterNewUser(
@@ -153,24 +155,30 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         }
 
         public bool EditUserDetails(
-    int id,
-    string jmeno,
-    string prijmeni,
-    DateTime datumNarozeni,
-    string rodneCislo,
-    string telefon,
-    string email,
-    string ulice,
-    string cisloPopisne,
-    string mesto,
-    int psc,
-    string? oddeleni = null,
-    string? pozice = null)
+              int id,
+              string jmeno,
+              string prijmeni,
+              DateTime datumNarozeni,
+              string rodneCislo,
+              string telefon,
+              string email,
+              string ulice,
+              string cisloPopisne,
+              string mesto,
+              int psc,
+              int idRole,
+              char typOsoby, 
+              string oddeleni,
+              string pozice,
+              string password)
         {
             try
             {
                 _databaseService.ExecuteProcedure("upsert_osoba_adresa_heslo", command =>
                 {
+                    command.Parameters.Add(new OracleParameter("p_id_role", OracleDbType.Int32) { Value = idRole });
+                    command.Parameters.Add(new OracleParameter("p_typ_osoby", OracleDbType.Char) { Value = typOsoby });
+
                     command.Parameters.Add(new OracleParameter("p_id_osoba", OracleDbType.Int32) { Value = id });
                     command.Parameters.Add(new OracleParameter("p_jmeno", OracleDbType.Varchar2) { Value = jmeno });
                     command.Parameters.Add(new OracleParameter("p_prijmeni", OracleDbType.Varchar2) { Value = prijmeni });
@@ -184,8 +192,20 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                     command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32) { Value = psc });
                     command.Parameters.Add(new OracleParameter("p_oddeleni", OracleDbType.Varchar2) { Value = oddeleni ?? (object)DBNull.Value });
                     command.Parameters.Add(new OracleParameter("p_pozice", OracleDbType.Varchar2) { Value = pozice ?? (object)DBNull.Value });
-                    command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2) { Value = DBNull.Value }); // For edits, password-related fields can be ignored
-                    command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2) { Value = DBNull.Value });
+
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        var salt = PasswordHasher.GenerateSalt();
+                        string hash = PasswordHasher.HashPassword(password, salt);
+                        command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2) { Value = hash });
+                        command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2) { Value = salt });
+                    }
+                    else
+                    {
+                        // Pokud heslo není poskytnuto, nastavte hodnotu na NULL
+                        command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2) { Value = DBNull.Value });
+                        command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2) { Value = DBNull.Value });
+                    }
                 });
 
                 MessageBox.Show("Uživatel úspěšně upraven.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -203,5 +223,41 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             return false;
         }
 
+        public bool DeleteUser(string nationalIdNumber)
+        {
+            try
+            {
+                // Spustíme DELETE SQL příkaz
+                int rowsAffected = _databaseService.ExecuteNonQuery("DELETE FROM OSOBY WHERE RODNE_CISLO = :nationaIdNumber", command =>
+                {
+                    command.Parameters.Add(new OracleParameter(":nationaIdNumber", OracleDbType.Varchar2) { Value = nationalIdNumber });
+                });
+
+                if (rowsAffected > 0)
+                {
+                    MessageBox.Show($"Osoba s rodným číslem {nationalIdNumber} byla úspěšně smazána. Počet smazaných řádků: {rowsAffected}",
+                                    "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show($"Osoba s rodným číslem {nationalIdNumber} nebyla nalezena.",
+                                    "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show($"Chyba při mazání osoby: {ex.Message}",
+                                "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Neočekávaná chyba: {ex.Message}",
+                                "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return false;
+        }
     }
 }

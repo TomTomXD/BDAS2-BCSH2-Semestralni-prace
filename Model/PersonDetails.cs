@@ -1,13 +1,5 @@
 ﻿namespace FinancniInformacniSystemBanky.Model
 {
-    public enum Role
-    {
-        OverenyKlient,
-        NeoverenyKlient,
-        Zamestnanec,
-        Admin
-    }
-
     public class PersonDetails
     {
         public string Name { get; set; }
