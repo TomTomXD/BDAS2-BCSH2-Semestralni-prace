@@ -19,9 +19,31 @@ namespace InformacniSystemBanky.ViewModel
         private string actionButtonText;
         private string actionLabelText;
         private string selectedAccountType;
+
+        private string _accountNumber;
+        private double _balance;
+        private double _limit;
+        private double _interest;
+        private double _maxBalance;
+
         private Visibility _interestVisibility;
         private Visibility _maxBalanceVisibility;
 
+        public string AccountNumber
+        {
+            get => _accountNumber;
+            set { _accountNumber = value; OnPropertyChanged(nameof(AccountNumber)); }
+        }
+        public double Balance
+        {
+            get => _balance;
+            set { _balance = value; OnPropertyChanged(nameof(Balance)); }
+        }
+        public double Limit
+        {
+            get => _limit;
+            set { _limit = value; OnPropertyChanged(nameof(Limit)); }
+        }
         public string SelectedAccountType
         {
             get => selectedAccountType;
@@ -32,7 +54,16 @@ namespace InformacniSystemBanky.ViewModel
                 UpdateVisibility();
             }
         }
-
+        public double Interest
+        {
+            get => _interest;
+            set { _interest = value; OnPropertyChanged(nameof(Interest)); }
+        }
+        public double MaxBalance
+        {
+            get => _maxBalance;
+            set { _maxBalance = value; OnPropertyChanged(nameof(MaxBalance)); }
+        }
         public Visibility InterestVisibility
         {
             get => _interestVisibility;
@@ -42,7 +73,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(InterestVisibility));
             }
         }
-
         public Visibility MaxBalanceVisibility
         {
             get => _maxBalanceVisibility;
@@ -52,7 +82,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(MaxBalanceVisibility));
             }
         }
-
         public string ActionLabelText
         {
             get => actionLabelText;
@@ -85,8 +114,21 @@ namespace InformacniSystemBanky.ViewModel
             actionLabelText = "Upravit účet";
             actionButtonText = "Upravit";
 
-            InterestVisibility = Visibility.Hidden;
-            MaxBalanceVisibility = Visibility.Hidden;
+            if(account.AccountType == "B")
+            {
+                InterestVisibility = Visibility.Hidden;
+                MaxBalanceVisibility = Visibility.Hidden;
+            }
+            else
+            {
+                InterestVisibility = Visibility.Visible;
+                MaxBalanceVisibility = Visibility.Visible;
+            }
+
+            AccountNumber = account.AccountNumber;
+            Balance = (double)account.Balance;
+            Limit = (double)account.PaymentLimit;
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

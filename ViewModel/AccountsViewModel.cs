@@ -39,7 +39,23 @@ namespace InformacniSystemBanky.ViewModel
             LoadAccountsFromDatabase();
             AddAccountCommand = new RelayCommand(AddAccountToDatabase);
             //DeleteAccountCommand = new RelayCommand(DeleteAccountFromDatabase, CanDeleteAccount);
+            EditAccountCommand = new RelayCommand(EditAccount);
         }
+
+        private void EditAccount()
+        {
+            if (SelectedAccount != null)
+            {
+                var addAccountViewModel = new AddAccountViewModel(SelectedAccount);
+                var addAccountView = new AddAccountView
+                {
+                    DataContext = addAccountViewModel
+                };
+                addAccountView.ShowDialog();
+            }
+            LoadAccountsFromDatabase();
+        }
+
 
         private void LoadAccountsFromDatabase()
         {
@@ -60,6 +76,8 @@ namespace InformacniSystemBanky.ViewModel
                 LoadAccountsFromDatabase(); 
             }
         }
+
+        
 
         private bool CanDeleteAccount()
         {

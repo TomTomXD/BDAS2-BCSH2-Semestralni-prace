@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InformacniSystemBanky.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace InformacniSystemBanky.View
         public AccountsView()
         {
             InitializeComponent();
-            DataContext = new ViewModel.AccountsViewModel();
+            this.DataContext = new AccountsViewModel();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ICollectionView FilteredPeople { get; set; }
         private string _searchText;
         private PersonDetails selectedPerson;
+
         public string SearchText
         {
             get => _searchText;

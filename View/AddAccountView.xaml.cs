@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InformacniSystemBanky.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace InformacniSystemBanky.View
         public AddAccountView()
         {
             InitializeComponent();
-            DataContext = new ViewModel.AddAccountViewModel();
+            this.DataContext = new AddAccountViewModel();
         }
 
         // Pomocná metoda, která reguluje povolené znaky v komponentě TextBox
