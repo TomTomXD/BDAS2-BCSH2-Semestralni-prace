@@ -18,6 +18,7 @@ namespace InformacniSystemBanky.ViewModel
         private string _phoneNumber;
         private string _email;
         private string _password;
+        private string _passwordAgain;
         public string Password
         {
             get => _password;
@@ -27,8 +28,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        private string _passwordAgain;
         public string PasswordAgain
         {
             get => _passwordAgain;
@@ -38,8 +37,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
-
         public string FirstName
         {
             get => _firstName;
@@ -49,7 +46,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string LastName
         {
             get => _lastName;
@@ -59,7 +55,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string AddressStreet
         {
             get => _addressStreet;
@@ -69,7 +64,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string AddressHouseNumber
         {
             get => _addressHouseNumber;
@@ -79,7 +73,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string AddressCity
         {
             get => _addressCity;
@@ -89,7 +82,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string AddressZipCode
         {
             get => _addressZipCode;
@@ -99,7 +91,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string RodneCislo
         {
             get => _rodneCislo;
@@ -109,7 +100,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string PhoneNumber
         {
             get => _phoneNumber;
@@ -119,7 +109,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string Email
         {
             get => _email;
@@ -129,7 +118,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public DateTime DateOfBirth
         {
             get => _birthDate;
@@ -139,7 +127,6 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public ICommand GoBackCommand { get; set; }
         public ICommand GoNextCommand { get; set; }
 

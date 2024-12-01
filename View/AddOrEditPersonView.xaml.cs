@@ -16,15 +16,17 @@ namespace FinancniInformacniSystemBanky.View
             InitializeComponent();
             this.DataContext = new UsersView();
         }
-
-        //private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        //{
-        //    PasswordBox pb = sender as PasswordBox;
-        //    if (DataContext is UsersView viewModel)
-        //    {
-        //        viewModel.Password = pb.Password;
-        //    }
-        //}
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AddOrEditUserViewModel viewModel)
+            {
+                PasswordBox pb = sender as PasswordBox;
+                if (pb != null)
+                {
+                    viewModel.Password = pb.Password;
+                }
+            }
+        }
 
         // Pomocná metoda, která reguluje povolené znaky v komponentě TextBox
         private void NumberValidation(object sender, TextCompositionEventArgs e)

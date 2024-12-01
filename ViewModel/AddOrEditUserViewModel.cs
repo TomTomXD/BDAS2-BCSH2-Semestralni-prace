@@ -1,4 +1,5 @@
-﻿using FinancniInformacniSystemBanky.Model;
+﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.Model;
 using InformacniSystemBanky.ViewModel;
@@ -17,6 +18,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ObservableCollection<string> Roles { get; set; }
         public ICommand AddNewPersonCommand { get; }
         public ICommand CancelAddingNewPersonCommand { get; }
+        public event Action PersonAdded;
+        public List<string> PersonTypes { get; } = new List<string> { "K", "Z" };
 
         private string department;
         private string position;
@@ -39,6 +42,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private Visibility departmentVisibility;
         private Visibility positionVisibility;
 
+        private readonly RolesService _rolesService;
+        private readonly PersonDetailsService _personDetailsService;
+        private readonly UserService _userService;
         public string Department
         {
             get { return department; }
@@ -178,24 +184,29 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-        public event Action PersonAdded;
 
-        public List<string> PersonTypes { get; } = new List<string> { "K", "Z" };
-
+        // Bezparametrický konstruktor pro přidání nové osoby
         public AddOrEditUserViewModel()
         {
-            Roles = new ObservableCollection<string>();
+            _personDetailsService = new PersonDetailsService();
+            _rolesService = new RolesService();
+            _userService = new UserService();
+
+            Roles = new ObservableCollection<string>(_rolesService.GetRoles());
             AddNewPersonCommand = new RelayCommand(AddNewPerson);
             CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
 
+            // Nastavení defaultních hodnot pro dnešní datum v datepickeru
+            DoB = DateTime.Now;
+
             actionLabelText = "Přidat osobu";
             actionButtonText = "Přidat";
-            LoadRolesFromDatabase();
 
             DepartmentVisibility = Visibility.Hidden;
             PositionVisibility = Visibility.Hidden;
         }
 
+        // Konstruktor pro editaci osoby
         public AddOrEditUserViewModel(PersonDetails person) : this()
         {
             Name = person.Name;
@@ -210,60 +221,40 @@ namespace FinancniInformacniSystemBanky.ViewModel
             actionButtonText = "Upravit";
         }
 
-        private void LoadRolesFromDatabase()
+        private void AddNewPerson()
         {
-
-            string userId = ConfigurationManager.AppSettings["DbUserId"];
-            string password = ConfigurationManager.AppSettings["DbPassword"];
-            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
-
-            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource}";
-            string query = "SELECT role FROM ROLE";
-
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            try
             {
-                OracleCommand command = new OracleCommand(query, connection);
-                try
-                {
-                    connection.Open();
-                    OracleDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Roles.Add(reader["role"].ToString());
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error in fetching roles: {ex.Message}");
-                }
+                var salt = PasswordHasher.GenerateSalt();
+                var hashedPassword = PasswordHasher.HashPassword(Password, salt);
+                var saltBase64 = Convert.ToBase64String(salt);
+                var houseNumber = Convert.ToString(HouseNumber);
+
+                _userService.RegisterNewUser(
+                    Name, 
+                    Surname,
+                    DoB,
+                    NationalIdNumber, 
+                    PhoneNumber, 
+                    Email,
+                    SelectedPersonType,
+                    _rolesService.GetRoleId(SelectedRole),
+                    Street,
+                    houseNumber,
+                    City,
+                    PostalCode,
+                    hashedPassword,
+                    saltBase64
+                );
+                MessageBox.Show("Osoba byla úspěšně přidána.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+
             }
-        }
-
-        private int GetRoleId(string roleName)
-        {
-            string userId = ConfigurationManager.AppSettings["DbUserId"];
-            string password = ConfigurationManager.AppSettings["DbPassword"];
-            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
-
-            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource};";
-            using (var connection = new OracleConnection(connectionString))
+            catch (Exception ex)
             {
-                connection.Open();
-                string getRoleIdQuery = "SELECT ID_ROLE FROM ROLE WHERE role = :roleName";
-                using (var getRoleIdCommand = new OracleCommand(getRoleIdQuery, connection))
-                {
-                    getRoleIdCommand.Parameters.Add(new OracleParameter(":roleName", roleName));
-                    object result = getRoleIdCommand.ExecuteScalar();
-                    if (result == null)
-                    {
-                        MessageBox.Show("Role nebyla nalezena", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return 0;
-                    }
-                    return Convert.ToInt32(result);
-                }
+                MessageBox.Show($"Došlo k chybě při registraci: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            CloseAddingWindow();
         }
-
 
         private void CloseAddingWindow()
         {

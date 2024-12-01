@@ -6,9 +6,9 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
     {
         private readonly DatabaseService _databaseService;
 
-        public PersonDetailsService(DatabaseService databaseService)
+        public PersonDetailsService()
         {
-            _databaseService = databaseService;
+            _databaseService = new DatabaseService();
         }
 
         public IEnumerable<PersonDetails> GetPersonDetails()

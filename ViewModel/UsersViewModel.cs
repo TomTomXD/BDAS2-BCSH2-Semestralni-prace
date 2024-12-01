@@ -17,6 +17,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ObservableCollection<PersonDetails> People { get; set; }
         public ICollectionView FilteredPeople { get; set; }
         private string _searchText;
+        private PersonDetails selectedPerson;
         public string SearchText
         {
             get => _searchText;
@@ -27,8 +28,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 FilteredPeople.Refresh();
             }
         }
-
-        private PersonDetails selectedPerson;
         public PersonDetails SelectedPerson
         {
             get => selectedPerson;
@@ -53,7 +52,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             FilteredPeople.Filter = FilterPeople;
 
             var databaseService = new DatabaseService();
-            _personDetailsService = new PersonDetailsService(databaseService);
+            _personDetailsService = new PersonDetailsService();
 
             LoadPeopleFromDatabase();
 
@@ -100,6 +99,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 DataContext = addUserViewModel
             };
             addPersonView.ShowDialog();
+            LoadPeopleFromDatabase();
         }
 
         // Obsluha tlačítka pro změnu osobních údajů
