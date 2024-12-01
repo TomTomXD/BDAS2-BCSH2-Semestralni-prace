@@ -409,7 +409,7 @@
                             Margin="10" 
                             Width="109" 
                              Height="33"
-                            Command="{Binding CancelAddingOrUpdatingPersonCommand}"
+                            Command="{Binding CancelAddingNewPersonCommand}"
                             Style="{StaticResource ButtonClassic}"/>
                     <Button Content="{Binding ActionButtonText}"
                             Margin="10" 

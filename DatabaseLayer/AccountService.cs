@@ -31,5 +31,20 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 AccountType = reader.GetString(5)
             });
         }
+
+        public void AddAccount()
+        {
+
+        }
+
+        public void DeleteAccount()
+        {
+
+        }
+
+        public void UpdateAccount()
+        {
+
+        }
     }
 }

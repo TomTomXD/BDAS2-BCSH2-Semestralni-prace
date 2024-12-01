@@ -1,64 +1,121 @@
-﻿using Oracle.ManagedDataAccess.Client;
+﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.View;
+using InformacniSystemBanky.Model;
+using InformacniSystemBanky.View;
+using Oracle.ManagedDataAccess.Client;
+using System.ComponentModel;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Input;
 
 namespace InformacniSystemBanky.ViewModel
 {
-    public class AddAccountViewModel : Window
+    public class AddAccountViewModel : INotifyPropertyChanged
     {
-        public int NewAccountId { get; set; }
-        public string NewAccountNumber { get; set; }
-        public decimal NewBalance { get; set; }
-        public decimal NewPaymentLimit { get; set; }
-        public int NewPersonId { get; set; }
-        public string NewAccountType { get; set; }
+        public List<string> AccountTypes { get; } = new List<string> { "B", "S" };
+
+        private readonly AccountService _accountService;
+
+        private string actionButtonText;
+        private string actionLabelText;
+        private string selectedAccountType;
+        private Visibility _interestVisibility;
+        private Visibility _maxBalanceVisibility;
+
+        public string SelectedAccountType
+        {
+            get => selectedAccountType;
+            set
+            {
+                selectedAccountType = value;
+                OnPropertyChanged(nameof(SelectedAccountType));
+                UpdateVisibility();
+            }
+        }
+
+        public Visibility InterestVisibility
+        {
+            get => _interestVisibility;
+            set
+            {
+                _interestVisibility = value;
+                OnPropertyChanged(nameof(InterestVisibility));
+            }
+        }
+
+        public Visibility MaxBalanceVisibility
+        {
+            get => _maxBalanceVisibility;
+            set
+            {
+                _maxBalanceVisibility = value;
+                OnPropertyChanged(nameof(MaxBalanceVisibility));
+            }
+        }
+
+        public string ActionLabelText
+        {
+            get => actionLabelText;
+            set { actionLabelText = value; OnPropertyChanged(nameof(ActionLabelText)); }
+        }
+        public string ActionButtonText
+        {
+            get => actionButtonText;
+            set { actionButtonText = value; OnPropertyChanged(nameof(ActionButtonText)); }
+        }
 
         public ICommand AddAccountCommand { get; }
+        public ICommand CancelAddingNewAccountCommand { get; }
 
         public AddAccountViewModel()
         {
-            AddAccountCommand = new RelayCommand(AddAccountToDatabase);
+            CancelAddingNewAccountCommand = new RelayCommand(CloseAddingWindow);
+
+            actionLabelText = "Přidat účet";
+            actionButtonText = "Přidat";
+
+            InterestVisibility = Visibility.Hidden;
+            MaxBalanceVisibility = Visibility.Hidden;
         }
 
-        private void AddAccountToDatabase()
+        public AddAccountViewModel(Account account)
         {
-            string userId = ConfigurationManager.AppSettings["DbUserId"];
-            string password = ConfigurationManager.AppSettings["DbPassword"];
-            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
+            CancelAddingNewAccountCommand = new RelayCommand(CloseAddingWindow);
 
-            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource};";
-            using (var connection = new OracleConnection(connectionString))
+            actionLabelText = "Upravit účet";
+            actionButtonText = "Upravit";
+
+            InterestVisibility = Visibility.Hidden;
+            MaxBalanceVisibility = Visibility.Hidden;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void UpdateVisibility()
+        {
+            if (SelectedAccountType == "S")
             {
-                try
-                {
-                    connection.Open();
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        string query = "INSERT INTO UCET (ID_UCET, CISLO_UCTU, ZUSTATEK, LIMIT_PRO_PLATBY, ID_OSOBA, TYP_UCTU) VALUES (:AccountId, :AccountNumber, :Balance, :PaymentLimit, :PersonId, :AccountType)";
+                MaxBalanceVisibility = Visibility.Visible;
+                InterestVisibility = Visibility.Visible;
+            }
+            else
+            {
+                MaxBalanceVisibility = Visibility.Hidden;
+                InterestVisibility = Visibility.Hidden;
+            }
+        }
 
-                        using (var command = new OracleCommand(query, connection))
-                        {
-                            command.Parameters.Add(new OracleParameter("AccountId", NewAccountId));
-                            command.Parameters.Add(new OracleParameter("AccountNumber", NewAccountNumber));
-                            command.Parameters.Add(new OracleParameter("Balance", NewBalance));
-                            command.Parameters.Add(new OracleParameter("PaymentLimit", NewPaymentLimit));
-                            command.Parameters.Add(new OracleParameter("PersonId", NewPersonId));
-                            command.Parameters.Add(new OracleParameter("AccountType", NewAccountType));
-
-                            command.ExecuteNonQuery();
-                        }
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nepodařilo se připojit k databázi.");
-                    }
-                }
-                catch (OracleException ex)
-                {
-                    MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
-                }
+        private void CloseAddingWindow()
+        {
+            var currentWindow = Application.Current.Windows.OfType<AddAccountView>().FirstOrDefault();
+            if (currentWindow != null)
+            {
+                currentWindow.Close();
             }
         }
     }

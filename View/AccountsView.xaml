@@ -65,6 +65,7 @@
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button Content="Přidat Účet" Command="{Binding AddAccountCommand}" Width="150" Margin="5" />
+                <Button Content="Upravit Účet" Command="{Binding EditAccountCommand}" Width="150" Margin="5" />
                 <Button Content="Smazat Vybraný Účet" Command="{Binding DeleteAccountCommand}" IsEnabled="{Binding Path=SelectedAccount}" Width="150" Margin="5" />
             </StackPanel>
         </StackPanel>
