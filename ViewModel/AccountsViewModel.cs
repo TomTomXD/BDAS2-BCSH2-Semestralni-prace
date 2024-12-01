@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Configuration;
 using InformacniSystemBanky.View;
+using FinancniInformacniSystemBanky.DatabaseLayer;
 
 namespace InformacniSystemBanky.ViewModel
 {
@@ -93,62 +94,25 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand AddAccountCommand { get; }
         public ICommand DeleteAccountCommand { get; }
 
+        private readonly AccountService _accountService;
+
         public AccountsViewModel()
         {
+            _accountService = new AccountService();
             Accounts = new ObservableCollection<Account>();
             LoadAccountsFromDatabase();
             AddAccountCommand = new RelayCommand(AddAccountToDatabase);
-            DeleteAccountCommand = new RelayCommand(DeleteAccountFromDatabase, CanDeleteAccount);
+            //DeleteAccountCommand = new RelayCommand(DeleteAccountFromDatabase, CanDeleteAccount);
         }
 
         private void LoadAccountsFromDatabase()
         {
-            // Retrieve settings from App.config
-            string userId = ConfigurationManager.AppSettings["DbUserId"];
-            string password = ConfigurationManager.AppSettings["DbPassword"];
-            string dataSource = ConfigurationManager.AppSettings["DbDataSource"];
+            var accountsFromDb = _accountService.GetAccounts();
 
-            string connectionString = $"User Id={userId};Password={password};Data Source={dataSource};";
-
-
-            // Přizpůsobte připojovací řetězec podle vaší databáze
-            using (var connection = new OracleConnection(connectionString))
+            Accounts.Clear();
+            foreach (var account in accountsFromDb)
             {
-                try
-                {
-                    connection.Open();
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        //SELECT o.jmeno, o.prijemni, u.cislo_uctu, u.zustatek, u.limit_pro_platby FROM UCET u" +
-                        //    " JOIN OSOBA o ON u.id_osoba = o.osoba.id"
-                        string query = "SELECT * FROM UCET";
-
-                        using (var command = new OracleCommand(query, connection))
-                        using (var reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Accounts.Add(new Account
-                                {
-                                    AccountId = reader.GetInt32(0),
-                                    AccountNumber = reader.GetString(1),
-                                    Balance = reader.GetDecimal(2),
-                                    PaymentLimit = reader.GetDecimal(3),
-                                    PersonId = reader.GetInt32(4),
-                                    AccountType = reader.GetString(5)
-                                });
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nepodařilo se připojit k databázi.");
-                    }
-                }
-                catch (OracleException ex)
-                {
-                    MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
-                }
+                Accounts.Add(account);
             }
         }
 
@@ -202,40 +166,39 @@ namespace InformacniSystemBanky.ViewModel
         //}
         //}
 
-        private void DeleteAccountFromDatabase()
-        {
-            if (SelectedAccount == null) return;
+        //private void DeleteAccountFromDatabase()
+        //{
+        //    if (SelectedAccount == null) return;
 
-            string connectionString = "User Id=ST69650;Password=Qn5_89@RoH/e;Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=FEI-SQL3.UPCEUCEBNY.CZ)(PORT=1521)))(CONNECT_DATA=(SID=BDAS)));";
-            using (var connection = new OracleConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        string query = "DELETE FROM UCET WHERE ID_UCET = :AccountId";
+        //    using (var connection = new OracleConnection(connectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            if (connection.State == System.Data.ConnectionState.Open)
+        //            {
+        //                string query = "DELETE FROM UCET WHERE ID_UCET = :AccountId";
 
-                        using (var command = new OracleCommand(query, connection))
-                        {
-                            command.Parameters.Add(new OracleParameter("AccountId", SelectedAccount.AccountId));
-                            command.ExecuteNonQuery();
-                        }
+        //                using (var command = new OracleCommand(query, connection))
+        //                {
+        //                    command.Parameters.Add(new OracleParameter("AccountId", SelectedAccount.AccountId));
+        //                    command.ExecuteNonQuery();
+        //                }
 
-                        // Po úspěšném smazání načtěte znovu data
-                        LoadAccountsFromDatabase();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nepodařilo se připojit k databázi.");
-                    }
-                }
-                catch (OracleException ex)
-                {
-                    MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
-                }
-            }
-        }
+        //                // Po úspěšném smazání načtěte znovu data
+        //                LoadAccountsFromDatabase();
+        //            }
+        //            else
+        //            {
+        //                MessageBox.Show("Nepodařilo se připojit k databázi.");
+        //            }
+        //        }
+        //        catch (OracleException ex)
+        //        {
+        //            MessageBox.Show($"Chyba při připojování k databázi: {ex.Message}");
+        //        }
+        //    }
+        //}
 
         private bool CanDeleteAccount()
         {
