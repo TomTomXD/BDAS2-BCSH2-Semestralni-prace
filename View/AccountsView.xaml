@@ -57,11 +57,46 @@
                 <DataGrid ItemsSource="{Binding Accounts}" AutoGenerateColumns="False" Height="292" 
                       SelectedItem="{Binding SelectedAccount}" Width="680">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Číslo Účtu" Binding="{Binding AccountNumber}" Width="*" />
-                        <DataGridTextColumn Header="Zůstatek" Binding="{Binding Balance}" Width="*" />
-                        <DataGridTextColumn Header="Limit pro Platby" Binding="{Binding PaymentLimit}" Width="*" />
-                        <DataGridTextColumn Header="Vlastník" Binding="{Binding PersonId}" Width="*" />
-                        <DataGridTextColumn Header="Typ účtu" Binding="{Binding AccountType}" Width="*" />
+                        <DataGridTextColumn Header="Číslo Účtu" Binding="{Binding AccountNumber}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Zůstatek" Binding="{Binding Balance}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Limit pro Platby" Binding="{Binding PaymentLimit}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Vlastník" Binding="{Binding PersonId}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Typ účtu" Binding="{Binding AccountType}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>

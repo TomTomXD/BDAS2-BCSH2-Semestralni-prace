@@ -1,9 +1,4 @@
 ﻿using FinancniInformacniSystemBanky.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -34,7 +29,41 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         public void AddCard()
         {
             throw new NotImplementedException();
+            //    DateTime datumVystaveni,
+            //    DateTime datumPlatnosti,
+            //    string cvv,
+            //    int idTypuKarty,
+            //    int idBeznehoUctu,
+            //    string vydavatel = "53"
+            //    ) // Default value for vydavatel
+            //{
+            //    try
+            //    {
+            //        var procedureName = "upsert_karta"; // Name of the procedure
+
+            //        // DatabaseService to execute the procedure
+            //        DatabaseService dbService = new DatabaseService();
+            //        dbService.ExecuteProcedure(procedureName, command =>
+            //        {
+            //            // Parameters for the procedure
+            //            command.Parameters.Add("p_id_karty", OracleDbType.Int32).Value = DBNull.Value; // NULL for a new card
+            //            command.Parameters.Add("p_datum_vydani", OracleDbType.Date).Value = datumVystaveni;
+            //            command.Parameters.Add("p_datum_platnosti", OracleDbType.Date).Value = datumPlatnosti;
+            //            command.Parameters.Add("p_cvv_kod", OracleDbType.Char).Value = cvv; // Default CVV code
+            //            command.Parameters.Add("p_id_typu_karty", OracleDbType.Int32).Value = idTypuKarty;
+            //            command.Parameters.Add("p_bezny_ucet_id_ucet", OracleDbType.Int32).Value = idBeznehoUctu;
+            //            command.Parameters.Add("p_vydavatel", OracleDbType.Char).Value = vydavatel; // Pass the vydavatel (issuer) code
+            //        });
+
+            //        MessageBox.Show("Karta byla úspěšně přidána.", "Přidání karty", MessageBoxButton.OK, MessageBoxImage.Information);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show($"Nepodařilo se přidat kartu. Chyba: {ex.Message}", "Přidání karty", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    }
         }
+
+
 
         public void RemoveCard()
         {
@@ -44,6 +73,16 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         public void EditCard()
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<CardType> GetCardTypes()
+        {
+            string query = @"SELECT * FROM TYPY_KARET";
+            return _databaseService.ExecuteSelect(query, reader => new CardType
+            {
+                CardTypeId = reader.GetInt32(0),
+                Type = reader.GetString(1)
+            });
         }
     }
 }
