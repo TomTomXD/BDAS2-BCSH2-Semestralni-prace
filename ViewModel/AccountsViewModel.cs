@@ -38,8 +38,17 @@ namespace InformacniSystemBanky.ViewModel
             Accounts = new ObservableCollection<Account>();
             LoadAccountsFromDatabase();
             AddAccountCommand = new RelayCommand(AddAccountToDatabase);
-            //DeleteAccountCommand = new RelayCommand(DeleteAccountFromDatabase, CanDeleteAccount);
+            DeleteAccountCommand = new RelayCommand(DeleteAccountFromDatabase, CanDeleteAccount);
             EditAccountCommand = new RelayCommand(EditAccount);
+        }
+
+        private void DeleteAccountFromDatabase()
+        {
+            if (CanDeleteAccount())
+            {
+                _accountService.DeleteAccount(SelectedAccount.AccountNumber);
+                LoadAccountsFromDatabase();
+            }
         }
 
         private void EditAccount()

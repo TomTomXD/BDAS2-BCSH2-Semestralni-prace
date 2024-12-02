@@ -128,6 +128,7 @@ namespace InformacniSystemBanky.ViewModel
             AccountNumber = account.AccountNumber;
             Balance = (double)account.Balance;
             Limit = (double)account.PaymentLimit;
+            SelectedAccountType = account.AccountType;
 
         }
 

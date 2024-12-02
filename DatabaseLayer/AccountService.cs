@@ -1,9 +1,11 @@
 ﻿using InformacniSystemBanky.Model;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -37,9 +39,21 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         }
 
-        public void DeleteAccount()
+        public void DeleteAccount(string accountNumber)
         {
-
+            try
+            {
+                string query = @"DELETE FROM UCTY WHERE CISLO_UCTU = :accountNumber";
+                _databaseService.ExecuteNonQuery(query, command =>
+                {
+                    command.Parameters.Add(new OracleParameter("accountNumber", accountNumber));
+                });
+                MessageBox.Show("Účet odstraněn.", "Odstranění účtu", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Nepodařilo se odstranit účet.", "Odstranění účtu", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void UpdateAccount()

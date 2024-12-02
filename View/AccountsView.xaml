@@ -60,7 +60,7 @@
                         <DataGridTextColumn Header="Číslo Účtu" Binding="{Binding AccountNumber}" Width="*" />
                         <DataGridTextColumn Header="Zůstatek" Binding="{Binding Balance}" Width="*" />
                         <DataGridTextColumn Header="Limit pro Platby" Binding="{Binding PaymentLimit}" Width="*" />
-                        <DataGridTextColumn Header="Vlastník" Binding="{Binding Owner}" Width="*" />
+                        <DataGridTextColumn Header="Vlastník" Binding="{Binding PersonId}" Width="*" />
                         <DataGridTextColumn Header="Typ účtu" Binding="{Binding AccountType}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
