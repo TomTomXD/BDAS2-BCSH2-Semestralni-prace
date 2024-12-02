@@ -1,6 +1,8 @@
-﻿using System;
+﻿using FinancniInformacniSystemBanky.ViewModel;
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace FinancniInformacniSystemBanky.View
@@ -14,6 +16,7 @@ namespace FinancniInformacniSystemBanky.View
         {
             InitializeComponent();
             SetRandomBackgroundColor();
+            this.DataContext = new CardViewModel();
         }
 
         private void SetRandomBackgroundColor()
@@ -24,8 +27,13 @@ namespace FinancniInformacniSystemBanky.View
             byte b = (byte)RandomGenerator.Next(256);
             Color randomColor = Color.FromRgb(r, g, b);
 
-            // Nastavení barvy pozadí pro hlavní Border
             CardBorder.Background = new SolidColorBrush(randomColor);
+        }
+
+        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Změní barvu okraje na modrou při kliknutí
+            CardBorder.BorderBrush = Brushes.Blue;
         }
     }
 }

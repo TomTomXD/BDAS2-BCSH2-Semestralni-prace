@@ -18,7 +18,17 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<Card> GetCards()
         {
-            throw new NotImplementedException();
+            string query = @"SELECT * FROM KARTY";
+            return _databaseService.ExecuteSelect(query, reader => new Card
+            {
+                CardId = reader.GetInt32(0),
+                CardNumber = reader.GetString(1),
+                IssuedDate = reader.GetDateTime(2),
+                ExpirationDate = reader.GetDateTime(3),
+                CVV = reader.GetString(4),
+                CardType = reader.GetString(5),
+                AccountId = reader.GetInt32(6)
+            });
         }
 
         public void AddCard()
