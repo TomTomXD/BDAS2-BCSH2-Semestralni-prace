@@ -21,7 +21,7 @@ namespace InformacniSystemBanky.ViewModel
         }
 
         public ICommand ShowHomeCommand { get; }
-        public ICommand ShowSettingsCommand { get; }
+        public ICommand ShowLoansCommand { get; }
         public ICommand ShowProfileCommand { get; }
         public ICommand LogoClickedCommand { get; }
         public ICommand ShowAllAccountCommand { get; }
@@ -32,7 +32,7 @@ namespace InformacniSystemBanky.ViewModel
         public DashboardAdminViewModel()
         {
             ShowAllAccountCommand = new RelayCommand(ShowAccounts);
-            ShowSettingsCommand = new RelayCommand(ShowSettings);
+            ShowLoansCommand = new RelayCommand(ShowLoans);
             ShowProfileCommand = new RelayCommand(ShowProfile);
             LogoClickedCommand = new RelayCommand(ShowHome);
             LogOutCommand = new RelayCommand(LogOut);
@@ -49,7 +49,6 @@ namespace InformacniSystemBanky.ViewModel
         private void ShowAccounts()
         {
             CurrentViewModel = new AccountsView();
-            MessageBox.Show("Accounts clicked");
         }
 
         private void ShowHome()
@@ -57,10 +56,9 @@ namespace InformacniSystemBanky.ViewModel
             MessageBox.Show("Logo clicked");
         }
 
-        private void ShowSettings()
+        private void ShowLoans()
         {
-            CurrentViewModel = new HomeView();
-            MessageBox.Show("Settings");
+            CurrentViewModel = new LoansView();
         }
 
         private void ShowProfile()
