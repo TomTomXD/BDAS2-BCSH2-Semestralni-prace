@@ -18,10 +18,23 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             _databaseService = new DatabaseService();
         }   
 
-        public IEnumerable<Account> GetAccounts()
+        public IEnumerable<Account> GetAccounts(int? id = null)
         {
-            string query = @"
-            SELECT * FROM UCTY";
+            string query;
+            Action<OracleCommand> configureCommand = null;
+
+            if (id.HasValue)
+            {
+                query = "SELECT * FROM UCTY WHERE KLIENT_ID_OSOBA = :id";
+                configureCommand = command =>
+                {
+                    command.Parameters.Add(new OracleParameter("id", id.Value));
+                };
+            }
+            else
+            {
+                query = "SELECT * FROM UCTY";
+            }
 
             return _databaseService.ExecuteSelect(query, reader => new Account
             {
@@ -31,7 +44,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 PaymentLimit = reader.GetDecimal(3),
                 PersonId = reader.GetInt32(4),
                 AccountType = reader.GetString(5)
-            });
+            }, configureCommand);
         }
 
         public void AddAccount(

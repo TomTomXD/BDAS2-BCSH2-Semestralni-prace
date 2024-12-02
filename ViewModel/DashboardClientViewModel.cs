@@ -1,11 +1,12 @@
-﻿using InformacniSystemBanky.View;
+﻿using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
 namespace InformacniSystemBanky.ViewModel
 {
-    public class DashboardViewModel : INotifyPropertyChanged
+    public class DashboardClientViewModel : INotifyPropertyChanged
     {
         private object _currentViewModel;
 
@@ -26,7 +27,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowAccountsCommand { get; }
         public ICommand LogOutCommand { get; }
 
-        public DashboardViewModel()
+        public DashboardClientViewModel()
         {
             ShowHomeCommand = new RelayCommand(ShowHome);
             //ShowSettingsCommand = new RelayCommand(ShowSettings);
@@ -77,7 +78,10 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowAccounts()
         {
-            CurrentViewModel = new AccountsView();
+            CurrentViewModel = new AccountsView()
+            {
+                DataContext = new AccountsViewModel(Session.Instance.CurrentUserId)
+            };
             MessageBox.Show("Accounts clicked");
         }
 

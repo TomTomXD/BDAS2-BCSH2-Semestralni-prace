@@ -42,6 +42,16 @@ namespace InformacniSystemBanky.ViewModel
             EditAccountCommand = new RelayCommand(EditAccount);
         }
 
+        public AccountsViewModel(int personID)
+        {
+            _accountService = new AccountService();
+            Accounts = new ObservableCollection<Account>();
+            LoadAccountsFromDatabase(personID);
+            AddAccountCommand = new RelayCommand(AddAccountToDatabase);
+            DeleteAccountCommand = new RelayCommand(DeleteAccountFromDatabase, CanDeleteAccount);
+            //EditAccountCommand = new RelayCommand(EditAccount);
+        }
+
         private void DeleteAccountFromDatabase()
         {
             if (CanDeleteAccount())
@@ -66,9 +76,9 @@ namespace InformacniSystemBanky.ViewModel
         }
 
 
-        private void LoadAccountsFromDatabase()
+        private void LoadAccountsFromDatabase(int? id = null)
         {
-            var accountsFromDb = _accountService.GetAccounts();
+            var accountsFromDb = _accountService.GetAccounts(id);
 
             Accounts.Clear();
             foreach (var account in accountsFromDb)

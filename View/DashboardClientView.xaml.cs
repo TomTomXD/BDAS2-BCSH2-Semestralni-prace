@@ -9,7 +9,7 @@ namespace InformacniSystemBanky.View
         {
             InitializeComponent();
             // Set DataContext to DashboardViewModel
-            this.DataContext = new ViewModel.DashboardViewModel();
+            this.DataContext = new ViewModel.DashboardClientViewModel();
         }
 
         // Allow window dragging functionality
