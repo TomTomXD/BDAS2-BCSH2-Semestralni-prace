@@ -219,9 +219,11 @@
                     <Label Content="Zůstatek" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="22,0,45,10"/>
                     <TextBox x:Name="BalanceTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10" Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Typ účtu" Grid.Column="0" Grid.Row="1" Foreground="White" Margin="34,5,33,5"/>
-                    <ComboBox x:Name="AccountTypeComboBox" Grid.Column="1" Grid.Row="1" Margin="0,0,0,10" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding SelectedAccountType}"/>
+                    <ComboBox x:Name="AccountTypeComboBox" Grid.Column="1" Grid.Row="1" Margin="9,2,8,8" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding SelectedAccountType}"/>
                     <Label Content="Limit" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="22,0,45,10"/>
                     <TextBox x:Name="LimitTextBox" Grid.Column="3" Grid.Row="1" Margin="0,0,0,10" Text="{Binding Limit, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidation"/>
+                    <Label Content="Vlastník" Grid.Column="0" Grid.Row="3" Foreground="White" Margin="34,9,33,1"/>
+                    <TextBox x:Name="OwnerComboBox" Grid.Column="1" Grid.Row="3" Margin="9,7,8,3" Text="{Binding IdOwner, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidation"/>
 
                 </Grid>
 

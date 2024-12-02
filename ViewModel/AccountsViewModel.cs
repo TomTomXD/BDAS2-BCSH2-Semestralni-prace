@@ -80,10 +80,8 @@ namespace InformacniSystemBanky.ViewModel
         private void AddAccountToDatabase()
         {
             var addAccountView = new AddAccountView();
-            if (addAccountView.ShowDialog() == true) 
-            {
-                LoadAccountsFromDatabase(); 
-            }
+            addAccountView.ShowDialog();
+            LoadAccountsFromDatabase(); 
         }
 
         
