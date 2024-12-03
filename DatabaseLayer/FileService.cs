@@ -23,10 +23,11 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 FileId = reader.GetInt32(0),
                 FileName = reader.GetString(1),
                 UploadDate = DateOnly.FromDateTime(reader.GetDateTime(2)),
-                Note = reader.GetString(3),
+                Note = reader.IsDBNull(3) ? null : reader.GetString(3),
                 OwnerId = reader.GetInt32(4)
             });
         }
+
 
         public void SaveFileToDisk(int idSoubor)
         {
@@ -72,50 +73,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         }
 
 
-
-        public void UploadFile()
-        {
-            try
-            {
-                // Dialog pro výběr souboru
-                var openFileDialog = new Microsoft.Win32.OpenFileDialog
-                {
-                    Title = "Vyberte soubor k nahrání",
-                    Filter = "Obrázky a PDF soubory (*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.pdf)|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.pdf"
-                };
-
-                // Pokud uživatel vybere soubor
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    // Získání cesty k souboru
-                    string filePath = openFileDialog.FileName;
-
-                    // Převedení souboru na byte[]
-                    byte[] fileContent = System.IO.File.ReadAllBytes(filePath);
-
-                    // Informace o souboru
-                    string fileName = System.IO.Path.GetFileName(filePath);
-                    DateTime uploadDate = DateTime.Now;  // Nastavíme aktuální čas pro datum nahrání
-                    string note = "Zatím je poznámka prázdná"; 
-
-                    // Zobrazení zprávy o úspěchu
-                    MessageBox.Show($"Soubor '{fileName}' byl načten a je připraven k nahrání do databáze.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    // Zavolání uložené procedury pro nahrání souboru
-                    UploadFileToDatabase(null, fileName, uploadDate, fileContent, note, 1); // Příklad s ID_OSOBA = 1
-                }
-                else
-                {
-                    MessageBox.Show("Nahrávání souboru bylo zrušeno uživatelem.", "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Došlo k chybě při načítání souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void UploadFileToDatabase(int? fileId, string fileName, DateTime uploadDate, byte[] fileContent, string note, int ownerId)
+        public void UploadFile(int? fileId, string fileName, DateTime uploadDate, byte[] fileContent, string note, int ownerId)
         {
             try
             {

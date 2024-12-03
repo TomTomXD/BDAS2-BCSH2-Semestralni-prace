@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -51,7 +52,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddFileToDatabase()
         {
-            _fileService.UploadFile();
+            //_fileService.UploadFile();
+            var addFileView = new AddFileView();
+            addFileView.ShowDialog();
+            LoadFilesFromDatabase();
         }
 
         private void LoadFilesFromDatabase()
@@ -68,9 +72,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
         {
             if (SelectedFile != null)
             {
-                // kontrolní výpis pro ladění
-                //var id = SelectedFile.FileId;
-                //MessageBox.Show($"Downloading file with id: {id}");
                 _fileService.SaveFileToDisk(SelectedFile.FileId);
             }
         }

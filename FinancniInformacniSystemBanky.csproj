@@ -66,4 +66,10 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="View\AddFileView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
