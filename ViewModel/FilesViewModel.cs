@@ -26,7 +26,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         public ICommand AddFileCommand { get; }
         public ICommand DeleteFileCommand { get; }
-        public ICommand EditFileCommnad { get; }
+        public ICommand EditFileCommand { get; }
         public ICommand DownloadFileCommand { get; }
 
         public FilesViewModel()
@@ -37,9 +37,23 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             DownloadFileCommand = new RelayCommand(DownloadFileFromDatabase);
             AddFileCommand = new RelayCommand(AddFileToDatabase);
+            EditFileCommand = new RelayCommand(EditFile);
             DeleteFileCommand = new RelayCommand(DeleteFileFromDatabase, CanDeleteFile);
         }
 
+        private void EditFile()
+        {
+            if(SelectedFile != null)
+            {
+                var AddFileViewModel = new AddFileViewModel(SelectedFile);
+                var addFileView = new AddFileView()
+                {
+                    DataContext = AddFileViewModel
+                };
+                addFileView.ShowDialog();
+                LoadFilesFromDatabase();
+            }
+        }
 
         private void DeleteFileFromDatabase()
         {

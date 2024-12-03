@@ -1,13 +1,9 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
-using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -25,7 +21,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string _fileName;
         private int _ownerId;
         private bool _isDatePickerEnabled;
-
+        private int fileId;
 
         public bool IsDatePickerEnabled
         {
@@ -83,6 +79,40 @@ namespace FinancniInformacniSystemBanky.ViewModel
             ActionLabelText = "Nahrání nového souboru";
         }
 
+        public AddFileViewModel(File selectedFile)
+        {
+            _fileService = new FileService();
+            CancelAddingNewFileCommand = new RelayCommand(CloseAddingWindow);
+            AddNewFileCommand = new RelayCommand(UpdateFile);
+            AddFileCommand = new RelayCommand(AddFile);
+
+            IsDatePickerEnabled = true;
+
+            // nastavení hodnot z vybraného souboru
+            fileId = selectedFile.FileId;
+            OwnerId = selectedFile.OwnerId;
+            FilePath = selectedFile.FileName;
+            FileDescription = selectedFile.Note;
+            FileName = selectedFile.FileName;
+            DateOfUpload = selectedFile.UploadDate.ToDateTime(TimeOnly.MinValue).Date;
+            
+            ActionButtonText = "Upravit";
+            ActionLabelText = "Úprava uloženého souboru";
+        }
+
+        private void UpdateFile()
+        {
+            try
+            {
+                _fileService.UpdateFile(fileId, FileName, DateOfUpload, FileContent, FileDescription, OwnerId);
+                CloseAddingWindow();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Došlo k chybě při upravování souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void AddFile()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
@@ -104,7 +134,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             try
             {
                 _fileService.UploadFile(null, FileName, DateOfUpload, FileContent, FileDescription, OwnerId);
-                MessageBox.Show("Soubor byl úspěšně nahrán.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
                 CloseAddingWindow();
             }
             catch (Exception ex)

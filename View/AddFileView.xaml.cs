@@ -16,7 +16,6 @@ namespace InformacniSystemBanky.View
             this.DataContext = new AddFileViewModel();
         }
 
-        // Pomocná metoda, která reguluje povolené znaky v komponentě TextBox
         private void NumberValidation(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
