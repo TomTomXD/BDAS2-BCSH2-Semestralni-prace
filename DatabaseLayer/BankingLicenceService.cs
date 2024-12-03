@@ -1,4 +1,5 @@
 ﻿using InformacniSystemBanky.Model;
+using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -13,17 +14,25 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<BankingLicence> GetBankingLicences()
         {
-            string query = @"SELECT * FROM BANKERSKE_LICENCE";
-
-            return _databaseService.ExecuteSelect(query, reader => new BankingLicence
+            try
             {
-                BankingLicenseId = reader.GetInt32(0),
-                LicenceNumber = reader.GetInt32(1),
-                IssueDate = reader.GetDateTime(2),
-                ExpirationDate = reader.GetDateTime(3),
-                LicenceType = reader.GetInt32(4),
-                LicenceHolderId = reader.GetInt32(5)
-            });
+                string query = @"SELECT * FROM BANKERSKE_LICENCE";
+
+                return _databaseService.ExecuteSelect(query, reader => new BankingLicence
+                {
+                    BankingLicenseId = reader.GetInt32(0),
+                    LicenceNumber = reader.GetString(1),
+                     IssueDate = DateOnly.FromDateTime(reader.GetDateTime(2)),
+                     ExpirationDate = DateOnly.FromDateTime(reader.GetDateTime(3)),
+                    LicenceType = reader.GetInt32(4),
+                    LicenceHolderId = reader.GetInt32(5)
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return Enumerable.Empty<BankingLicence>();
+            }
         }
         public void AddBankingLicence()
         {

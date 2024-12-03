@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="InformacniSystemBanky.View.BankingLicencesView"
+﻿<UserControl x:Class="InformacniSystemBanky.View.FilesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Height="450" Width="825">
+    Height="450" Width="800">
 
     <UserControl.Resources>
         <!-- Style for DataGrid -->
@@ -48,17 +48,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
     </UserControl.Resources>
 
-    <Grid Background="Transparent" Margin="0,-86,0,0">
+    <Grid Background="Transparent">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="715">
             <!-- Border to create rounded corners -->
             <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
-                <DataGrid ItemsSource="{Binding Licences}" AutoGenerateColumns="False" Height="292" 
-                      SelectedItem="{Binding SelectedLicence}" Width="680">
+                <DataGrid ItemsSource="{Binding Files}" AutoGenerateColumns="False" Height="292" 
+                      SelectedItem="{Binding SelectedFile}" Width="680">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Č. licence" Binding="{Binding LicenceNumber}" Width="*">
+                        <DataGridTextColumn Header="Název souboru" Binding="{Binding FileName}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -66,7 +65,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Datum vydání" Binding="{Binding IssueDate}" Width="*">
+                        <DataGridTextColumn Header="Nahráno" Binding="{Binding UploadDate}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -74,7 +73,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Platnost do" Binding="{Binding ExpirationDate}" Width="*">
+                        <DataGridTextColumn Header="Poznámka" Binding="{Binding Note}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -82,15 +81,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Typ licence" Binding="{Binding LicenceType}" Width="*">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="Držizel" Binding="{Binding LicenceHolderId}" Width="*">
+                        <DataGridTextColumn Header="Vlastník" Binding="{Binding OwnerId}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -104,9 +95,10 @@
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Přidat Licenci" Command="{Binding AddLicenceCommand}" Width="150" Margin="5" />
-                <Button Content="Upravit Licenci" Command="{Binding EditLicenceCommand}" Width="150" Margin="5" />
-                <Button Content="Smazat Vybranou Licenci" Command="{Binding DeleteLicenceCommand}" IsEnabled="{Binding Path=SelectedLicence}" Width="150" Margin="5" />
+                <Button Content="Přidat Soubor" Command="{Binding AddFileCommand}" Width="150" Margin="5" />
+                <Button Content="Upravit Soubor" Command="{Binding EditFileCommand}" Width="150" Margin="5" />
+                <Button Content="Stáhnout Vybraný Soubor" Command="{Binding DownloadFileCommand}" IsEnabled="{Binding Path=SelectedFile}" Width="150" Margin="5" />
+                <Button Content="Smazat Vybraný Soubor" Command="{Binding DeleteFileCommand}" IsEnabled="{Binding Path=SelectedFile}" Width="150" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>
