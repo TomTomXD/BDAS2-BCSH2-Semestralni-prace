@@ -1,7 +1,9 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
 {
@@ -19,11 +21,28 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(SelectedLoan));
             }
         }
+
+        public ICommand AddLoanCommand { get; }
+        public ICommand EditLoanCommand { get; }
+        public ICommand DeleteLoanCommand { get; }
+
         public LoansViewModel()
         {
             _loanService = new LoanService();
             Loans = new ObservableCollection<Loan>();
             LoadLoansFromDatabase();
+
+            DeleteLoanCommand = new RelayCommand(DeleteLoanFromDatabase, CanDeleteLoan);
+        }
+
+
+        private void DeleteLoanFromDatabase()
+        {
+            if(CanDeleteLoan())
+            {
+                _loanService.DeleteLoan(SelectedLoan.LoanId);
+                LoadLoansFromDatabase();
+            }
         }
 
         private void LoadLoansFromDatabase()
@@ -36,7 +55,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 Loans.Add(loan);
             }
         }
-        
+        private bool CanDeleteLoan()
+        {
+           return SelectedLoan != null;
+        }
         
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

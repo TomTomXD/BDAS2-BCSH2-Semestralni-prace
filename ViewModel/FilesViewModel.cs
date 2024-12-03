@@ -35,6 +35,23 @@ namespace FinancniInformacniSystemBanky.ViewModel
             LoadFilesFromDatabase();
 
             DownloadFileCommand = new RelayCommand(DownloadFileFromDatabase);
+            AddFileCommand = new RelayCommand(AddFileToDatabase);
+            DeleteFileCommand = new RelayCommand(DeleteFileFromDatabase, CanDeleteFile);
+        }
+
+
+        private void DeleteFileFromDatabase()
+        {
+            if (CanDeleteFile())
+            {
+                _fileService.DeleteFile(SelectedFile.FileId);
+                LoadFilesFromDatabase();
+            }
+        }
+
+        private void AddFileToDatabase()
+        {
+            _fileService.UploadFile();
         }
 
         private void LoadFilesFromDatabase()
@@ -56,6 +73,11 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 //MessageBox.Show($"Downloading file with id: {id}");
                 _fileService.SaveFileToDisk(SelectedFile.FileId);
             }
+        }
+        private bool CanDeleteFile()
+        {
+            
+            return SelectedFile != null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

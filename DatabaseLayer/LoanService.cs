@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.Model;
+using Oracle.ManagedDataAccess.Client;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -34,9 +35,12 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             throw new NotImplementedException();
         }
 
-        public void RemoveLoan()
+        public void DeleteLoan(int loanId)
         {
-            throw new NotImplementedException();
+            _databaseService.ExecuteNonQuery("DELETE FROM UVERY WHERE ID_UVER = :id", command =>
+            {
+                command.Parameters.Add("id", OracleDbType.Int32).Value = loanId;
+            });
         }
 
         public void EditLoan()

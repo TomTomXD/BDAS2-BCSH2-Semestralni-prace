@@ -1,10 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
@@ -79,12 +74,56 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public void UploadFile()
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Dialog pro výběr souboru
+                var openFileDialog = new Microsoft.Win32.OpenFileDialog
+                {
+                    Title = "Vyberte soubor k nahrání",
+                    Filter = "Obrázky a PDF soubory (*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.pdf)|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.pdf"
+                };
+
+                // Pokud uživatel vybere soubor
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    // Získání cesty k souboru
+                    string filePath = openFileDialog.FileName;
+
+                    // Převedení souboru na byte[]
+                    byte[] fileContent = System.IO.File.ReadAllBytes(filePath);
+
+                    // Informace o souboru
+                    string fileName = System.IO.Path.GetFileName(filePath);
+
+                    // Zobrazení zprávy o úspěchu
+                    MessageBox.Show($"Soubor '{fileName}' byl načten a je připraven k nahrání do databáze.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Příklad, jak předat data do budoucí procedury (zatím není implementována)
+                }
+                else
+                {
+                    MessageBox.Show("Nahrávání souboru bylo zrušeno uživatelem.", "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Došlo k chybě při načítání souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        public void DeleteFile()
+        public void DeleteFile(int fileId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _databaseService.ExecuteNonQuery("DELETE FROM SOUBORY WHERE ID_SOUBOR = :idSoubor",
+                    command => command.Parameters.Add(new OracleParameter("idSoubor", fileId))
+                );
+                MessageBox.Show("Soubor byl úspěšně smazán.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Došlo k chybě při mazání souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private byte[] DownloadFile(int fileId)
