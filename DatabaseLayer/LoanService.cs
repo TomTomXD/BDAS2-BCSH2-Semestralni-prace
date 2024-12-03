@@ -1,9 +1,4 @@
 ﻿using FinancniInformacniSystemBanky.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -18,7 +13,20 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<Loan> GetLoans()
         {
-            throw new NotImplementedException();
+            string query = @"SELECT * FROM UVERY";
+
+            return _databaseService.ExecuteSelect(query, reader => new Loan
+            {
+                LoanId = reader.GetInt32(0),
+                Amount = reader.GetDecimal(1),
+                InterestRate = reader.GetDecimal(2),
+                DateOfApproval = reader.GetDateTime(3),
+                DateOfRepayment = reader.GetDateTime(4),
+                ClientId = reader.GetInt32(5),
+                CreditCounselorId = reader.GetInt32(6),
+                LoanType = reader.GetInt32(7),
+                LoanStatus = reader.GetInt32(8)
+            });
         }
 
         public void AddLoan()

@@ -1,10 +1,5 @@
 ﻿using InformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
@@ -23,7 +18,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             string query;
             Action<OracleCommand> configureCommand = null;
 
-            if (id.HasValue)
+            if (id !=null)
             {
                 query = "SELECT * FROM UCTY WHERE KLIENT_ID_OSOBA = :id";
                 configureCommand = command =>

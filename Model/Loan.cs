@@ -15,7 +15,7 @@ namespace FinancniInformacniSystemBanky.Model
         public DateTime DateOfRepayment { get; set; }
         public int ClientId { get; set; }
         public int CreditCounselorId { get; set; }
-        public string LoanType { get; set; }
-        public string LoanStatus { get; set; }
+        public int LoanType { get; set; }
+        public int LoanStatus { get; set; }
     }
 }
