@@ -9,6 +9,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
     {
         public ObservableCollection<Loan> Loans { get; set; }
         private readonly LoanService _loanService;
+        private Loan _selectedLoan;
+        public Loan SelectedLoan
+        {
+            get => _selectedLoan;
+            set
+            {
+                _selectedLoan = value;
+                OnPropertyChanged(nameof(SelectedLoan));
+            }
+        }
         public LoansViewModel()
         {
             _loanService = new LoanService();

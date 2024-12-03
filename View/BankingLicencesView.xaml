@@ -54,26 +54,23 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="715">
             <!-- Border to create rounded corners -->
             <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
-                <DataGrid ItemsSource="{Binding Loans}" AutoGenerateColumns="False" Height="292" 
-                      SelectedItem="{Binding SelectedLoan}" Width="680">
+                <DataGrid ItemsSource="{Binding Licences}" AutoGenerateColumns="False" Height="292" 
+                      SelectedItem="{Binding SelectedLicence}" Width="680">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Částka" Binding="{Binding Value}" Width="*" />
-                        <DataGridTextColumn Header="Sazba" Binding="{Binding InterestRate}" Width="*" />
-                        <DataGridTextColumn Header="Datum schválení" Binding="{Binding DateOfApproval}" Width="*" />
-                        <DataGridTextColumn Header="Datum splacení" Binding="{Binding DateOfRepayment}" Width="*" />
-                        <DataGridTextColumn Header="Klient" Binding="{Binding Client}" Width="*" />
-                        <DataGridTextColumn Header="Zaměstnanec" Binding="{Binding CreditCounselor}" Width="*" />
-                        <DataGridTextColumn Header="Typ úvěru" Binding="{Binding LoanType}" Width="*" />
-                        <DataGridTextColumn Header="Stav úvěru" Binding="{Binding LoanStatus}" Width="*" />
+                        <DataGridTextColumn Header="Č. licence" Binding="{Binding LicenceNumber}" Width="*" />
+                        <DataGridTextColumn Header="Datum vydání" Binding="{Binding IssueDate}" Width="*" />
+                        <DataGridTextColumn Header="Platnost do" Binding="{Binding ExpirationDate}" Width="*" />
+                        <DataGridTextColumn Header="Typ licence" Binding="{Binding LicenceType}" Width="*" />
+                        <DataGridTextColumn Header="Držizel" Binding="{Binding LicenceHolder}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Přidat Úvěr" Command="{Binding AddLoanCommand}" Width="150" Margin="5" />
-                <Button Content="Upravit Úvěr" Command="{Binding EditLoanCommand}" Width="150" Margin="5" />
-                <Button Content="Smazat Vybraný Účet" Command="{Binding DeleteLoanCommand}" IsEnabled="{Binding Path=SelectedLoan}" Width="150" Margin="5" />
+                <Button Content="Přidat Licenci" Command="{Binding AddLicenceCommand}" Width="150" Margin="5" />
+                <Button Content="Upravit Licenci" Command="{Binding EditLicenceCommand}" Width="150" Margin="5" />
+                <Button Content="Smazat Vybranou Licenci" Command="{Binding DeleteLicenceCommand}" IsEnabled="{Binding Path=SelectedLicence}" Width="150" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -10,8 +10,10 @@ namespace InformacniSystemBanky.Model
     public class BankingLicence
     {
         public int BankingLicenseId { get; set; }
-        public int LicenseNumber { get; set; }
-        public DateFormat IssueDate { get; set; }
-        public DateFormat ExpirationDate { get; set; }
+        public int LicenceNumber { get; set; }
+        public DateTime IssueDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public int LicenceType { get; set; }
+        public int LicenceHolderId { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace InformacniSystemBanky.ViewModel
 
         public ICommand ShowHomeCommand { get; }
         public ICommand ShowLoansCommand { get; }
-        public ICommand ShowProfileCommand { get; }
+        public ICommand ShowBankingLicencesCommand { get; }
         public ICommand LogoClickedCommand { get; }
         public ICommand ShowAllAccountCommand { get; }
         public ICommand LogOutCommand { get; }
@@ -33,7 +33,7 @@ namespace InformacniSystemBanky.ViewModel
         {
             ShowAllAccountCommand = new RelayCommand(ShowAccounts);
             ShowLoansCommand = new RelayCommand(ShowLoans);
-            ShowProfileCommand = new RelayCommand(ShowProfile);
+            ShowBankingLicencesCommand = new RelayCommand(ShowLicences);
             LogoClickedCommand = new RelayCommand(ShowHome);
             LogOutCommand = new RelayCommand(LogOut);
             ShowAllCardsCommand = new RelayCommand(ShowCards);
@@ -61,10 +61,9 @@ namespace InformacniSystemBanky.ViewModel
             CurrentViewModel = new LoansView();
         }
 
-        private void ShowProfile()
+        private void ShowLicences()
         {
-            //CurrentViewModel = new ProfileViewModel();
-            MessageBox.Show("Profile");
+            CurrentViewModel = new BankingLicencesView();
         }
 
         private void LogOut()
