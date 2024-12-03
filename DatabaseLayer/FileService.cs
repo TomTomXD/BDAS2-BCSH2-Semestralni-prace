@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
+using System.Data;
 using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
@@ -94,11 +95,14 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
                     // Informace o souboru
                     string fileName = System.IO.Path.GetFileName(filePath);
+                    DateTime uploadDate = DateTime.Now;  // Nastavíme aktuální čas pro datum nahrání
+                    string note = "Zatím je poznámka prázdná"; 
 
                     // Zobrazení zprávy o úspěchu
                     MessageBox.Show($"Soubor '{fileName}' byl načten a je připraven k nahrání do databáze.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    // Příklad, jak předat data do budoucí procedury (zatím není implementována)
+                    // Zavolání uložené procedury pro nahrání souboru
+                    UploadFileToDatabase(null, fileName, uploadDate, fileContent, note, 1); // Příklad s ID_OSOBA = 1
                 }
                 else
                 {
@@ -110,6 +114,30 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 MessageBox.Show($"Došlo k chybě při načítání souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void UploadFileToDatabase(int? fileId, string fileName, DateTime uploadDate, byte[] fileContent, string note, int ownerId)
+        {
+            try
+            {
+                _databaseService.ExecuteProcedure("upsert_soubor", command =>
+                {
+                    command.Parameters.Add("p_id_soubor", OracleDbType.Int32).Value = fileId.HasValue ? (object)fileId.Value : DBNull.Value;
+                    command.Parameters.Add("p_nazev_souboru", OracleDbType.Varchar2).Value = fileName;
+                    command.Parameters.Add("p_datum_nahrani", OracleDbType.Date).Value = uploadDate;
+                    command.Parameters.Add("p_soubor", OracleDbType.Blob).Value = fileContent;
+                    command.Parameters.Add("p_poznamka", OracleDbType.Varchar2).Value = note;
+                    command.Parameters.Add("p_id_osoba", OracleDbType.Int32).Value = ownerId;
+                });
+
+                MessageBox.Show("Soubor byl úspěšně nahrán do databáze.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Došlo k chybě při nahrávání souboru do databáze: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
 
         public void DeleteFile(int fileId)
         {

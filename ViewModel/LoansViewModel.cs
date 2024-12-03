@@ -38,7 +38,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void DeleteLoanFromDatabase()
         {
-            if(CanDeleteLoan())
+            if (CanDeleteLoan())
             {
                 _loanService.DeleteLoan(SelectedLoan.LoanId);
                 LoadLoansFromDatabase();
@@ -57,9 +57,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
         }
         private bool CanDeleteLoan()
         {
-           return SelectedLoan != null;
+            return SelectedLoan != null;
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
