@@ -42,7 +42,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         public void RemoveBankingLicence()
         {
             throw new NotImplementedException();
-        }
+        } 
 
         public void EditBankingLicence()
         {

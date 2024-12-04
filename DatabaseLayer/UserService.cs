@@ -161,7 +161,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
               string mesto,
               int psc,
               int idRole,
-              char typOsoby, 
+              string typOsoby,
               string oddeleni,
               string pozice,
               string password)
@@ -229,14 +229,12 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
                 if (rowsAffected > 0)
                 {
-                    MessageBox.Show($"Osoba s rodným číslem {nationalIdNumber} byla úspěšně smazána. Počet smazaných řádků: {rowsAffected}",
+                    MessageBox.Show($"Osoba s rodným číslem byla úspěšně smazána. Počet smazaných řádků: {rowsAffected}",
                                     "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
                     return true;
                 }
                 else
                 {
-                    MessageBox.Show($"Osoba s rodným číslem {nationalIdNumber} nebyla nalezena.",
-                                    "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
             }

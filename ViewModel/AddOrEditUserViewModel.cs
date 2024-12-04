@@ -3,11 +3,9 @@ using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.Model;
 using InformacniSystemBanky.ViewModel;
-using Oracle.ManagedDataAccess.Client;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
-using System.Data;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,31 +13,40 @@ namespace FinancniInformacniSystemBanky.ViewModel
 {
     public class AddOrEditUserViewModel : INotifyPropertyChanged
     {
+        // Hodnoty řešeny napevno slovníkem, jelikož nemůže nastat jiná situace
+        // v databázi je Osoba/Uživatel implementován pomocí super typu Osova a subtypů Klient a Zaměstnanec (samostatné tabulky)
+        // tudíž nemůže nastat jiná varianta
+        private readonly Dictionary<string, string> personTypeMapping = new Dictionary<string, string>
+            {
+                { "Klient", "K" },
+                { "Zaměstnanec", "Z" }
+            };
+
         public ObservableCollection<string> Roles { get; set; }
         public ICommand AddNewPersonCommand { get; }
-        public ICommand CancelAddingOrUpdatingPersonCommand { get; }
+        public ICommand CancelAddingNewPersonCommand { get; }
         public ICommand EditPersonCommand { get; }
         public event Action PersonAdded;
-        public List<string> PersonTypes { get; } = new List<string> { "K", "Z" };
+        public List<string> PersonTypes { get; } = new List<string> { "Klient", "Zaměstnanec" };
 
-        private string department;
-        private string position;
+        private string _department;
+        private string _position;
         private string selectedPersonType;
         private string actionLabelText;
         private string actionButtonText;
-        private string name;
-        private string surname;
-        private DateTime doB;
-        private string nationalIdNumber;
-        private string phoneNumber;
-        private string email;
-        private string selectedRole;
-        private string street;
-        private int houseNumber;
-        private string city;
-        private int postalCode;
-        private string password;
-        private int _id;
+        private string _name;
+        private string _surname;
+        private DateTime _doB;
+        private string _nationalIdNumber;
+        private string _phoneNumber;
+        private string _email;
+        private string _selectedRole;
+        private string _street;
+        private int _houseNumber;
+        private string _city;
+        private int _postalCode;
+        private string _password;
+        private int id;
 
         private Visibility departmentVisibility;
         private Visibility positionVisibility;
@@ -50,19 +57,19 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         public string Department
         {
-            get { return department; }
+            get { return _department; }
             set
             {
-                department = value;
+                _department = value;
                 OnPropertyChanged(nameof(Department));
             }
         }
         public string Position
         {
-            get { return position; }
+            get { return _position; }
             set
             {
-                position = value;
+                _position = value;
                 OnPropertyChanged(nameof(Position));
             }
         }
@@ -78,67 +85,67 @@ namespace FinancniInformacniSystemBanky.ViewModel
         }
         public string Name
         {
-            get => name;
-            set { name = value; OnPropertyChanged(nameof(Name)); }
+            get => _name;
+            set { _name = value; OnPropertyChanged(nameof(Name)); }
         }
         public string Surname
         {
-            get => surname;
-            set { surname = value; OnPropertyChanged(nameof(Surname)); }
+            get => _surname;
+            set { _surname = value; OnPropertyChanged(nameof(Surname)); }
         }
         public DateTime DoB
         {
-            get => doB;
-            set { doB = value; OnPropertyChanged(nameof(DoB)); }
+            get => _doB;
+            set { _doB = value; OnPropertyChanged(nameof(DoB)); }
         }
         public string NationalIdNumber
         {
-            get => nationalIdNumber;
-            set { nationalIdNumber = value; OnPropertyChanged(nameof(NationalIdNumber)); }
+            get => _nationalIdNumber;
+            set { _nationalIdNumber = value; OnPropertyChanged(nameof(NationalIdNumber)); }
         }
         public string PhoneNumber
         {
-            get => phoneNumber;
-            set { phoneNumber = value; OnPropertyChanged(nameof(PhoneNumber)); }
+            get => _phoneNumber;
+            set { _phoneNumber = value; OnPropertyChanged(nameof(PhoneNumber)); }
         }
         public string Email
         {
-            get => email;
-            set { email = value; OnPropertyChanged(nameof(Email)); }
+            get => _email;
+            set { _email = value; OnPropertyChanged(nameof(Email)); }
         }
         public string SelectedRole
         {
-            get => selectedRole;
+            get => _selectedRole;
             set
             {
-                selectedRole = value;
+                _selectedRole = value;
                 OnPropertyChanged(nameof(SelectedRole));
             }
         }
         public string Street
         {
-            get => street;
-            set { street = value; OnPropertyChanged(nameof(Street)); }
+            get => _street;
+            set { _street = value; OnPropertyChanged(nameof(Street)); }
         }
         public int HouseNumber
         {
-            get => houseNumber;
-            set { houseNumber = value; OnPropertyChanged(nameof(HouseNumber)); }
+            get => _houseNumber;
+            set { _houseNumber = value; OnPropertyChanged(nameof(HouseNumber)); }
         }
         public string City
         {
-            get => city;
-            set { city = value; OnPropertyChanged(nameof(City)); }
+            get => _city;
+            set { _city = value; OnPropertyChanged(nameof(City)); }
         }
         public int PostalCode
         {
-            get => postalCode;
-            set { postalCode = value; OnPropertyChanged(nameof(PostalCode)); }
+            get => _postalCode;
+            set { _postalCode = value; OnPropertyChanged(nameof(PostalCode)); }
         }
         public string Password
         {
-            get => password;
-            set { password = value; OnPropertyChanged(nameof(Password)); }
+            get => _password;
+            set { _password = value; OnPropertyChanged(nameof(Password)); }
         }
         public string SelectedPersonType
         {
@@ -178,10 +185,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             Roles = new ObservableCollection<string>(_rolesService.GetRoles());
             AddNewPersonCommand = new RelayCommand(AddNewPerson);
-            CancelAddingOrUpdatingPersonCommand = new RelayCommand(CloseAddingWindow);
+            CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
 
             // Nastavení defaultních hodnot pro dnešní datum v datepickeru
-            DoB = DateTime.Now;
+            //DoB = DateOnly.FromDateTime(DateTime.Now);
 
             actionLabelText = "Přidat osobu";
             actionButtonText = "Přidat";
@@ -191,84 +198,129 @@ namespace FinancniInformacniSystemBanky.ViewModel
         }
 
         // Konstruktor pro editaci osoby
-        public AddOrEditUserViewModel(int id, PersonDetails person, Address adress, char personType, EmployeeDetails? employeeDetails = null) : this()
+        public AddOrEditUserViewModel(PersonDetails personDetails, EmployeeDetails? employee = null)
         {
-            _id = id;
-            Name = person.Name;
-            Surname = person.Surname;
-            DoB = person.DoB;
-            NationalIdNumber = person.NationalIdNumber;
-            PhoneNumber = person.PhoneNumber;
-            Email = person.Email;
-            SelectedRole = person.Role;
+            _personDetailsService = new PersonDetailsService();
+            _rolesService = new RolesService();
+            _userService = new UserService();
+            
+            id = _personDetailsService.GetPersonId(personDetails.NationalIdNumber);
+            Name = personDetails.Name;
+            Surname = personDetails.Surname;
+            DoB = personDetails.DoB;
 
-            HouseNumber = Convert.ToInt32(adress.HouseNumber);
-            Street = adress.Street;
-            City = adress.City;
-            PostalCode = Convert.ToInt32(adress.PostalCode);
+            NationalIdNumber = personDetails.NationalIdNumber;
+            PhoneNumber = personDetails.PhoneNumber;
+            Email = personDetails.Email;
+            SelectedRole = personDetails.Role;
+
+            var address = _personDetailsService.GetAddress(personDetails.NationalIdNumber);
+            HouseNumber = address.HouseNumber;
+            Street = address.Street;
+            City = address.City;
+            PostalCode = address.PostalCode;
+
+            var personType = _personDetailsService.GetTypeOfPerson(personDetails.NationalIdNumber);
+            SelectedPersonType = personType == 'K' ? "Klient" : "Zaměstnanec";
 
             actionLabelText = "Upravit osobu";
             actionButtonText = "Upravit";
-
-            Roles = new ObservableCollection<string>(_rolesService.GetRoles());
-            EditPersonCommand = new RelayCommand(EditPerson);
-            CancelAddingOrUpdatingPersonCommand = new RelayCommand(CloseAddingWindow);
-
-            SelectedPersonType = personType.ToString();
-
-            if (employeeDetails != null)
-            {
-                Department = employeeDetails.Department;
-                Position = employeeDetails.Position;
-            }
-            else
-            {
             DepartmentVisibility = Visibility.Hidden;
             PositionVisibility = Visibility.Hidden;
+
+            if (employee != null)
+            {
+                Department = employee.Department;
+                Position = employee.Position;
+                actionLabelText = "Upravit osobu";
+                actionButtonText = "Upravit";
+                DepartmentVisibility = Visibility.Visible;
+                PositionVisibility = Visibility.Visible;
             }
+            
+
+            Roles = new ObservableCollection<string>(_rolesService.GetRoles());
+            AddNewPersonCommand = new RelayCommand(EditPerson);
+            CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
+
+        }
+
+        private string ConvertPersonTypeToDbFormat(string personType)
+        {
+            return personTypeMapping.TryGetValue(personType, out var dbFormat) ? dbFormat : throw new ArgumentException("Neplatný typ osoby");
         }
 
         private void EditPerson()
         {
-            // Předpokládejme, že id_role a typ_osoby jsou dostupné ve vaší třídě
-            int idRole = _rolesService.GetRoleId(SelectedRole);
-            char typOsoby = Convert.ToChar(SelectedPersonType);
+            // Kontrola, zda jsou všechny údaje ve správném formátu
+            if (!ValidateInputs())
+            {
+                return;
+            }
 
-            _userService.EditUserDetails(_id,
-                Name, 
-                Surname, 
-                DoB, 
-                NationalIdNumber, 
-                PhoneNumber, 
-                Email, 
-                Street, 
-                HouseNumber.ToString(), 
-                City, 
-                PostalCode, 
-                idRole, 
-                typOsoby, 
-                Department, 
-                Position, 
-                Password);
+            try
+            {
+                // Převod hodnoty z comboboxu na hodnotu pro databázi
+                string personTypeForDb = ConvertPersonTypeToDbFormat(SelectedPersonType);
+                _userService.EditUserDetails(id,
+                    Name,
+                    Surname,
+                    DoB,
+                    NationalIdNumber,
+                    PhoneNumber,
+                    Email,
+                    Street,
+                    HouseNumber.ToString(),
+                    City,
+                    PostalCode,
+                    _rolesService.GetRoleId(SelectedRole),
+                    personTypeForDb,
+                    Department,
+                    Position,
+                    Password);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Došlo k chybě při úpravě: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddNewPerson()
         {
             try
             {
+                // Kontrola, zda jsou všechny povinné údaje vyplněny
+                if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Surname) || string.IsNullOrWhiteSpace(NationalIdNumber) ||
+                    string.IsNullOrWhiteSpace(PhoneNumber) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(SelectedPersonType) ||
+                    string.IsNullOrWhiteSpace(SelectedRole) || string.IsNullOrWhiteSpace(Street) || HouseNumber == 0 || string.IsNullOrWhiteSpace(City) ||
+                    PostalCode == 0 || string.IsNullOrWhiteSpace(Password))
+                {
+                    MessageBox.Show("Prosím, vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Kontrola, zda jsou všechny údaje ve správném formátu
+                if (!ValidateInputs())
+                {
+                    return;
+                }
+
                 var salt = PasswordHasher.GenerateSalt();
                 var hashedPassword = PasswordHasher.HashPassword(Password, salt);
                 var saltBase64 = Convert.ToBase64String(salt);
                 var houseNumber = Convert.ToString(HouseNumber);
 
+                // Převod hodnoty z comboboxu na hodnotu pro databázi
+                string personTypeForDb = ConvertPersonTypeToDbFormat(SelectedPersonType);
+
                 _userService.RegisterNewUser(
-                    Name, 
+                    Name,
                     Surname,
                     DoB,
-                    NationalIdNumber, 
-                    PhoneNumber, 
+                    NationalIdNumber,
+                    PhoneNumber,
                     Email,
-                    SelectedPersonType,
+                    personTypeForDb,
                     _rolesService.GetRoleId(SelectedRole),
                     Street,
                     houseNumber,
@@ -278,7 +330,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     saltBase64
                 );
                 MessageBox.Show("Osoba byla úspěšně přidána.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
-
             }
             catch (Exception ex)
             {
@@ -298,7 +349,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void UpdateVisibility()
         {
-            if (SelectedPersonType == "Z")
+            if (SelectedPersonType == "Zaměstnanec")
             {
                 DepartmentVisibility = Visibility.Visible;
                 PositionVisibility = Visibility.Visible;
@@ -308,6 +359,54 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 DepartmentVisibility = Visibility.Hidden;
                 PositionVisibility = Visibility.Hidden;
             }
+        }
+
+
+        private bool ValidateInputs()
+        {
+            // Validace rodného čísla (11 číslic)
+            if (!Regex.IsMatch(NationalIdNumber, @"^\d{11}$"))
+            {
+                MessageBox.Show("Rodné číslo musí mít 11 číslic.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Validace telefonního čísla (9 číslic)
+            if (!Regex.IsMatch(PhoneNumber, @"^\d{9}$"))
+            {
+                MessageBox.Show("Telefonní číslo musí mít 9 číslic.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Validace jména (začíná velkým písmenem)
+            if (!Regex.IsMatch(Name, @"^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][a-záčďéěíňóřšťúůýž]*$"))
+            {
+                MessageBox.Show("Jméno musí začínat velkým písmenem.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Validace příjmení (začíná velkým písmenem)
+            if (!Regex.IsMatch(Surname, @"^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][a-záčďéěíňóřšťúůýž]*$"))
+            {
+                MessageBox.Show("Příjmení musí začínat velkým písmenem.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Validace PSČ (5 číslic)
+            if (!Regex.IsMatch(PostalCode.ToString(), @"^\d{5}$"))
+            {
+                MessageBox.Show("PSČ musí mít 5 číslic.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Validace emailu (obsahuje @ a minimálně jednu tečku)
+            if (!Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                MessageBox.Show("Email musí obsahovat @ a minimálně jednu tečku.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

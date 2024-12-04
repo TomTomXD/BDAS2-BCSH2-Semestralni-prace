@@ -2,10 +2,8 @@
 using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
-using Oracle.ManagedDataAccess.Client;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -43,7 +41,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ICommand ChangePersonalDataCommand { get; }
         public ICommand DeletePersonCommand { get; }
 
-        // Přidejte instanci PersonDetailsService
         private readonly PersonDetailsService _personDetailsService;
 
         public UsersViewModel()
@@ -58,8 +55,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
             LoadPeopleFromDatabase();
 
             AddPersonCommand = new RelayCommand(AddPerson);
-            ChangePersonalDataCommand = new RelayCommand(ChangePersonalData);
-            DeletePersonCommand = new RelayCommand(DeletePerson, CanDeletePerson);
+            ChangePersonalDataCommand = new RelayCommand(EditPerson);
+            DeletePersonCommand = new RelayCommand(DeletePerson);
         }
 
 
@@ -104,32 +101,29 @@ namespace FinancniInformacniSystemBanky.ViewModel
             LoadPeopleFromDatabase();
         }
 
-        private void ChangePersonalData()
+        private void EditPerson()
         {
-            if (SelectedPerson != null)
+            if (IsPersonSelected())
             {
                 var personDetailsService = new PersonDetailsService();
-                var personId = personDetailsService.GetPersonId(SelectedPerson.NationalIdNumber);
-                var address = personDetailsService.GetAddress(SelectedPerson.NationalIdNumber);
-                var typeOfPerson = personDetailsService.GetTypeOfPerson(SelectedPerson.NationalIdNumber);
-                var employeeDetails = new EmployeeDetails();
-                if (typeOfPerson == 'Z')
+                AddOrEditUserViewModel addOrEditUserViewModel;
+               
+                if (personDetailsService.GetTypeOfPerson(SelectedPerson.NationalIdNumber) == 'Z')
                 {
-                    employeeDetails = personDetailsService.GetEmployeeDetails(SelectedPerson.NationalIdNumber);
+                    addOrEditUserViewModel = new AddOrEditUserViewModel(SelectedPerson, personDetailsService.GetEmployeeDetails(SelectedPerson.NationalIdNumber));
                 }
-
-                var addUserViewModel = new AddOrEditUserViewModel(personId,SelectedPerson, address, typeOfPerson, employeeDetails);
+                else
+                {
+                    addOrEditUserViewModel = new AddOrEditUserViewModel(SelectedPerson);
+                }
+               
                 var addPersonView = new AddPersonView
                 {
-                    DataContext = addUserViewModel
+                    DataContext = addOrEditUserViewModel
                 };
                 addPersonView.ShowDialog();
             }
-        }
-
-        private bool CanEditPerson()
-        {
-            return SelectedPerson != null;
+            LoadPeopleFromDatabase();
         }
 
         private void DeletePerson()
@@ -156,9 +150,14 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-        private bool CanDeletePerson()
+        private bool IsPersonSelected()
         {
-            return SelectedPerson != null;
+            if (SelectedPerson == null)
+            {
+                MessageBox.Show("Není vybrána žádná osoba.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

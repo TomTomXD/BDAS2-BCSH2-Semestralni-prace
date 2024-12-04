@@ -12,7 +12,7 @@
         MouseDown="Window_MouseDown"
         ResizeMode="NoResize"
         FontFamily="Open Sans"
-        Title="DashboardAdminView" Height="750" Width="1100">
+        Title="DashboardAdminView" Height="750" Width="1350">
 
     <Window.Resources>
         <!--Styl pro Pokračovací button -->
@@ -148,6 +148,6 @@
         </Button>
 
         <!-- Right Content Area (dynamic) -->
-        <ContentControl Content="{Binding CurrentViewModel}" Grid.Column="1" Margin="0,75,0,0"/>
+        <ContentControl Content="{Binding CurrentViewModel}" Margin="282,75,30,30" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>
