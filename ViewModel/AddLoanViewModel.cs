@@ -195,6 +195,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
             LoanTypes = new ObservableCollection<LoanType>(_loanService.GetLoanTypes());
             LoanStatuses = new ObservableCollection<LoanStatus>(_loanService.GetLoanStatus());
 
+            DateOfApproval = DateTime.Now;
+            DateOfRepayment = DateTime.Now;
+
             ActionLabelText = "Přidat Úvěr";
             ActionButtonText = "Přidat";
         }
