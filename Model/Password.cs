@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FinancniInformacniSystemBanky.Model
+﻿namespace FinancniInformacniSystemBanky.Model
 {
     public class Password
     {
-        public byte[] Salt { get; set; }
+        public int PasswordId { get; set; }
+        public string Salt { get; set; }
         public string HashedPassword { get; set; }
+
+        public int UserId { get; set; }
     }
 }

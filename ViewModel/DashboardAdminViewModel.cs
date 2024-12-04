@@ -29,6 +29,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowAllCardsCommand { get; }
         public ICommand ShowAllPeople { get; }
         public ICommand ShowFilesCommand { get; }
+        public ICommand ShowPasswordsCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -40,7 +41,13 @@ namespace InformacniSystemBanky.ViewModel
             ShowAllCardsCommand = new RelayCommand(ShowCards);
             ShowAllPeople = new RelayCommand(ShowPeople);
             ShowFilesCommand = new RelayCommand(ShowFiles);
+            ShowPasswordsCommand = new RelayCommand(ShowPasswords);
 
+        }
+
+        private void ShowPasswords()
+        {
+            CurrentViewModel = new PasswordsView();
         }
 
         private void ShowFiles()
@@ -60,7 +67,7 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowHome()
         {
-            MessageBox.Show("Logo clicked");
+            CurrentViewModel = null;
         }
 
         private void ShowLoans()

@@ -81,25 +81,25 @@
         <!-- Menu Buttons -->
 
 
-        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10,123,10,0" Height="617">
+        <UniformGrid Columns="2" Margin="10,123,10,0" Height="617">
             <!--Uživatelé button-->
-            <Button Command="{Binding ShowAllPeople}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
+            <Button Command="{Binding ShowAllPeople}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-users-64.png" Stretch="Fill" Height="40" Width="40" />
+                    <Image Source="pack://application:,,,/Images/icons8-users-64.png" Stretch="Fill" Height="50" Width="50" />
                     <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Uživatelé"/>
                 </StackPanel>
             </Button>
 
             <!--Účty button-->
-            <Button Command="{Binding ShowAllAccountCommand}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
+            <Button Command="{Binding ShowAllAccountCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-bank-account-48.png" Stretch="Fill" Height="40" Width="40" />
+                    <Image Source="pack://application:,,,/Images/icons8-bank-account-48.png" Stretch="Fill" Height="50" Width="50" />
                     <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Všechny účty"/>
                 </StackPanel>
             </Button>
 
             <!--Karty button-->
-            <Button Command="{Binding ShowAllCardsCommand}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
+            <Button Command="{Binding ShowAllCardsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-credit-card-80.png" Stretch="Fill" Height="50" Width="50" />
                     <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Všechny karty"/>
@@ -107,29 +107,81 @@
             </Button>
 
             <!--Úvěry button-->
-            <Button Command="{Binding ShowLoansCommand}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
+            <Button Command="{Binding ShowLoansCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-loan-64.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Úvěry"/>
+                    <Image Source="pack://application:,,,/Images/icons8-loan-64.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Úvěry"/>
                 </StackPanel>
             </Button>
 
-            <!--Změna osobních údajů button-->
-            <Button Command="{Binding ShowBankingLicencesCommand}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-id-50 1.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,5,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Bankovní licence" Height="28"/>
-                </StackPanel>
-            </Button>
 
             <!--Vaše soubory button-->
-            <Button Command="{Binding ShowFilesCommand}" Height="80" Width="200" Background="Transparent" BorderThickness="0" Margin="0,10,0,10">
+            <Button Command="{Binding ShowFilesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-file-100.png" Stretch="Fill" Height="50" Width="50" />
                     <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Soubory"/>
                 </StackPanel>
             </Button>
-        </StackPanel>
+            <!--Změna osobních údajů button-->
+            <Button Command="{Binding ShowBankingLicencesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-id-50 1.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,8,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Bankovní licence" Height="28"/>
+                </StackPanel>
+            </Button>
+
+
+            <!--Změna tabulka hesel button-->
+            <Button Command="{Binding ShowPasswordsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-password-book-48.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Hesla" Height="28"/>
+                </StackPanel>
+            </Button>
+            
+            <!--Číselníky-->
+            <Button Command="{Binding ShowLookUpTablesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-save-to-grid-50.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Číselníky" Height="28"/>
+                </StackPanel>
+            </Button>
+
+            <!--Trvalé příkazy-->
+            <Button Command="{Binding ShowStandingOrdersCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-standing-order-78.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Trvalé příkazy" Height="28"/>
+                </StackPanel>
+            </Button>
+
+            <!--Adresy-->
+            <Button Command="{Binding ShowAddressesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-address-48.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Adresy" Height="28"/>
+                </StackPanel>
+            </Button>
+            
+            <!--Logy-->
+            <Button Command="{Binding ShowLogsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-search-history-66.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Logy" Height="28"/>
+                </StackPanel>
+            </Button>
+
+            <!--Datový slovník-->
+            <Button Command="{Binding ShowDataDictionaryCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="2,12,-2,11">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-database-administrator-80.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Datový slovník" Height="28"/>
+                </StackPanel>
+            </Button>
+
+
+
+        </UniformGrid>
 
         <!--Logo button-->
         <Button Command="{Binding LogoClickedCommand}" Margin="17,32,0,632" Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
@@ -149,5 +201,32 @@
 
         <!-- Right Content Area (dynamic) -->
         <ContentControl Content="{Binding CurrentViewModel}" Margin="282,75,30,30" Grid.ColumnSpan="2"/>
+
     </Grid>
 </Window>
+
+        <!--ContentControl Content="{Binding CurrentViewModel}" Margin="282,75,30,30" Grid.ColumnSpan="2">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        --><!-- Zobrazit náhradní obsah, pokud CurrentViewModel je null --><!--
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        --><!-- Náhradní obsah, např. tlačítka --><!--
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="Čekám na načtení komponenty..." 
+                                               FontSize="16" FontWeight="Bold" 
+                                               Foreground="Gray" TextAlignment="Center" />
+                                            <Button Content="Retry" Command="{Binding RetryCommand}" 
+                                            Width="100" Margin="10" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>-->

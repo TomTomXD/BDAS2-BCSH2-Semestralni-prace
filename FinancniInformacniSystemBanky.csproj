@@ -10,15 +10,21 @@
 
   <ItemGroup>
     <None Remove="Images\bank-card-mobile-phone-online-payment-removebg-preview.png" />
+    <None Remove="Images\icons8-address-48.png" />
     <None Remove="Images\icons8-bank-account-48.png" />
     <None Remove="Images\icons8-checked-identification-documents-50.png" />
     <None Remove="Images\icons8-chip-card-96.png" />
     <None Remove="Images\icons8-circled-b-50.png" />
     <None Remove="Images\icons8-credit-card-80.png" />
+    <None Remove="Images\icons8-database-administrator-80.png" />
     <None Remove="Images\icons8-file-100.png" />
     <None Remove="Images\icons8-hand-holding-dollar-64.png" />
     <None Remove="Images\icons8-id-50 1.png" />
     <None Remove="Images\icons8-loan-64.png" />
+    <None Remove="Images\icons8-password-book-48.png" />
+    <None Remove="Images\icons8-save-to-grid-50.png" />
+    <None Remove="Images\icons8-search-history-66.png" />
+    <None Remove="Images\icons8-standing-order-78.png" />
     <None Remove="Images\icons8-users-64.png" />
     <None Remove="Images\login picture.jpg" />
   </ItemGroup>
@@ -29,6 +35,9 @@
 
   <ItemGroup>
     <Resource Include="Images\bank-card-mobile-phone-online-payment-removebg-preview.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-address-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-bank-account-48.png">
@@ -46,6 +55,9 @@
     <Resource Include="Images\icons8-credit-card-80.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\icons8-database-administrator-80.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\icons8-file-100.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -56,6 +68,18 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-loan-64.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-password-book-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-save-to-grid-50.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-search-history-66.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-standing-order-78.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-users-64.png">
