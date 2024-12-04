@@ -4,7 +4,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:FinancniInformacniSystemBanky.View"
+             xmlns:converter="clr-namespace:FinancniInformacniSystemBanky.ViewModel"
              mc:Ignorable="d"
+             UseLayoutRounding="True"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
+             SnapsToDevicePixels="True"
+             RenderOptions.ClearTypeHint="Enabled"
              Height="650" Width="1000">
 
     <UserControl.Resources>
@@ -35,23 +40,6 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-        </Style>
-
-        <!-- Style for DataGridRow -->
-        <Style TargetType="DataGridRow">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#007ACC"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
 
         <!-- Style for TextBox -->
@@ -92,9 +80,18 @@
 
     <Grid Background="Transparent">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="915">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,10,10" Height="41">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,10,10" Height="41" Width="908">
                 <Label Content="Hledat:" FontSize="20" FontWeight="Medium" Height="36" Foreground="White"/>
-                <TextBox Width="260" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Height="24" Margin="10,5,0,0"/>
+                <TextBox Width="260" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Height="35" Margin="10,5,0,0"/>
+                <CheckBox x:Name="CheckAllBtn" Content="Skrýt citlivé údaje" 
+                      Width="120" Margin="320,0,0,0" 
+                      Foreground="White" FontWeight="Medium" FontSize="10" Height="15"
+                          IsChecked="{Binding HideSensitiveData, Mode=TwoWay}"
+                      Padding="5,1,0,0">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
             </StackPanel>
 
             <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
@@ -102,8 +99,8 @@
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
                 </Border.Effect>
                 <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False" Height="490" 
-                          SelectedItem="{Binding SelectedPerson}" Width="880"
-                          HorizontalScrollBarVisibility="Visible">
+          SelectedItem="{Binding SelectedPerson}" Width="880"
+          HorizontalScrollBarVisibility="Visible">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Jméno" Binding="{Binding Name}" Width="200" MinWidth="200">
                             <DataGridTextColumn.ElementStyle>

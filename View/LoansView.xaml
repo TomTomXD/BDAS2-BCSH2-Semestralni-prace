@@ -4,12 +4,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Height="450" Width="825">
+    Height="650" Width="1000">
 
     <UserControl.Resources>
         <!-- Style for DataGrid -->
         <Style TargetType="DataGrid">
-            <Setter Property="AlternatingRowBackground" Value="Lavender"/>
+            <Setter Property="AlternatingRowBackground" Value="#F2F2F2"/>
             <Setter Property="AlternationCount" Value="2"/>
             <Setter Property="GridLinesVisibility" Value="None"/>
             <Setter Property="HeadersVisibility" Value="Column"/>
@@ -20,51 +20,95 @@
             <Setter Property="SelectionUnit" Value="FullRow"/>
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
         </Style>
 
         <!-- Style for DataGridColumnHeader -->
         <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Background" Value="#007ACC"/>
             <Setter Property="Margin" Value="0,0,0,2"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
-        <!-- Style for DataGridRow -->
-        <Style TargetType="DataGridRow">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="LightBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
+
     </UserControl.Resources>
 
     <Grid Background="Transparent" Margin="0,-86,0,0">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="715">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="915">
             <!-- Border to create rounded corners -->
             <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
-                <DataGrid ItemsSource="{Binding Loans}" AutoGenerateColumns="False" Height="292" 
-                      SelectedItem="{Binding SelectedLoan}" Width="680">
+                <DataGrid ItemsSource="{Binding Loans}" AutoGenerateColumns="False" Height="490" 
+                      SelectedItem="{Binding SelectedLoan}" Width="880">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Částka" Binding="{Binding Amount}" Width="*" />
-                        <DataGridTextColumn Header="Sazba" Binding="{Binding InterestRate}" Width="*" />
-                        <DataGridTextColumn Header="Datum schválení" Binding="{Binding DateOfApproval}" Width="*" />
-                        <DataGridTextColumn Header="Datum splacení" Binding="{Binding DateOfRepayment}" Width="*" />
-                        <DataGridTextColumn Header="Klient" Binding="{Binding ClientId}" Width="*" />
-                        <DataGridTextColumn Header="Zaměstnanec" Binding="{Binding CreditCounselorId}" Width="*" />
-                        <DataGridTextColumn Header="Typ úvěru" Binding="{Binding LoanType}" Width="*" />
-                        <DataGridTextColumn Header="Stav úvěru" Binding="{Binding LoanStatus}" Width="*" />
+                        <DataGridTextColumn Header="Částka" Binding="{Binding Amount}" Width="150" MinWidth="150">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Sazba" Binding="{Binding InterestRate}" Width="50" MinWidth="50">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Datum schválení" Binding="{Binding DateOfApproval}" Width="200" MinWidth="200">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Datum splacení" Binding="{Binding DateOfRepayment}" Width="200" MinWidth="200">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Klient" Binding="{Binding ClientId}" Width="200" MinWidth="200">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Zaměstnanec" Binding="{Binding CreditCounselorId}" Width="200" MinWidth="200">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Typ úvěru" Binding="{Binding LoanType}" Width="200" MinWidth="200">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Stav úvěru" Binding="{Binding LoanStatus}" Width="200" MinWidth="200">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>

@@ -378,10 +378,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private bool ValidateInputs()
         {
-            // Validace rodného čísla (11 číslic)
-            if (!Regex.IsMatch(NationalIdNumber, @"^\d{11}$"))
+            // Validace rodného čísla (ve tvaru xxxxxx/xxxx)
+            if (!Regex.IsMatch(NationalIdNumber, @"^\d{6}/\d{4}$"))
             {
-                MessageBox.Show("Rodné číslo musí mít 11 číslic.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Rodné číslo musí mít tvar xxxxxx/xxxx (6 číslic, lomítko, 4 číslice).", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 
