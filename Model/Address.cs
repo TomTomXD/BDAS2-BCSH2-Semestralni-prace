@@ -8,7 +8,7 @@ namespace InformacniSystemBanky.Model
 {
     public class Address
     {
-        public int HouseNumber { get; set; }
+        public string HouseNumber { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
         public int PostalCode { get; set; }

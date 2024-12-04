@@ -42,7 +42,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string _email;
         private string _selectedRole;
         private string _street;
-        private int _houseNumber;
+        private string _houseNumber;
         private string _city;
         private int _postalCode;
         private string _password;
@@ -127,7 +127,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             get => _street;
             set { _street = value; OnPropertyChanged(nameof(Street)); }
         }
-        public int HouseNumber
+        public string HouseNumber
         {
             get => _houseNumber;
             set { _houseNumber = value; OnPropertyChanged(nameof(HouseNumber)); }
@@ -214,11 +214,13 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Email = personDetails.Email;
             SelectedRole = personDetails.Role;
 
-            var address = _personDetailsService.GetAddress(personDetails.NationalIdNumber);
+            var address = _personDetailsService.GetAddress(id);
             HouseNumber = address.HouseNumber;
             Street = address.Street;
             City = address.City;
             PostalCode = address.PostalCode;
+
+            MessageBox.Show($"House number: {HouseNumber}, Street: {Street}, City: {City}, Postal code: {PostalCode}");
 
             var personType = _personDetailsService.GetTypeOfPerson(personDetails.NationalIdNumber);
             SelectedPersonType = personType == 'K' ? "Klient" : "Zaměstnanec";
@@ -292,7 +294,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 // Kontrola, zda jsou všechny povinné údaje vyplněny
                 if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Surname) || string.IsNullOrWhiteSpace(NationalIdNumber) ||
                     string.IsNullOrWhiteSpace(PhoneNumber) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(SelectedPersonType) ||
-                    string.IsNullOrWhiteSpace(SelectedRole) || string.IsNullOrWhiteSpace(Street) || HouseNumber == 0 || string.IsNullOrWhiteSpace(City) ||
+                    string.IsNullOrWhiteSpace(SelectedRole) || string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(City) ||
                     PostalCode == 0 || string.IsNullOrWhiteSpace(Password))
                 {
                     MessageBox.Show("Prosím, vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);

@@ -65,23 +65,16 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             }).FirstOrDefault();
         }
 
-        /// <summary>
-        /// Method for getting the address of a person.
-        /// </summary>
-        /// <param name="nationalIdNumber"></param>
-        /// <returns>
-        /// Returns the address of the person.
-        /// </returns>
-        public Address GetAddress(string nationalIdNumber)
+        public Address GetAddress(int id)
         {
             string query = @"
-                SELECT a.ulice,
-                       a.cislo_popisne,
-                       a.mesto,
-                       a.psc
-                FROM ADRESY a
-                JOIN OSOBY o ON a.id_adresa = o.id_adresa
-                WHERE o.rodne_cislo = :nationalIdNumber";
+        SELECT a.ulice,
+               a.cislo_popisne,
+               a.mesto,
+               a.psc
+        FROM ADRESY a
+        JOIN OSOBY o ON a.id_adresa = o.id_adresa
+        WHERE o.id_osoba = :id";
 
             try
             {
@@ -90,16 +83,16 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                     return new Address
                     {
                         Street = reader.GetString(reader.GetOrdinal("ulice")),
-                        HouseNumber = reader.GetOrdinal("cislo_popisne"),
+                        HouseNumber = reader.GetString(reader.GetOrdinal("cislo_popisne")), // Use GetString for CHAR type
                         City = reader.GetString(reader.GetOrdinal("mesto")),
-                        PostalCode = reader.GetOrdinal("psc")
+                        PostalCode = reader.GetInt32(reader.GetOrdinal("psc")) // Use GetInt32 for NUMBER type
                     };
                 },
                 command =>
                 {
-                    command.Parameters.Add(new OracleParameter("nationalIdNumber", OracleDbType.Varchar2)
+                    command.Parameters.Add(new OracleParameter("id", OracleDbType.Int32)
                     {
-                        Value = nationalIdNumber
+                        Value = id
                     });
                 }).FirstOrDefault();
 
@@ -116,6 +109,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
             return null;
         }
+
 
         /// <summary>
         /// Method for getting the type of a person.
