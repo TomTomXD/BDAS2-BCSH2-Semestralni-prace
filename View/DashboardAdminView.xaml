@@ -200,7 +200,7 @@
         </Button>
 
         <!-- Right Content Area (dynamic) -->
-        <ContentControl Content="{Binding CurrentViewModel}" Margin="282,75,30,30" Grid.ColumnSpan="2"/>
+        <ContentControl Content="{Binding CurrentView}" Margin="282,75,30,30" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

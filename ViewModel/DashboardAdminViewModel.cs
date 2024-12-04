@@ -8,15 +8,15 @@ namespace InformacniSystemBanky.ViewModel
 {
     public class DashboardAdminViewModel : INotifyPropertyChanged
     {
-        private object _currentViewModel;
+        private object _currentView;
 
-        public object CurrentViewModel
+        public object CurrentView
         {
-            get => _currentViewModel;
+            get => _currentView;
             set
             {
-                _currentViewModel = value;
-                OnPropertyChanged(nameof(CurrentViewModel));
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
             }
         }
 
@@ -31,6 +31,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowFilesCommand { get; }
         public ICommand ShowPasswordsCommand { get; }
         public ICommand ShowAddressesCommand { get; }
+        public ICommand ShowDataDictionaryCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -44,46 +45,52 @@ namespace InformacniSystemBanky.ViewModel
             ShowFilesCommand = new RelayCommand(ShowFiles);
             ShowPasswordsCommand = new RelayCommand(ShowPasswords);
             ShowAddressesCommand = new RelayCommand(ShowAddresses);
+            ShowDataDictionaryCommand = new RelayCommand(ShowDataDictionary);
+        }
+
+        private void ShowDataDictionary()
+        {
+            CurrentView = new SystemCatalogView();
         }
 
         private void ShowAddresses()
         {
-           CurrentViewModel = new AddressesView();
+            CurrentView = new AddressesView();
         }
 
         private void ShowPasswords()
         {
-            CurrentViewModel = new PasswordsView();
+            CurrentView = new PasswordsView();
         }
 
         private void ShowFiles()
         {
-            CurrentViewModel = new FilesView();
+            CurrentView = new FilesView();
         }
 
         private void ShowPeople()
         {
-            CurrentViewModel = new UsersView();
+            CurrentView = new UsersView();
         }
 
         private void ShowAccounts()
         {
-            CurrentViewModel = new AccountsView();
+            CurrentView = new AccountsView();
         }
 
         private void ShowHome()
         {
-            CurrentViewModel = null;
+            CurrentView = null;
         }
 
         private void ShowLoans()
         {
-            CurrentViewModel = new LoansView();
+            CurrentView = new LoansView();
         }
 
         private void ShowLicences()
         {
-            CurrentViewModel = new BankingLicencesView();
+            CurrentView = new BankingLicencesView();
         }
 
         private void LogOut()
@@ -105,7 +112,7 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowCards()
         {
-            CurrentViewModel = new CardsListView();
+            CurrentView = new CardsListView();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

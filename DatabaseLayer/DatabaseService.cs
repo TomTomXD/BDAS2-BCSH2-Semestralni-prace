@@ -13,6 +13,10 @@ public class DatabaseService
         _connectionString = BuildConnectionString();
     }
 
+    /// <summary>
+    /// Method for building a connection string.
+    /// </summary>
+    /// <returns>Returns a connection string.</returns>
     private string BuildConnectionString()
     {
         var userId = ConfigurationManager.AppSettings["DbUserId"];
