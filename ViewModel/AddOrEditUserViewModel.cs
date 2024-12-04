@@ -254,36 +254,48 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void EditPerson()
         {
-            // Kontrola, zda jsou všechny údaje ve správném formátu
-            if (!ValidateInputs())
+            byte[]? salt = null;
+            string passwordHash = null;
+            string? saltAsString = null;
+           
+            if (!string.IsNullOrEmpty(Password))
             {
-                return;
+                salt = PasswordHasher.GenerateSalt();
+                passwordHash = PasswordHasher.HashPassword(Password, salt);
+                saltAsString = Convert.ToBase64String(salt);
             }
 
-            try
+            if (ValidateInputs())
             {
-                // Převod hodnoty z comboboxu na hodnotu pro databázi
-                string personTypeForDb = ConvertPersonTypeToDbFormat(SelectedPersonType);
-                _userService.EditUserDetails(id,
+                bool result = _userService.EditUserDetails(
+                    id,
                     Name,
                     Surname,
                     DoB,
                     NationalIdNumber,
                     PhoneNumber,
                     Email,
+                    ConvertPersonTypeToDbFormat(SelectedPersonType),
+                    _rolesService.GetRoleId(SelectedRole),
                     Street,
-                    HouseNumber.ToString(),
+                    HouseNumber,
                     City,
                     PostalCode,
-                    _rolesService.GetRoleId(SelectedRole),
-                    personTypeForDb,
+                    passwordHash,
+                    saltAsString,
                     Department,
-                    Position,
-                    Password);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Došlo k chybě při úpravě: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Position
+                );
+
+                if (result)
+                {
+                    MessageBox.Show("Uživatel byl úspěšně aktualizován.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CloseAddingWindow();
+                }
+                else
+                {
+                    MessageBox.Show("Aktualizace uživatele selhala.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
