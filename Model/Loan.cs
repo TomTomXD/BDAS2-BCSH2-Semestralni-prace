@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FinancniInformacniSystemBanky.Model
+﻿namespace FinancniInformacniSystemBanky.Model
 {
     public class Loan
     {
@@ -17,5 +11,17 @@ namespace FinancniInformacniSystemBanky.Model
         public int CreditCounselorId { get; set; }
         public int LoanType { get; set; }
         public int LoanStatus { get; set; }
+    }
+
+    public class LoanStatus
+    {
+        public int Id { get; set; }
+        public string Status { get; set; }
+    }
+
+    public class LoanType
+    {
+        public int Id { get; set; }
+        public string Type { get; set; }
     }
 }

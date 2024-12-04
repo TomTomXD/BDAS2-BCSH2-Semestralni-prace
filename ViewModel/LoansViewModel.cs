@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -32,9 +33,31 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Loans = new ObservableCollection<Loan>();
             LoadLoansFromDatabase();
 
+            AddLoanCommand = new RelayCommand(AddNewLoad);
+            EditLoanCommand = new RelayCommand(EditLoan);
             DeleteLoanCommand = new RelayCommand(DeleteLoanFromDatabase, CanDeleteLoan);
         }
 
+        private void EditLoan()
+        {
+            if (SelectedLoan != null)
+            {
+                var editLoanViewModel = new AddLoanViewModel(SelectedLoan);
+                var editLoanView = new AddLoanView()
+                {
+                    DataContext = editLoanViewModel
+                };
+                editLoanView.ShowDialog();
+                LoadLoansFromDatabase();
+            }
+        }
+
+        private void AddNewLoad()
+        {
+            var addLoanView = new AddLoanView();
+            addLoanView.ShowDialog();
+            LoadLoansFromDatabase();
+        }
 
         private void DeleteLoanFromDatabase()
         {

@@ -1,11 +1,7 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
-using FinancniInformacniSystemBanky.Model;
-using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
-using Oracle.ManagedDataAccess.Client;
 using System.ComponentModel;
-using System.Configuration;
 using System.Windows;
 using System.Windows.Input;
 
