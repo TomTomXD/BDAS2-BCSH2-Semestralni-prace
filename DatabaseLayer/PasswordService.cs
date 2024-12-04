@@ -30,14 +30,16 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 });
         }
 
-        public void AddPassword()
+        public void UpdatePassword(int selectedPassword, string newPasswordHash, string newPasswordSalt)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdatePassword()
-        {
-            throw new NotImplementedException();
+            try
+            {
+                
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void DeletePassword(int passwordId)
@@ -50,6 +52,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 {
                     command.Parameters.Add("idPassword", Oracle.ManagedDataAccess.Client.OracleDbType.Int32).Value = passwordId;
                 });
+                MessageBox.Show("Heslo bylo úspěšně smazáno", "Smazání hesla", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception e)
             {

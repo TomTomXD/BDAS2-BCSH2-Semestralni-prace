@@ -130,6 +130,21 @@
                 </StackPanel>
             </Button>
 
+            <!--Trvalé příkazy-->
+            <Button Command="{Binding ShowStandingOrdersCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-standing-order-78.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Trvalé příkazy" Height="28"/>
+                </StackPanel>
+            </Button>
+
+            <!--Adresy-->
+            <Button Command="{Binding ShowAddressesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="pack://application:,,,/Images/icons8-address-48.png" Stretch="Fill" Height="50" Width="50" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Adresy" Height="28"/>
+                </StackPanel>
+            </Button>
 
             <!--Změna tabulka hesel button-->
             <Button Command="{Binding ShowPasswordsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
@@ -147,21 +162,6 @@
                 </StackPanel>
             </Button>
 
-            <!--Trvalé příkazy-->
-            <Button Command="{Binding ShowStandingOrdersCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-standing-order-78.png" Stretch="Fill" Height="50" Width="50" />
-                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Trvalé příkazy" Height="28"/>
-                </StackPanel>
-            </Button>
-
-            <!--Adresy-->
-            <Button Command="{Binding ShowAddressesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-address-48.png" Stretch="Fill" Height="50" Width="50" />
-                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Adresy" Height="28"/>
-                </StackPanel>
-            </Button>
             
             <!--Logy-->
             <Button Command="{Binding ShowLogsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">

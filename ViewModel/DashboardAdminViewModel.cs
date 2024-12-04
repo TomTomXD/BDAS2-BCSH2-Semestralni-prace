@@ -30,6 +30,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowAllPeople { get; }
         public ICommand ShowFilesCommand { get; }
         public ICommand ShowPasswordsCommand { get; }
+        public ICommand ShowAddressesCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -42,7 +43,12 @@ namespace InformacniSystemBanky.ViewModel
             ShowAllPeople = new RelayCommand(ShowPeople);
             ShowFilesCommand = new RelayCommand(ShowFiles);
             ShowPasswordsCommand = new RelayCommand(ShowPasswords);
+            ShowAddressesCommand = new RelayCommand(ShowAddresses);
+        }
 
+        private void ShowAddresses()
+        {
+           CurrentViewModel = new AddressesView();
         }
 
         private void ShowPasswords()
@@ -95,7 +101,6 @@ namespace InformacniSystemBanky.ViewModel
             {
                 currentWindow.Close();
             }
-
         }
 
         private void ShowCards()

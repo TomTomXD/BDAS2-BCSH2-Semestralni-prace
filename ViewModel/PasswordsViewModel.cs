@@ -23,7 +23,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         public ObservableCollection<Password> Passwords { get; set; }
 
-        public ICommand AddPasswordCommand { get; }
         public ICommand EditPasswordCommand { get; }
         public ICommand DeletePasswordCommand { get; }
 
@@ -34,7 +33,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Passwords = new ObservableCollection<Password>();
             LoadPasswordsFromDatabase();
 
-            AddPasswordCommand = new RelayCommand(AddPasswordToDatabase);
             EditPasswordCommand = new RelayCommand(EditPassword);
             DeletePasswordCommand = new RelayCommand(DeletePasswordFromDatabase, CanDeleteAccount);
         }
@@ -49,11 +47,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
         }
 
         private void EditPassword()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void AddPasswordToDatabase()
         {
             throw new NotImplementedException();
         }
