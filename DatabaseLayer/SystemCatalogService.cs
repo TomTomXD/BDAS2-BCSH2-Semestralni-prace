@@ -43,6 +43,5 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 ObjectName = reader.GetString(1)
             });
         }
-
     }
 }

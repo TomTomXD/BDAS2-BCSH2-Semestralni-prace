@@ -179,9 +179,9 @@ namespace InformacniSystemBanky.ViewModel
                  $"Úroková sazba: {Interest}%\n" +
                  $"Maximální zůstatek: {MaxBalance:C}";
 
-            MessageBox.Show(message, "Potvrzení přidání účtu", MessageBoxButton.OK, MessageBoxImage.Information);
 
             _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, IdOwner, Convert.ToChar(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
+            MessageBox.Show(message, "Potvrzení přidání účtu", MessageBoxButton.OK, MessageBoxImage.Information);
             CloseAddingWindow();
         }
 

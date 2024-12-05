@@ -98,9 +98,9 @@
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Přidat Účet" Command="{Binding AddAddressCommand}" Width="150" Margin="5" />
-                <Button Content="Upravit Účet" Command="{Binding EditAddressCommand}" Width="150" Margin="5" />
-                <Button Content="Smazat Vybraný Účet" Command="{Binding DeleteAddressCommand}" IsEnabled="{Binding Path=SelectedAddress}" Width="150" Margin="5" />
+                <Button Content="Přidat Adresu" Command="{Binding AddAddressCommand}" Width="150" Margin="5" />
+                <Button Content="Upravit Adresu" Command="{Binding EditAddressCommand}" Width="150" Margin="5" />
+                <Button Content="Smazat Adresu" Command="{Binding DeleteAddressCommand}" IsEnabled="{Binding Path=SelectedAddress}" Width="150" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>

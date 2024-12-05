@@ -1,6 +1,7 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
 using InformacniSystemBanky.Model;
+using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -57,12 +58,23 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void EditAddress()
         {
-            throw new NotImplementedException();
+            if(SelectedAddress != null)
+            {
+                var editAddressViewModel = new AddAddressViewModel(SelectedAddress);
+                var editAddressView = new AddAddressView()
+                {
+                    DataContext = editAddressViewModel
+                };
+                editAddressView.ShowDialog();
+                LoadAddressesFromDatabase();
+            }
         }
 
         private void AddAddressToDatabase()
         {
-            throw new NotImplementedException();
+            var addAddressView = new AddAddressView();
+            addAddressView.ShowDialog();
+            LoadAddressesFromDatabase();
         }
 
         private void LoadAddressesFromDatabase()

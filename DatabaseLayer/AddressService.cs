@@ -1,4 +1,7 @@
 ﻿using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.Model;
+using Oracle.ManagedDataAccess.Client;
+using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -25,19 +28,66 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
-        public void AddAddress()
+        public void AddAddress(string streetName, string city, string houseNumber, int postalCode)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var procedureName = "upsert_adresa";
+                _databaseService.ExecuteProcedure(procedureName, command =>
+                {
+                    command.Parameters.Add("p_id_adresa", OracleDbType.Int32).Value = DBNull.Value;
+                    command.Parameters.Add("p_cislo_popisne", OracleDbType.Varchar2).Value = houseNumber;
+                    command.Parameters.Add("p_ulice", OracleDbType.Varchar2).Value = streetName;
+                    command.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = city;
+                    command.Parameters.Add("p_psc", OracleDbType.Int32).Value = postalCode;
+                });
+                MessageBox.Show("Adresa byla úspěšně přidána.","Úspěch",MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
+
+
+        public void UpdateAddress(int addressId, string streetName, string city, string houseNumber, int postalCode)
+        {
+
+            try
+            {
+                var procedureName = "upsert_adresa";
+                _databaseService.ExecuteProcedure(procedureName, command =>
+                {
+                    command.Parameters.Add("p_id_adresa", OracleDbType.Int32).Value = addressId;
+                    command.Parameters.Add("p_cislo_popisne", OracleDbType.Varchar2).Value = houseNumber;
+                    command.Parameters.Add("p_ulice", OracleDbType.Varchar2).Value = streetName;
+                    command.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = city;
+                    command.Parameters.Add("p_psc", OracleDbType.Int32).Value = postalCode;
+                });
+                MessageBox.Show("Adresa byla úspěšně upravena.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }   
 
         public void DeleteAddress(int addressId)
         {
-            throw new NotImplementedException();
-        }
+            string query = $"DELETE FROM ADRESY WHERE ID_ADRESA = :id_address";
 
-        public void UpdateAddress(int addressId)
-        {
-            throw new NotImplementedException();
-        }   
+            try
+            {
+                _databaseService.ExecuteNonQuery(query, command =>
+                {
+                    command.Parameters.Add("id_address", OracleDbType.Int32).Value = addressId;
+                });
+                MessageBox.Show("Adresa byla úspěšně smazána.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
     }
 }
