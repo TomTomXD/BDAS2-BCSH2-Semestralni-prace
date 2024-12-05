@@ -32,6 +32,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowPasswordsCommand { get; }
         public ICommand ShowAddressesCommand { get; }
         public ICommand ShowDataDictionaryCommand { get; }
+        public ICommand ShowStandingOrdersCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -46,6 +47,12 @@ namespace InformacniSystemBanky.ViewModel
             ShowPasswordsCommand = new RelayCommand(ShowPasswords);
             ShowAddressesCommand = new RelayCommand(ShowAddresses);
             ShowDataDictionaryCommand = new RelayCommand(ShowDataDictionary);
+            ShowStandingOrdersCommand = new RelayCommand(ShowStandingOrders);
+        }
+
+        private void ShowStandingOrders()
+        {
+            CurrentView = new StandingOrdersView();
         }
 
         private void ShowDataDictionary()
