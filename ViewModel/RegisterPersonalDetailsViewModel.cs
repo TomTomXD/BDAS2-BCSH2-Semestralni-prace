@@ -1,6 +1,7 @@
 ﻿using InformacniSystemBanky.View;
 using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -94,10 +95,21 @@ namespace InformacniSystemBanky.ViewModel
                    !DateOfBirth.Equals(null) &&
                    !string.IsNullOrWhiteSpace(RodneCislo) &&
                    !string.IsNullOrWhiteSpace(PhoneNumber) &&
-                   !string.IsNullOrWhiteSpace(Email);
+                   !string.IsNullOrWhiteSpace(Email) && ValidateInputs();
         }
 
-        private void OpenRegisterAddressView()
+        private bool ValidateInputs()
+        {
+            // Validace rodného čísla (ve tvaru xxxxxx/xxxx)
+            if (!Regex.IsMatch(RodneCislo, @"^\d{6}/\d{4}$"))
+            {
+                MessageBox.Show("Rodné číslo musí mít tvar xxxxxx/xxxx (6 číslic, lomítko, 4 číslice).", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            return false;
+        }
+
+            private void OpenRegisterAddressView()
         {
             var registerAddressView = new RegisterAddressView(_userRegistrationViewModel);
             registerAddressView.Show();

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -241,8 +242,18 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddNewLoad()
         {
-            _loanService.AddLoan(Amount, InterestRate, DateOfApproval, DateOfRepayment, ClientId, CreditCounselorId, SelectedLoanType.Id, SelectedLoanStatus.Id);
-            CloseAddingWindow();
+            if (Amount == 0 || InterestRate == 0 || DateOfApproval == null || DateOfRepayment == null || ClientId == 0 || CreditCounselorId == 0 || SelectedLoanType == null || SelectedLoanStatus == null)
+            {
+                MessageBox.Show("Všechny položky musí být vyplněny", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (DateOfApproval > DateOfRepayment)
+            {
+                MessageBox.Show("Datum schválení nemůže vyšší než datum splacení", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+                _loanService.AddLoan(Amount, InterestRate, DateOfApproval, DateOfRepayment, ClientId, CreditCounselorId, SelectedLoanType.Id, SelectedLoanStatus.Id);
+                CloseAddingWindow();
         }
 
         private void CloseAddingWindow()

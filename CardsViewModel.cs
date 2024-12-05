@@ -63,13 +63,16 @@ namespace FinancniInformacniSystemBanky
 
         private void EditCard()
         {
-            var editCardViewModel = new AddCardViewModel(SelectedCard);
-            var editCardView = new AddCardView()
+            if(SelectedCard != null)
             {
-                DataContext = editCardViewModel
-            };
-            editCardView.ShowDialog();    
-            LoadCardsFromDatabase();
+                var editCardViewModel = new AddCardViewModel(SelectedCard);
+                var editCardView = new AddCardView()
+                {
+                    DataContext = editCardViewModel
+                };
+                editCardView.ShowDialog();
+                LoadCardsFromDatabase();
+            }
         }
 
         private void AddCardToDatabase()

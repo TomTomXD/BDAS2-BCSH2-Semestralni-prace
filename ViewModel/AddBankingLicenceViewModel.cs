@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -170,7 +171,16 @@ namespace FinancniInformacniSystemBanky
 
         private void AddNewBankingLicence()
         {
-
+            if(string.IsNullOrEmpty(LicenceNumber) || IssueDate == null || ExpirationDate == null || SelectedLicenceType == null || SelectedEmployee == null)
+            {
+                MessageBox.Show("Vyplňte všechny údaje","Chybějící údaje",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
+            if(!Regex.IsMatch(LicenceNumber, @"^\d+$"))
+            {
+                MessageBox.Show("Číslo licence se skládá pouze z čísel.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             _bankingLicenceServis.AddBankingLicence(null, LicenceNumber, IssueDate, ExpirationDate, SelectedLicenceType.BankingLicenceTypeId, SelectedEmployee.Id);
             CloseAddingWindow();
         }

@@ -318,7 +318,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Label Content="Sjednává" Grid.Column="0" Foreground="White" Margin="36,1,36,9"/>
+                    <Label Content="Sjednává" Grid.Column="0" Foreground="White" Margin="45,1,27,9"/>
                     <ComboBox x:Name="ClientComboBox" 
                               Grid.Column="1" 
                               Margin="12,2,10,8" 

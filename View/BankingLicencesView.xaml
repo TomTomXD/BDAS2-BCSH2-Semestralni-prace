@@ -91,9 +91,9 @@
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Přidat Licenci" Command="{Binding AddLicenceCommand}" Width="150" Margin="5" />
-                <Button Content="Upravit Licenci" Command="{Binding EditLicenceCommand}" Width="150" Margin="5" />
-                <Button Content="Smazat Vybranou Licenci" Command="{Binding DeleteLicenceCommand}" IsEnabled="{Binding Path=SelectedLicence}" Width="150" Margin="5" />
+                <Button Content="Přidat Licenci" Command="{Binding AddLicenceCommand}" Width="170" Margin="5" />
+                <Button Content="Upravit Licenci" Command="{Binding EditLicenceCommand}" Width="170" Margin="5" />
+                <Button Content="Smazat Licenci" Command="{Binding DeleteLicenceCommand}" IsEnabled="{Binding Path=SelectedLicence}" Width="170" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>

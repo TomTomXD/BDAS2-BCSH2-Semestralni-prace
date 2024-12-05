@@ -33,12 +33,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string _cvv;
         private int _cardTypeId;
 
-        public NormalAccount SelectedNormalAccount
-        {
-            get => _selectedNormalAccount;
-            set { _selectedNormalAccount = value; OnPropertyChanged(nameof(SelectedNormalAccount)); }
-        }
-        
         public string CardNumber
         {
             get => _cardNumber;
@@ -69,7 +63,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             get => _cardTypeId;
             set { _cardTypeId = value; OnPropertyChanged(nameof(CardTypeId)); }
         }
-
         public string ActionLabelText
         {
             get => actionLabelText;
@@ -80,11 +73,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
             get => actionButtonText;
             set { actionButtonText = value; OnPropertyChanged(nameof(ActionButtonText)); }
         }
-
         public ICommand CancelAddingNewCardCommand { get; }
         public ICommand AddNewCardCommand { get; }
-
-
         public ObservableCollection<CardType> CardTypes
         {
             get => _cardTypes;
@@ -94,7 +84,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(CardTypes));
             }
         }
-
         public CardType SelectedCardType
         {
             get => _selectedCardType;
@@ -103,6 +92,11 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 _selectedCardType = value;
                 OnPropertyChanged(nameof(SelectedCardType));
             }
+        }
+        public NormalAccount SelectedNormalAccount
+        {
+            get => _selectedNormalAccount;
+            set { _selectedNormalAccount = value; OnPropertyChanged(nameof(SelectedNormalAccount)); }
         }
 
         public AddCardViewModel()
