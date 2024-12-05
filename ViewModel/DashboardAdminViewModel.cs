@@ -119,7 +119,7 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowCards()
         {
-            CurrentView = new CardsListView();
+            CurrentView = new CardsView();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

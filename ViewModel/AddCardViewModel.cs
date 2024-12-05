@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.Model.Helpers;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
@@ -12,53 +13,77 @@ namespace FinancniInformacniSystemBanky.ViewModel
     public class AddCardViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<CardType> _cardTypes;
+        private readonly StandingOrderService _standingOrderService;
 
         private CardType _selectedCardType;
 
         private readonly CardService _cardService;
 
+        private NormalAccount _selectedNormalAccount;
+        public ObservableCollection<NormalAccount> NormalAccounts { get; set; }
+
         private string actionButtonText;
         private string actionLabelText;
 
+        private int _idKarty;
         private string _cardNumber;
         private DateTime _dateOfIssue;
         private DateTime _expirationDate;
         private int _owner;
+        private string _cvv;
+        private int _cardTypeId;
 
+        public NormalAccount SelectedNormalAccount
+        {
+            get => _selectedNormalAccount;
+            set { _selectedNormalAccount = value; OnPropertyChanged(nameof(SelectedNormalAccount)); }
+        }
+        
         public string CardNumber
         {
             get => _cardNumber;
-            set { _cardNumber = value; }
+            set { _cardNumber = value; OnPropertyChanged(nameof(CardNumber)); }
         }
         public DateTime DateOfIssue
         {
             get => _dateOfIssue;
-            set { _dateOfIssue = value; }
+            set { _dateOfIssue = value; OnPropertyChanged(nameof(DateOfIssue)); }
         }
         public DateTime ExpirationDate
         {
             get => _expirationDate;
-            set { _expirationDate = value; }
+            set { _expirationDate = value; OnPropertyChanged(nameof(ExpirationDate)); }
         }
         public int Owner
         {
             get => _owner;
-            set { _owner = value; }
+            set { _owner = value; OnPropertyChanged(nameof(Owner)); }
+        }
+        public string CVV
+        {
+            get => _cvv;
+            set { _cvv = value; OnPropertyChanged(nameof(CVV)); }
+        }
+        public int CardTypeId
+        {
+            get => _cardTypeId;
+            set { _cardTypeId = value; OnPropertyChanged(nameof(CardTypeId)); }
+        }
+
+        public string ActionLabelText
+        {
+            get => actionLabelText;
+            set { actionLabelText = value; OnPropertyChanged(nameof(ActionLabelText)); }
+        }
+        public string ActionButtonText
+        {
+            get => actionButtonText;
+            set { actionButtonText = value; OnPropertyChanged(nameof(ActionButtonText)); }
         }
 
         public ICommand CancelAddingNewCardCommand { get; }
         public ICommand AddNewCardCommand { get; }
 
-        public string ActionButtonText
-        {
-            get => actionButtonText;
-            set { actionButtonText = value; }
-        }
-        public string ActionLabelText
-        {
-            get => actionLabelText;
-            set { actionLabelText = value; }
-        }
 
         public ObservableCollection<CardType> CardTypes
         {
@@ -82,14 +107,64 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         public AddCardViewModel()
         {
+            _cardService = new CardService();
+            _standingOrderService = new StandingOrderService();
+            
             CancelAddingNewCardCommand = new RelayCommand(CloseAddingWindow);
             AddNewCardCommand = new RelayCommand(AddNewCard);
+            
+            CardNumber = _cardService.GenerateCardNumber(53);
+            NormalAccounts = new ObservableCollection<NormalAccount>(_standingOrderService.GetAllNormalAccounts());
 
-            _cardService = new CardService();
+
+            DateOfIssue = DateTime.Now;
+            ExpirationDate = DateOfIssue.AddYears(4);
+
             ActionButtonText = "Přidat";
             ActionLabelText = "Přidání nové karty";
 
             LoadCardTypes();
+        }
+
+        public AddCardViewModel(Card selectedCard)
+        {
+            _cardService = new CardService();
+            _standingOrderService = new StandingOrderService();
+
+            CancelAddingNewCardCommand = new RelayCommand(CloseAddingWindow);
+            AddNewCardCommand = new RelayCommand(EditCard);
+
+            LoadCardTypes();
+            NormalAccounts = new ObservableCollection<NormalAccount>(_standingOrderService.GetAllNormalAccounts());
+
+            _idKarty = selectedCard.CardId;
+            CardNumber = selectedCard.CardNumber;
+            CVV = selectedCard.CVV;
+
+            // Najdeme odpovídající typ karty podle ID typu karty z selectedCard
+            SelectedCardType = CardTypes.First(x => x.CardTypeId == Convert.ToInt32(selectedCard.CardType));
+
+            DateOfIssue = selectedCard.IssuedDate;
+            ExpirationDate = selectedCard.ExpirationDate;
+
+            ActionButtonText = "Upravit";
+            ActionLabelText = "Upravit kartu";
+
+            // Najdeme odpovídající účet podle ID účtu z selectedCard
+            SelectedNormalAccount = NormalAccounts.First(x => x.AccountId == selectedCard.AccountId);
+        }
+
+        private void EditCard()
+        {
+            _cardService.UpdateCard( 
+                _idKarty,
+                CardNumber, 
+                DateOfIssue, 
+                ExpirationDate, 
+                CVV, 
+                SelectedCardType.CardTypeId, 
+                SelectedNormalAccount.AccountId);
+            CloseAddingWindow();
         }
 
         private void LoadCardTypes()
@@ -100,23 +175,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddNewCard()
         {
-            throw new NotImplementedException();
-            //// Sestavení zprávy pro MessageBox
-            //string message = $"Nová karta bude přidána s následujícími údaji:\n" +
-            //                 $"- Číslo karty: {CardNumber}\n" +
-            //                 $"- Datum vydání: {DateOfIssue.ToShortDateString()}\n" +
-            //                 $"- Datum expirace: {ExpirationDate.ToShortDateString()}\n" +
-            //                 $"- Majitel: {Owner}\n" +
-            //                 $"- Typ karty (ID): {SelectedCardType.CardTypeId}";
-
-            //// Zobrazení zprávy v MessageBoxu
-            //MessageBox.Show(message, "Potvrzení vkládaných údajů", MessageBoxButton.OK, MessageBoxImage.Information);
-
-
-            //_cardService.AddCard(
-            //    DateOfIssue, ExpirationDate,"123", SelectedCardType.CardTypeId, Owner, "53");
-            //CloseAddingWindow();
-
+            _cardService.AddCard(
+               CardNumber, DateOfIssue, ExpirationDate, CVV, SelectedCardType.CardTypeId, SelectedNormalAccount.AccountId);
+            CloseAddingWindow();
         }
 
         private void CloseAddingWindow()

@@ -1,6 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.Model.Helpers;
-using InformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
 using System.Windows;
 
@@ -75,9 +74,12 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 });
                 MessageBox.Show("Trvalý příkaz byl úspěšně upraven.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch (Exception e)
+            catch (OracleException ex)
             {
-                MessageBox.Show(e.Message);
+                if (ex.Number == -20001)
+                {
+                    MessageBox.Show("Nelze zadat trvalý příkaz, na tomto účtě nejsou dostatečné prostředky.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 

@@ -187,7 +187,7 @@
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
                        Margin="0,20,0,20"
-                       Width="180"/>
+                       Width="330"/>
 
                 <TextBlock Text="Údaje karty" 
                            FontSize="18" 
@@ -214,16 +214,73 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Content="Číslo karty" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="0,0,0,10"/>
+                    <Label Content="Číslo karty" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="45,0,22,10"/>
                     <TextBox x:Name="AccountNumberTextBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10" Text="{Binding CardNumber, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Content="Datum vydání" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="22,0,0,10" HorizontalAlignment="Left" Width="110"/>
-                    <TextBox x:Name="BalanceTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10" Text="{Binding DateOfIssue, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Content="Typ karty" Grid.Column="0" Grid.Row="1" Foreground="White" Margin="34,5,33,5"/>
+                    <Label Content="Datum vydání" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="55,0,0,10" HorizontalAlignment="Left" Width="110"/>
+                    <Border Grid.Column="3" 
+                            Grid.Row="0" 
+                            Margin="9,2,10,12"
+                            Background="White"
+                            Height="25"
+                            CornerRadius="10" 
+                            BorderBrush="Transparent"
+                            BorderThickness="0,0,0,0">
+                        <DatePicker Height="25" 
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Padding="10,3,10,4" 
+                                Background="Transparent" 
+                                Foreground="Black" 
+                                BorderThickness="0,0,0,0"
+                                SelectedDate="{Binding DateOfIssue, UpdateSourceTrigger=PropertyChanged}">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePicker">
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                    </Border>
+                    <Label Content="CVV" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="55,39,12,11" Grid.RowSpan="3"/>
+                    <TextBox x:Name="CVVNumberTextBox" Grid.Column="3" Grid.Row="3" Margin="0,0,0,10" Text="{Binding CVV, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Label Content="Typ karty" Grid.Column="0" Grid.Row="1" Foreground="White" Margin="46,5,21,5"/>
                     <ComboBox x:Name="AccountTypeComboBox" Grid.Column="1" Grid.Row="1" Margin="9,2,8,8" ItemsSource="{Binding CardTypes}" DisplayMemberPath="Type" SelectedItem="{Binding SelectedCardType}"/>
-                    <Label Content="Platnost do" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="22,0,45,10"/>
-                    <TextBox x:Name="LimitTextBox" Grid.Column="3" Grid.Row="1" Margin="0,0,0,10" Text="{Binding ExpirationDate, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidation"/>
-                    <Label Content="Vlastník" Grid.Column="0" Grid.Row="3" Foreground="White" Margin="34,9,33,1"/>
-                    <TextBox x:Name="OwnerComboBox" Grid.Column="1" Grid.Row="3" Margin="9,7,8,3" Text="{Binding Owner, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidation"/>
+                    <Label Content="Platnost do" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="54,0,13,10"/>
+
+                    <Border Grid.Column="3" 
+                            Grid.Row="1" 
+                            Margin="9,2,10,12"
+                            Background="White"
+                            Height="25"
+                            CornerRadius="10" 
+                            BorderBrush="Transparent"
+                            BorderThickness="0,0,0,0">
+                        <DatePicker Height="25" 
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Padding="10,3,10,4" 
+                                Background="Transparent" 
+                                Foreground="Black" 
+                                BorderThickness="0,0,0,0"
+                                SelectedDate="{Binding ExpirationDate, UpdateSourceTrigger=PropertyChanged}">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePicker">
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                    </Border>
+
+                    <Label Content="Vlastník" Grid.Column="0" Grid.Row="3" Foreground="White" Margin="46,9,21,1"/>
+                    <ComboBox x:Name="AccountIdComboBox" 
+                              Grid.Column="1" 
+                              Grid.Row="3" 
+                              Margin="9,2,8,8" 
+                              ItemsSource="{Binding NormalAccounts}" 
+                              DisplayMemberPath="ComboBoxOption"
+                              SelectedValuePath="AccountId"
+                              SelectedValue="{Binding AccountId}"
+                              SelectedItem="{Binding SelectedNormalAccount}"/>
                 </Grid>
 
                 <!-- Separator -->
