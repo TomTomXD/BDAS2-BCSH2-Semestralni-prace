@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.Model.Helpers;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.ComponentModel;
@@ -49,6 +50,22 @@ namespace FinancniInformacniSystemBanky.ViewModel
             ActionButtonText = "Přidat";
         }
 
+        public AddIntoLookupTableViewModel(string storedProcedure, ILookupEntry selectedItem)
+        {
+            _lookupTableService = new LookupTablesService();
+
+            AddIntoLookupTableCommand = new RelayCommand(UpdateRecord);
+            CancelAddingIntoLookupTableCommand = new RelayCommand(CloseAddingWindow);
+
+            _storedProcedure = storedProcedure;
+
+            Name = selectedItem.Name;
+            _id = selectedItem.Id;
+
+            ActionLabelText = "Úprava hodnoty číselníku";
+            ActionButtonText = "Upravit";
+        }
+
 
 
         private void AddIntoLookupTable()
@@ -62,22 +79,15 @@ namespace FinancniInformacniSystemBanky.ViewModel
             CloseAddingWindow();
         }
 
-        public AddIntoLookupTableViewModel(string storedProcedure, int id)
-        {
-            _lookupTableService = new LookupTablesService();
-
-            AddIntoLookupTableCommand = new RelayCommand(UpdateRecord);
-            CancelAddingIntoLookupTableCommand = new RelayCommand(CloseAddingWindow);
-
-            _storedProcedure = storedProcedure;
-
-            ActionLabelText = "Úprava hodnoty číselníku";
-            ActionButtonText = "Upravit";
-        }
-
         private void UpdateRecord()
         {
-            throw new NotImplementedException();
+            if(string.IsNullOrEmpty(Name))
+            {
+                MessageBox.Show("Název nesmí být prázdný", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            _lookupTableService.UpdateLookupTable(_storedProcedure, _id, Name);
+            CloseAddingWindow();
         }
 
         private void CloseAddingWindow()

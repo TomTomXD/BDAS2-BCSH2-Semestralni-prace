@@ -241,7 +241,7 @@
                         <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
                     </Border.Effect>
                     <DataGrid ItemsSource="{Binding LicenceTypes}" AutoGenerateColumns="False" 
-            SelectedItem="{Binding SelectedLiceneType}" Margin="0,5" Height="200" Width="190">
+            SelectedItem="{Binding SelectedLicenceType}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
@@ -365,7 +365,7 @@
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeleteCommand}" CommandParameter="CardTypDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeleteCommand}" CommandParameter="CardTypeDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>
