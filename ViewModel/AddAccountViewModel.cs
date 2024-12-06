@@ -9,7 +9,11 @@ namespace InformacniSystemBanky.ViewModel
 {
     public class AddAccountViewModel : INotifyPropertyChanged
     {
-        public List<string> AccountTypes { get; } = new List<string> { "B", "S" };
+        private readonly Dictionary<string, char> accountTypesMapping = new Dictionary<string, char>
+        {
+            { "Běžný", 'B' },
+            { "Spořicí", 'S' }
+        };
 
         private readonly AccountService _accountService;
 
@@ -106,6 +110,7 @@ namespace InformacniSystemBanky.ViewModel
 
         public ICommand AddNewAccountCommand { get; }
         public ICommand CancelAddingNewAccountCommand { get; }
+        public List<string> AccountTypes { get; } = new List<string> { "Běžný", "Spořicí" };
 
         public AddAccountViewModel()
         {
@@ -132,7 +137,7 @@ namespace InformacniSystemBanky.ViewModel
             actionLabelText = "Upravit účet";
             actionButtonText = "Upravit";
 
-            if(account.AccountType == "B")
+            if (account.AccountType == "B")
             {
                 InterestVisibility = Visibility.Hidden;
                 MaxBalanceVisibility = Visibility.Hidden;
@@ -154,42 +159,35 @@ namespace InformacniSystemBanky.ViewModel
 
         private void EditAccount()
         {
-            string message = $"Upravovaný účet:\n" +
-                 $"Číslo účtu: {AccountNumber}\n" +
-                 $"Zůstatek: {Balance:C}\n" +
-                 $"Limit: {Limit:C}\n" +
-                 $"Vlastník (ID): {IdOwner}\n" +
-                 $"Typ účtu: {SelectedAccountType}\n" +
-                 $"Úroková sazba: {Interest}%\n" +
-                 $"Maximální zůstatek: {MaxBalance:C}";
+            //string message = $"Upravovaný účet:\n" +
+            //     $"Číslo účtu: {AccountNumber}\n" +
+            //     $"Zůstatek: {Balance:C}\n" +
+            //     $"Limit: {Limit:C}\n" +
+            //     $"Vlastník (ID): {IdOwner}\n" +
+            //     $"Typ účtu: {SelectedAccountType}\n" +
+            //     $"Úroková sazba: {Interest}%\n" +
+            //     $"Maximální zůstatek: {MaxBalance:C}";
 
-            MessageBox.Show(message, "Potvrzení úpravy účtu", MessageBoxButton.OK, MessageBoxImage.Information);
-            _accountService.UpdateAccount(AccountId, AccountNumber, (decimal)Balance, (decimal)Limit, IdOwner, Convert.ToChar(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
+            //MessageBox.Show(message, "Potvrzení úpravy účtu", MessageBoxButton.OK, MessageBoxImage.Information);
+            _accountService.UpdateAccount(AccountId, AccountNumber, (decimal)Balance, (decimal)Limit, IdOwner, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
             CloseAddingWindow();
         }
 
         private void AddNewAccount()
         {
-            string message = $"Přidávaný účet:\n" +
-                 $"Číslo účtu: {AccountNumber}\n" +
-                 $"Zůstatek: {Balance:C}\n" +
-                 $"Limit: {Limit:C}\n" +
-                 $"Vlastník (ID): {IdOwner}\n" +
-                 $"Typ účtu: {SelectedAccountType}\n" +
-                 $"Úroková sazba: {Interest}%\n" +
-                 $"Maximální zůstatek: {MaxBalance:C}";
+            //string message = $"Přidávaný účet:\n" +
+            //     $"Číslo účtu: {AccountNumber}\n" +
+            //     $"Zůstatek: {Balance:C}\n" +
+            //     $"Limit: {Limit:C}\n" +
+            //     $"Vlastník (ID): {IdOwner}\n" +
+            //     $"Typ účtu: {SelectedAccountType}\n" +
+            //     $"Úroková sazba: {Interest}%\n" +
+            //     $"Maximální zůstatek: {MaxBalance:C}";
 
 
-            _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, IdOwner, Convert.ToChar(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
-            MessageBox.Show(message, "Potvrzení přidání účtu", MessageBoxButton.OK, MessageBoxImage.Information);
+            _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, IdOwner, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
+            //MessageBox.Show(message, "Potvrzení přidání účtu", MessageBoxButton.OK, MessageBoxImage.Information);
             CloseAddingWindow();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void UpdateVisibility()
@@ -206,6 +204,12 @@ namespace InformacniSystemBanky.ViewModel
             }
         }
 
+        private char ConvertAccountTypeToDbFormat(string accountType)
+        {
+
+            return accountTypesMapping.TryGetValue(accountType, out var dbFormat) ? dbFormat : throw new ArgumentException("Neplatný typ osoby");
+        }
+
         private void CloseAddingWindow()
         {
             var currentWindow = Application.Current.Windows.OfType<AddAccountView>().FirstOrDefault();
@@ -213,6 +217,13 @@ namespace InformacniSystemBanky.ViewModel
             {
                 currentWindow.Close();
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

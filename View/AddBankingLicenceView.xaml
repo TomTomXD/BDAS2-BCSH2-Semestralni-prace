@@ -189,7 +189,7 @@
                        Margin="0,20,0,20"
                        Width="180"/>
 
-                <TextBlock Text="Údaje o úvěru" 
+                <TextBlock Text="Údaje licence" 
                            FontSize="18" 
                            Foreground="White" 
                            FontWeight="Bold" 
@@ -271,9 +271,9 @@
                                Grid.Row="4" 
                                Margin="9,2,8,8" 
                                ItemsSource="{Binding BankingLicenceTypes}" 
-                               DisplayMemberPath="LicenceType"
-                               SelectedValuePath="BankingLicenceTypeId"
-                                SelectedValue="{Binding BankingLicenceTypeId}"
+                               DisplayMemberPath="Name"
+                               SelectedValuePath="Id"
+                                SelectedValue="{Binding Id}"
                                SelectedItem="{Binding SelectedLicenceType}" />
                     <Label Content="Držitel" Grid.Column="2" Grid.Row="4" Foreground="White" Margin="34,1,33,9"/>
                     <ComboBox x:Name="LicenceHolderComboBox" 

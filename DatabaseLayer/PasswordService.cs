@@ -19,22 +19,33 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<Password> GetPasswords()
         {
-                string query = "SELECT * FROM HESLA";
+                string query = @"SELECT h.id_heslo, 
+                                    o.email, 
+                                    h.hash, 
+                                    h.salt
+                                    FROM HESLA h
+                                    JOIN OSOBY o ON h.id_osoba = o.id_osoba";
 
                 return _databaseService.ExecuteSelect(query, reader => new Password
                 {
                     PasswordId = reader.GetInt32(0),
-                    HashedPassword = reader.GetString(1),
-                    Salt = reader.GetString(2),
-                    UserId = reader.GetInt32(3)
+                    Email = reader.GetString(1),
+                    HashedPassword = reader.GetString(2),
+                    Salt = reader.GetString(3),
                 });
         }
 
-        public void UpdatePassword(int selectedPassword, string newPasswordHash, string newPasswordSalt)
+        public void UpdatePassword(int selectedPasswordId, string newPasswordHash, string newPasswordSalt)
         {
             try
             {
-                
+                string query = "UPDATE HESLA SET hash = :newPasswordHash, salt = :newPasswordSalt WHERE id_heslo = :idPassword";
+                _databaseService.ExecuteNonQuery(query, command =>
+                {
+                    command.Parameters.Add("newPasswordHash", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2).Value = newPasswordHash;
+                    command.Parameters.Add("newPasswordSalt", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2).Value = newPasswordSalt;
+                    command.Parameters.Add("idPassword", Oracle.ManagedDataAccess.Client.OracleDbType.Int32).Value = selectedPasswordId;
+                });
             }
             catch (Exception e)
             {

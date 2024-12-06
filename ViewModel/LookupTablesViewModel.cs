@@ -132,7 +132,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                         break;
                     case "LoanStatusEdit":
                         if (SelectedLoanStatus == null) return;
-                        ShowEditRecordInLookupTableView("upsert_stavy_uvery", SelectedLoanStatus);
+                        ShowEditRecordInLookupTableView("upsert_stavy_uveru", SelectedLoanStatus);
                         break;
                     case "LicenceTypeEdit":
                         if (SelectedLicenceType == null) return;

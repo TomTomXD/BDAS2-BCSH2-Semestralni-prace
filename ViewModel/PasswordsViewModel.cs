@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -48,7 +49,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void EditPassword()
         {
-            throw new NotImplementedException();
+            if(SelectedPassword != null)
+            {
+                var editPasswordViewModel = new UpdatePasswordViewModel(SelectedPassword);
+                var editPasswordView = new UpdatePasswordView()
+                {
+                    DataContext = editPasswordViewModel
+                };
+                editPasswordView.ShowDialog();
+                LoadPasswordsFromDatabase();
+            }
         }
 
         private void LoadPasswordsFromDatabase()
