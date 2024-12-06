@@ -37,7 +37,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowDataDictionaryCommand { get; }
         public ICommand ShowStandingOrdersCommand { get; }
         public ICommand ShowLookUpTablesCommand { get; }
-        public ICommand DisplayHierarchyTreeCommand { get; }
+        public ICommand ShowHierarchyCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -54,7 +54,7 @@ namespace InformacniSystemBanky.ViewModel
             ShowDataDictionaryCommand = new RelayCommand(ShowDataDictionary);
             ShowStandingOrdersCommand = new RelayCommand(ShowStandingOrders);
             ShowLookUpTablesCommand = new RelayCommand(ShowLookUpTables);
-            DisplayHierarchyTreeCommand = new RelayCommand(DisplayHierarchyTree);
+            ShowHierarchyCommand = new RelayCommand(DisplayHierarchyTree);
            
             CurrentView = new AdminMainView();
         }
@@ -67,7 +67,6 @@ namespace InformacniSystemBanky.ViewModel
         private void ShowLookUpTables()
         {
             CurrentView = new LookupTablesView();
-            //CurrentView = new EmployeeHierarchyView();
         }
 
         private void ShowStandingOrders()

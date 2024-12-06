@@ -19,6 +19,7 @@
     <None Remove="Images\icons8-database-administrator-80.png" />
     <None Remove="Images\icons8-delete-100.png" />
     <None Remove="Images\icons8-edit-52.png" />
+    <None Remove="Images\icons8-employees-50.png" />
     <None Remove="Images\icons8-file-100.png" />
     <None Remove="Images\icons8-hand-holding-dollar-64.png" />
     <None Remove="Images\icons8-id-50 1.png" />
@@ -28,6 +29,7 @@
     <None Remove="Images\icons8-save-to-grid-50.png" />
     <None Remove="Images\icons8-search-history-66.png" />
     <None Remove="Images\icons8-standing-order-78.png" />
+    <None Remove="Images\icons8-structure-50.png" />
     <None Remove="Images\icons8-users-64.png" />
     <None Remove="Images\login picture.jpg" />
   </ItemGroup>
@@ -67,6 +69,9 @@
     <Resource Include="Images\icons8-edit-52.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\icons8-employees-50.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\icons8-file-100.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -92,6 +97,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-standing-order-78.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-structure-50.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-users-64.png">
