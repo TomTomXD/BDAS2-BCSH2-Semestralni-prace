@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="FinancniInformacniSystemBanky.View.AdminMainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FinancniInformacniSystemBanky.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="692" Height="398">
+            <TextBlock Text="{Binding Greeting}"
+                       TextWrapping="Wrap"
+                       Foreground="White"
+                       FontSize="90"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       Margin="0,0,0,10" Height="158" Width="694"/>
+            <TextBlock Text="Vítejte zpět"
+           TextWrapping="Wrap"
+           Foreground="White"
+           FontSize="50"
+           FontWeight="Bold"
+           TextAlignment="Center"
+           Height="106" Width="694"/>
+
+            <TextBlock x:Name="ClockTextBlock"
+                       Foreground="White"
+                       FontSize="80"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,0" />
+
+        </StackPanel>
+    </Grid>
+</UserControl>

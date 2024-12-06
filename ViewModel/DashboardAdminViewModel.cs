@@ -1,4 +1,5 @@
-﻿using FinancniInformacniSystemBanky.View;
+﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
@@ -10,6 +11,7 @@ namespace InformacniSystemBanky.ViewModel
     {
         private object _currentView;
 
+
         public object CurrentView
         {
             get => _currentView;
@@ -19,6 +21,7 @@ namespace InformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(CurrentView));
             }
         }
+
 
         public ICommand ShowHomeCommand { get; }
         public ICommand ShowLoansCommand { get; }
@@ -34,6 +37,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowDataDictionaryCommand { get; }
         public ICommand ShowStandingOrdersCommand { get; }
         public ICommand ShowLookUpTablesCommand { get; }
+        public ICommand DisplayHierarchyTreeCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -50,11 +54,20 @@ namespace InformacniSystemBanky.ViewModel
             ShowDataDictionaryCommand = new RelayCommand(ShowDataDictionary);
             ShowStandingOrdersCommand = new RelayCommand(ShowStandingOrders);
             ShowLookUpTablesCommand = new RelayCommand(ShowLookUpTables);
+            DisplayHierarchyTreeCommand = new RelayCommand(DisplayHierarchyTree);
+           
+            CurrentView = new AdminMainView();
+        }
+
+        private void DisplayHierarchyTree()
+        {
+            CurrentView = new EmployeeHierarchyView();
         }
 
         private void ShowLookUpTables()
         {
             CurrentView = new LookupTablesView();
+            //CurrentView = new EmployeeHierarchyView();
         }
 
         private void ShowStandingOrders()
@@ -94,7 +107,7 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowHome()
         {
-            CurrentView = null;
+            CurrentView = new AdminMainView();
         }
 
         private void ShowLoans()

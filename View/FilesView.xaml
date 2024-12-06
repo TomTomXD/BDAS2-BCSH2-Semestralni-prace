@@ -38,7 +38,11 @@
     </UserControl.Resources>
 
     <Grid Background="Transparent">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="915" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="758*"/>
+            <ColumnDefinition Width="243*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="916" Grid.ColumnSpan="2" >
             <!-- Border to create rounded corners -->
             <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
                 <DataGrid ItemsSource="{Binding Files}" AutoGenerateColumns="False" Height="490" 
