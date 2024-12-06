@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinancniInformacniSystemBanky.Model
+namespace FinancniInformacniSystemBanky.Model.Helpers
 {
-    public class Employee
+    public class EmployeeTable
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}"; 
-        public EmployeeDetails? Details { get; set; }
     }
 }

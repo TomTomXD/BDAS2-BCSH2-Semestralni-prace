@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.Model.Helpers;
 using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.Model;
 using InformacniSystemBanky.ViewModel;
@@ -21,6 +22,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 { "Klient", "K" },
                 { "Zaměstnanec", "Z" }
             };
+
+        private Employee _selectedEmployee;
 
         public ObservableCollection<string> Roles { get; set; }
         public ICommand AddNewPersonCommand { get; }
@@ -48,8 +51,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string _password;
         private int id;
 
-        private Visibility departmentVisibility;
-        private Visibility positionVisibility;
+        private Visibility _departmentVisibility;
+        private Visibility _positionVisibility;
+        private Visibility _managerVisibility;
 
         private readonly RolesService _rolesService;
         private readonly PersonDetailsService _personDetailsService;
@@ -159,22 +163,44 @@ namespace FinancniInformacniSystemBanky.ViewModel
         }
         public Visibility DepartmentVisibility
         {
-            get => departmentVisibility;
+            get => _departmentVisibility;
             set
             {
-                departmentVisibility = value;
+                _departmentVisibility = value;
                 OnPropertyChanged(nameof(DepartmentVisibility));
             }
         }
         public Visibility PositionVisibility
         {
-            get => positionVisibility;
+            get => _positionVisibility;
             set
             {
-                positionVisibility = value;
+                _positionVisibility = value;
                 OnPropertyChanged(nameof(PositionVisibility));
             }
         }
+        public Visibility ManagerVisibility
+        {
+            get => _managerVisibility;
+            set
+            {
+                _managerVisibility = value;
+                OnPropertyChanged(nameof(ManagerVisibility));
+            }
+        }
+
+        public Employee SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set
+            {
+                _selectedEmployee = value;
+                OnPropertyChanged(nameof(SelectedEmployee));
+            }
+        }
+
+        public ObservableCollection<Employee> Employees { get; set; }
+
 
         // Bezparametrický konstruktor pro přidání nové osoby
         public AddOrEditUserViewModel()
@@ -195,6 +221,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             DepartmentVisibility = Visibility.Hidden;
             PositionVisibility = Visibility.Hidden;
+            ManagerVisibility = Visibility.Hidden;
         }
 
         // Konstruktor pro editaci osoby
@@ -229,6 +256,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             actionButtonText = "Upravit";
             DepartmentVisibility = Visibility.Hidden;
             PositionVisibility = Visibility.Hidden;
+            ManagerVisibility = Visibility.Hidden;
 
             if (employee != null)
             {
@@ -238,6 +266,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 actionButtonText = "Upravit";
                 DepartmentVisibility = Visibility.Visible;
                 PositionVisibility = Visibility.Visible;
+                ManagerVisibility = Visibility.Visible;
             }
             
 
@@ -367,11 +396,13 @@ namespace FinancniInformacniSystemBanky.ViewModel
             {
                 DepartmentVisibility = Visibility.Visible;
                 PositionVisibility = Visibility.Visible;
+                ManagerVisibility = Visibility.Visible;
             }
             else
             {
                 DepartmentVisibility = Visibility.Hidden;
                 PositionVisibility = Visibility.Hidden;
+                ManagerVisibility = Visibility.Hidden;
             }
         }
 

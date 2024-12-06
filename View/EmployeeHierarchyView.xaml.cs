@@ -1,6 +1,7 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model.Helpers;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,9 +10,6 @@ namespace FinancniInformacniSystemBanky.View
     /// <summary>
     /// Interakční logika pro EmployeeHierarchyView.xaml
     /// </summary>
-    /// 
-
-    // Není potřeba nějaká složitá logika, stačí pouze zobrazit stromovou strukturu zaměstnanců, nevytvářen žádný ViewModel
     public partial class EmployeeHierarchyView : UserControl
     {
         private readonly EmployeesService _employeesService;
@@ -42,7 +40,11 @@ namespace FinancniInformacniSystemBanky.View
 
             foreach (var employee in employees)
             {
-                var treeViewItem = new TreeViewItem { Header = employee.FullName };
+                var treeViewItem = new TreeViewItem
+                {
+                    Header = employee.FullName,
+                    IsExpanded = true
+                };
                 treeViewItem.ItemsSource = CreateTreeItems(employee.Subordinates);
                 items.Add(treeViewItem);
             }

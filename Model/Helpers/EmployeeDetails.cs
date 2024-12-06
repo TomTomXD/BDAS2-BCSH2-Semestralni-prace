@@ -10,5 +10,6 @@ namespace FinancniInformacniSystemBanky.Model
     {
         public string Department { get; set; }
         public string Position { get; set; }
+        public Employee? Manager { get; set; }
     }
 }
