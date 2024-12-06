@@ -4,10 +4,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    UseLayoutRounding="True"
-    RenderOptions.BitmapScalingMode="NearestNeighbor"
-    SnapsToDevicePixels="True"
-    RenderOptions.ClearTypeHint="Enabled"
+             UseLayoutRounding="True"
+             RenderOptions.BitmapScalingMode="NearestNeighbor"
+             SnapsToDevicePixels="True"
+             RenderOptions.ClearTypeHint="Enabled"
     Height="650" Width="1000">
 
     <UserControl.Resources>
@@ -53,7 +53,7 @@
                     <DataGrid ItemsSource="{Binding Departments}" AutoGenerateColumns="False" 
                         SelectedItem="{Binding SelectedDepartment}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding DepartmentId}" Width="50">
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -61,10 +61,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Oddělení" Binding="{Binding Department}" Width="100">
+                            <DataGridTextColumn Header="Oddělení" Binding="{Binding Name}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
@@ -73,17 +73,17 @@
                     </DataGrid>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
-                    <Button Command="{Binding AddDepartmentCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                    <Button Command="{Binding AddCommand}" CommandParameter="DepartmentAdd" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding EditDepartmentCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                    <Button Command="{Binding EditCommand}" CommandParameter="DepartmentEdit" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeleteDepartmentCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeleteCommand}" CommandParameter="DepartmentDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>
@@ -100,7 +100,7 @@
                     <DataGrid ItemsSource="{Binding Positions}" AutoGenerateColumns="False" 
             SelectedItem="{Binding SelectedPosition}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding PositionNumber}" Width="50">
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -108,10 +108,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Pozice" Binding="{Binding Position}" Width="100">
+                            <DataGridTextColumn Header="Pozice" Binding="{Binding Name}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
@@ -120,17 +120,17 @@
                     </DataGrid>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
-                    <Button Command="{Binding AddPositionCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                    <Button Command="{Binding AddCommand}" CommandParameter="PositionAdd" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding EditPositionCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                    <Button Command="{Binding EditPositionCommand}" CommandParameter="PositionEdit" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeletePositionCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeletePositionCommand}" CommandParameter="PositionDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>
@@ -147,7 +147,7 @@
                     <DataGrid ItemsSource="{Binding Roles}" AutoGenerateColumns="False" 
             SelectedItem="{Binding SelectedRole}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding RoleId}" Width="50">
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -155,10 +155,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="100">
+                            <DataGridTextColumn Header="Role" Binding="{Binding Name}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
@@ -167,17 +167,17 @@
                     </DataGrid>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
-                    <Button Command="{Binding AddRoleCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                    <Button Command="{Binding AddCommand}" CommandParameter="RoleAdd" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding EditRoleCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                    <Button Command="{Binding EditCommand}" CommandParameter="RoleEdit" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeleteRoleCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeleteCommand}" CommandParameter="RoleDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>
@@ -193,7 +193,7 @@
                     <DataGrid ItemsSource="{Binding LoanStatuses}" AutoGenerateColumns="False" 
             SelectedItem="{Binding SelectedLoanStatus}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding LoanStatus}" Width="50">
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -201,10 +201,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Stav úvěru" Binding="{Binding LoanStatus}" Width="100">
+                            <DataGridTextColumn Header="Stav úvěru" Binding="{Binding Name}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
@@ -213,17 +213,17 @@
                     </DataGrid>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
-                    <Button Command="{Binding AddLoanStatusCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                    <Button Command="{Binding AddCommand}" CommandParameter="LoanStatusAdd" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding EditLoanStatusCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                    <Button Command="{Binding EditCommand}" CommandParameter="LoanStatusEdit" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeleteLoanStatusCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeleteCommand}" CommandParameter="LoanStatusDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>
@@ -243,7 +243,7 @@
                     <DataGrid ItemsSource="{Binding LicenceTypes}" AutoGenerateColumns="False" 
             SelectedItem="{Binding SelectedLiceneType}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding LicenceTypeId}" Width="50">
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -251,10 +251,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Typ licence" Binding="{Binding LicenceType}" Width="100">
+                            <DataGridTextColumn Header="Typ licence" Binding="{Binding Name}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
@@ -263,17 +263,17 @@
                     </DataGrid>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
-                    <Button Command="{Binding AddLicenceTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                    <Button Command="{Binding AddCommand}" CommandParameter="LicenceTypeAdd" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding EditLicenceTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                    <Button Command="{Binding EditCommand}" CommandParameter="LicenceTypeEdit" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeleteLicenceTypeCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeleteCommand}" CommandParameter="LicenceTypeDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>
@@ -289,7 +289,7 @@
                     <DataGrid ItemsSource="{Binding LoanTypes}" AutoGenerateColumns="False" 
             SelectedItem="{Binding SelectedLoanType}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding LoanTypeId}" Width="50">
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -297,10 +297,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Typ úvěru" Binding="{Binding LoanType}" Width="100">
+                            <DataGridTextColumn Header="Typ úvěru" Binding="{Binding Name}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
@@ -309,17 +309,17 @@
                     </DataGrid>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
-                    <Button Command="{Binding AddLoanTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                    <Button Command="{Binding AddCommand}" CommandParameter="LoanTypeAdd" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding EditLoanTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                    <Button Command="{Binding EditCommand}" CommandParameter="LoanTypeEdit" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeleteLoanTypeCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeleteCommand}" CommandParameter="LoanTypeDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>
@@ -335,7 +335,7 @@
                     <DataGrid ItemsSource="{Binding CardTypes}" AutoGenerateColumns="False" 
             SelectedItem="{Binding SelectedCardType}" Margin="0,5" Height="200" Width="190">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding CardTypeId}" Width="50">
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -343,10 +343,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Typ karty" Binding="{Binding CardType}" Width="100">
+                            <DataGridTextColumn Header="Typ karty" Binding="{Binding Name}" Width="100">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
@@ -355,17 +355,17 @@
                     </DataGrid>
                 </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
-                    <Button Command="{Binding AddCardTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                    <Button Command="{Binding AddCommand}" CommandParameter="CardTypeAdd" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding EditCardTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                    <Button Command="{Binding EditCommand}" CommandParameter="CardTypeEdit" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
                         </StackPanel>
                     </Button>
-                    <Button Command="{Binding DeleteCardTypeCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                    <Button Command="{Binding DeleteCommand}" CommandParameter="CardTypDelete" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
                         </StackPanel>

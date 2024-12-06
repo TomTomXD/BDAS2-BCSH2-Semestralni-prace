@@ -163,7 +163,7 @@ namespace FinancniInformacniSystemBanky
             IssueDate = selectedLicence.IssueDate;
             ExpirationDate = selectedLicence.ExpirationDate;
 
-            SelectedLicenceType = BankingLicenceTypes.First(x => x.BankingLicenceTypeId == selectedLicence.LicenceType);
+            SelectedLicenceType = BankingLicenceTypes.First(x => x.Id == selectedLicence.LicenceType);
             SelectedEmployee = Employees.First(x => x.Id == selectedLicence.LicenceHolderId);
 
             ActionLabelText = "Upravit licenci";
@@ -182,13 +182,13 @@ namespace FinancniInformacniSystemBanky
                 MessageBox.Show("Číslo licence se skládá pouze z čísel.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            _bankingLicenceServis.AddBankingLicence(null, LicenceNumber, IssueDate, ExpirationDate, SelectedLicenceType.BankingLicenceTypeId, SelectedEmployee.Id);
+            _bankingLicenceServis.AddBankingLicence(null, LicenceNumber, IssueDate, ExpirationDate, SelectedLicenceType.Id, SelectedEmployee.Id);
             CloseAddingWindow();
         }
 
         private void EditBankingLicence()
         {
-            _bankingLicenceServis.EditBankingLicence(BankingLicenceId, LicenceNumber, IssueDate, ExpirationDate, SelectedLicenceType.BankingLicenceTypeId, SelectedEmployee.Id);
+            _bankingLicenceServis.EditBankingLicence(BankingLicenceId, LicenceNumber, IssueDate, ExpirationDate, SelectedLicenceType.Id, SelectedEmployee.Id);
             CloseAddingWindow();
         }
 

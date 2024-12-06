@@ -136,7 +136,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             CVV = selectedCard.CVV;
 
             // Najdeme odpovídající typ karty podle ID typu karty z selectedCard
-            SelectedCardType = CardTypes.First(x => x.CardTypeId == Convert.ToInt32(selectedCard.CardType));
+            SelectedCardType = CardTypes.First(x => x.Id == Convert.ToInt32(selectedCard.CardType));
 
             DateOfIssue = selectedCard.IssuedDate;
             ExpirationDate = selectedCard.ExpirationDate;
@@ -156,7 +156,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 DateOfIssue, 
                 ExpirationDate, 
                 CVV, 
-                SelectedCardType.CardTypeId, 
+                SelectedCardType.Id, 
                 SelectedNormalAccount.AccountId);
             CloseAddingWindow();
         }
@@ -170,7 +170,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private void AddNewCard()
         {
             _cardService.AddCard(
-               CardNumber, DateOfIssue, ExpirationDate, CVV, SelectedCardType.CardTypeId, SelectedNormalAccount.AccountId);
+               CardNumber, DateOfIssue, ExpirationDate, CVV, SelectedCardType.Id, SelectedNormalAccount.AccountId);
             CloseAddingWindow();
         }
 

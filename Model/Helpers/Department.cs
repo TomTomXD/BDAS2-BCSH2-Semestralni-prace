@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinancniInformacniSystemBanky.Model.Helpers
 {
-    public class Department
+    public class Department : ILookupEntry
     {
         public int Id { get; set; }
         public string Name { get; set; }

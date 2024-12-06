@@ -120,8 +120,8 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             string query = @"SELECT * FROM TYPY_KARET";
             return _databaseService.ExecuteSelect(query, reader => new CardType
             {
-                CardTypeId = reader.GetInt32(0),
-                Type = reader.GetString(1)
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1)
             });
         }
 

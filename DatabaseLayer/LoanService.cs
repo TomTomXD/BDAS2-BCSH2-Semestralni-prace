@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.Model.Helpers;
 using Oracle.ManagedDataAccess.Client;
 using System.Windows;
 
@@ -127,7 +128,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             return _databaseService.ExecuteSelect(query, reader => new LoanStatus
             {
                 Id = reader.GetInt32(0),
-                Status = reader.GetString(1)
+                Name = reader.GetString(1)
             });
         }
 
@@ -138,7 +139,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             return _databaseService.ExecuteSelect(query, reader => new LoanType
             {
                 Id = reader.GetInt32(0),
-                Type = reader.GetString(1)
+                Name = reader.GetString(1)
             });
         }
 

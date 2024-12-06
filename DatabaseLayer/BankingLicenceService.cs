@@ -46,8 +46,8 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
                 return _databaseService.ExecuteSelect(query, reader => new BankingLicenceType
                 {
-                    BankingLicenceTypeId = reader.GetInt32(0),
-                    LicenceType = reader.GetString(1)
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1)
                 });
             }
             catch (Exception ex)

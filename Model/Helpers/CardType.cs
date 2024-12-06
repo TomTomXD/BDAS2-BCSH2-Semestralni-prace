@@ -1,8 +1,10 @@
-﻿namespace FinancniInformacniSystemBanky.Model
+﻿using FinancniInformacniSystemBanky.Model.Helpers;
+
+namespace FinancniInformacniSystemBanky.Model
 {
-    public class CardType
+    public class CardType : ILookupEntry
     {
-        public int CardTypeId { get; set; }
-        public string Type { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

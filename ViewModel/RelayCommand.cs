@@ -1,27 +1,40 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace InformacniSystemBanky.ViewModel
 {
-    // RelayCommand obecná třída pro předávání akcí z View do ViewModel
     public class RelayCommand : ICommand
     {
-        private readonly Action _execute;
-        private readonly Func<bool> _canExecute;
+        private readonly Action<object> _executeWithParameter;
+        private readonly Action _executeWithoutParameter;
+        private readonly Func<object, bool> _canExecuteWithParameter;
+        private readonly Func<bool> _canExecuteWithoutParameter;
 
         public RelayCommand(Action execute, Func<bool> canExecute = null)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
+            _executeWithoutParameter = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecuteWithoutParameter = canExecute;
+        }
+
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        {
+            _executeWithParameter = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecuteWithParameter = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null || _canExecute();
+            if (_canExecuteWithParameter != null)
+                return _canExecuteWithParameter(parameter);
+            return _canExecuteWithoutParameter == null || _canExecuteWithoutParameter();
         }
 
         public void Execute(object parameter)
         {
-            _execute();
+            if (_executeWithParameter != null)
+                _executeWithParameter(parameter);
+            else
+                _executeWithoutParameter();
         }
 
         public event EventHandler CanExecuteChanged

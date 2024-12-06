@@ -1,13 +1,12 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
-using FinancniInformacniSystemBanky.ViewModel;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace FinancniInformacniSystemBanky
+namespace FinancniInformacniSystemBanky.ViewModel
 {
     public class CardsViewModel : INotifyPropertyChanged
     {
@@ -63,7 +62,7 @@ namespace FinancniInformacniSystemBanky
 
         private void EditCard()
         {
-            if(SelectedCard != null)
+            if (SelectedCard != null)
             {
                 var editCardViewModel = new AddCardViewModel(SelectedCard);
                 var editCardView = new AddCardView()
@@ -84,7 +83,7 @@ namespace FinancniInformacniSystemBanky
 
         private bool CanDeleteCard()
         {
-            return SelectedCard != null; 
+            return SelectedCard != null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
