@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.Model.Helpers;
 using InformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
@@ -171,12 +172,12 @@ namespace FinancniInformacniSystemBanky
 
         private void AddNewBankingLicence()
         {
-            if(string.IsNullOrEmpty(LicenceNumber) || IssueDate == null || ExpirationDate == null || SelectedLicenceType == null || SelectedEmployee == null)
+            if (string.IsNullOrEmpty(LicenceNumber) || IssueDate == null || ExpirationDate == null || SelectedLicenceType == null || SelectedEmployee == null)
             {
-                MessageBox.Show("Vyplňte všechny údaje","Chybějící údaje",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("Vyplňte všechny údaje", "Chybějící údaje", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(!Regex.IsMatch(LicenceNumber, @"^\d+$"))
+            if (!Regex.IsMatch(LicenceNumber, @"^\d+$"))
             {
                 MessageBox.Show("Číslo licence se skládá pouze z čísel.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -187,8 +188,8 @@ namespace FinancniInformacniSystemBanky
 
         private void EditBankingLicence()
         {
-                _bankingLicenceServis.EditBankingLicence(BankingLicenceId, LicenceNumber, IssueDate, ExpirationDate, SelectedLicenceType.BankingLicenceTypeId, SelectedEmployee.Id);
-                CloseAddingWindow();
+            _bankingLicenceServis.EditBankingLicence(BankingLicenceId, LicenceNumber, IssueDate, ExpirationDate, SelectedLicenceType.BankingLicenceTypeId, SelectedEmployee.Id);
+            CloseAddingWindow();
         }
 
         private void CloseAddingWindow()

@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.Model.Helpers;
 using InformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
 using System.Windows;

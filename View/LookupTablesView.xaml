@@ -1,0 +1,377 @@
+﻿<UserControl x:Class="InformacniSystemBanky.View.LookupTablesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    UseLayoutRounding="True"
+    RenderOptions.BitmapScalingMode="NearestNeighbor"
+    SnapsToDevicePixels="True"
+    RenderOptions.ClearTypeHint="Enabled"
+    Height="650" Width="1000">
+
+    <UserControl.Resources>
+        <!-- Style for DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="AlternatingRowBackground" Value="#F2F2F2"/>
+            <Setter Property="AlternationCount" Value="2"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="RowHeight" Value="50"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Style for DataGridColumnHeader -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Margin" Value="0,0,0,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="954">
+        <!-- First UniformGrid for tables -->
+        <UniformGrid Rows="1" Columns="4" HorizontalAlignment="Center" Margin="10">
+            <!-- First Table -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="280" Margin="20">
+                <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <DataGrid ItemsSource="{Binding Departments}" AutoGenerateColumns="False" 
+                        SelectedItem="{Binding SelectedDepartment}" Margin="0,5" Height="200" Width="190">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding DepartmentId}" Width="50">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Oddělení" Binding="{Binding Department}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
+                    <Button Command="{Binding AddDepartmentCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding EditDepartmentCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding DeleteDepartmentCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Second Table -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="280">
+                <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <DataGrid ItemsSource="{Binding Positions}" AutoGenerateColumns="False" 
+            SelectedItem="{Binding SelectedPosition}" Margin="0,5" Height="200" Width="190">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding PositionNumber}" Width="50">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Pozice" Binding="{Binding Position}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
+                    <Button Command="{Binding AddPositionCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding EditPositionCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding DeletePositionCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Third Table -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="280">
+                <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <DataGrid ItemsSource="{Binding Roles}" AutoGenerateColumns="False" 
+            SelectedItem="{Binding SelectedRole}" Margin="0,5" Height="200" Width="190">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding RoleId}" Width="50">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
+                    <Button Command="{Binding AddRoleCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding EditRoleCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding DeleteRoleCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <!--Fourth table-->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="280">
+                <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <DataGrid ItemsSource="{Binding LoanStatuses}" AutoGenerateColumns="False" 
+            SelectedItem="{Binding SelectedLoanStatus}" Margin="0,5" Height="200" Width="190">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding LoanStatus}" Width="50">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Stav úvěru" Binding="{Binding LoanStatus}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
+                    <Button Command="{Binding AddLoanStatusCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding EditLoanStatusCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding DeleteLoanStatusCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </UniformGrid>
+
+        <!-- Second UniformGrid for buttons -->
+        <UniformGrid Rows="1" Columns="3" HorizontalAlignment="Center">
+            <!-- First Table -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="280" Margin="20">
+                <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <DataGrid ItemsSource="{Binding LicenceTypes}" AutoGenerateColumns="False" 
+            SelectedItem="{Binding SelectedLiceneType}" Margin="0,5" Height="200" Width="190">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding LicenceTypeId}" Width="50">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Typ licence" Binding="{Binding LicenceType}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
+                    <Button Command="{Binding AddLicenceTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding EditLicenceTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding DeleteLicenceTypeCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <!--Second table-->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="280">
+                <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <DataGrid ItemsSource="{Binding LoanTypes}" AutoGenerateColumns="False" 
+            SelectedItem="{Binding SelectedLoanType}" Margin="0,5" Height="200" Width="190">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding LoanTypeId}" Width="50">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Typ úvěru" Binding="{Binding LoanType}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
+                    <Button Command="{Binding AddLoanTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding EditLoanTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding DeleteLoanTypeCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <!--Third table-->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="280">
+                <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <DataGrid ItemsSource="{Binding CardTypes}" AutoGenerateColumns="False" 
+            SelectedItem="{Binding SelectedCardType}" Margin="0,5" Height="200" Width="190">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding CardTypeId}" Width="50">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Typ karty" Binding="{Binding CardType}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Width="180">
+                    <Button Command="{Binding AddCardTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="5,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-plus-48.png" Stretch="Fill" Height="35" Width="35" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding EditCardTypeCommand}" Height="50" Background="Transparent" BorderThickness="0"  Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-edit-52.png" Stretch="Fill" Height="30" Width="30" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding DeleteCardTypeCommand}" Height="50" Background="Transparent" BorderThickness="0" Margin="15,5,15,0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Source="pack://application:,,,/Images/icons8-delete-100.png" Stretch="Fill" Height="40" Width="40" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </UniformGrid>
+    </StackPanel>
+</UserControl>

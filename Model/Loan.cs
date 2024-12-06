@@ -19,16 +19,4 @@
         public int LoanType { get; set; }
         public int LoanStatus { get; set; }
     }
-
-    public class LoanStatus
-    {
-        public int Id { get; set; }
-        public string Status { get; set; }
-    }
-
-    public class LoanType
-    {
-        public int Id { get; set; }
-        public string Type { get; set; }
-    }
 }

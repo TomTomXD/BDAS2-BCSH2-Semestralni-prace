@@ -33,6 +33,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowAddressesCommand { get; }
         public ICommand ShowDataDictionaryCommand { get; }
         public ICommand ShowStandingOrdersCommand { get; }
+        public ICommand ShowLookUpTablesCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -48,6 +49,12 @@ namespace InformacniSystemBanky.ViewModel
             ShowAddressesCommand = new RelayCommand(ShowAddresses);
             ShowDataDictionaryCommand = new RelayCommand(ShowDataDictionary);
             ShowStandingOrdersCommand = new RelayCommand(ShowStandingOrders);
+            ShowLookUpTablesCommand = new RelayCommand(ShowLookUpTables);
+        }
+
+        private void ShowLookUpTables()
+        {
+            CurrentView = new LookupTablesView();
         }
 
         private void ShowStandingOrders()

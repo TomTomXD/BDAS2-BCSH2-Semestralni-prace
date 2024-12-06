@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InformacniSystemBanky.Model
+namespace FinancniInformacniSystemBanky.Model.Helpers
 {
     public class BankingLicenceType
     {
