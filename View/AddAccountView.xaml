@@ -223,7 +223,12 @@
                     <Label Content="Limit" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="22,0,45,10"/>
                     <TextBox x:Name="LimitTextBox" Grid.Column="3" Grid.Row="1" Margin="0,0,0,10" Text="{Binding Limit, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidation"/>
                     <Label Content="Vlastník" Grid.Column="0" Grid.Row="3" Foreground="White" Margin="34,9,33,1"/>
-                    <TextBox x:Name="OwnerComboBox" Grid.Column="1" Grid.Row="3" Margin="9,7,8,3" Text="{Binding IdOwner, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidation"/>
+                    <ComboBox x:Name="OwnerComboBox" Grid.Column="1" Grid.Row="3" Margin="9,7,8,3" 
+                              ItemsSource="{Binding PossibleOwners}"
+                              DisplayMemberPath="FullDesc"
+                              SelectedValuePath="ClientId"
+                              SelectedValue="{Binding ClientId}"
+                              SelectedItem="{Binding SelectedOwner}"/>
 
                 </Grid>
 

@@ -13,6 +13,7 @@ namespace InformacniSystemBanky.Model
         public decimal Balance { get; set; }
         public decimal PaymentLimit { get; set; }
         public int PersonId { get; set; }
+        public string OwnerName { get; set; }
         public string AccountType { get; set; }
     }
 

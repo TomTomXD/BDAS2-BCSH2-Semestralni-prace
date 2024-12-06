@@ -1,6 +1,8 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.Model.Helpers;
 using InformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -16,6 +18,10 @@ namespace InformacniSystemBanky.ViewModel
         };
 
         private readonly AccountService _accountService;
+
+        private ObservableCollection<Client> _possibleOwners;
+        private Client _selectedOwner;
+
 
         private string actionButtonText;
         private string actionLabelText;
@@ -78,6 +84,16 @@ namespace InformacniSystemBanky.ViewModel
             get => _idOwner;
             set { _idOwner = value; OnPropertyChanged(nameof(IdOwner)); }
         }
+        public Client SelectedOwner
+        {
+            get => _selectedOwner;
+            set { _selectedOwner = value; OnPropertyChanged(nameof(SelectedOwner)); }
+        }
+        public ObservableCollection<Client> PossibleOwners
+        {
+            get => _possibleOwners;
+            set { _possibleOwners = value; OnPropertyChanged(nameof(PossibleOwners)); }
+        }
 
         public Visibility InterestVisibility
         {
@@ -119,6 +135,8 @@ namespace InformacniSystemBanky.ViewModel
 
             _accountService = new AccountService();
 
+            PossibleOwners = new ObservableCollection<Client>(_accountService.GetPossibleOwners());
+
             actionLabelText = "Přidat účet";
             actionButtonText = "Přidat";
 
@@ -134,6 +152,7 @@ namespace InformacniSystemBanky.ViewModel
 
             _accountService = new AccountService();
 
+            PossibleOwners = new ObservableCollection<Client>(_accountService.GetPossibleOwners());
             actionLabelText = "Upravit účet";
             actionButtonText = "Upravit";
 
@@ -154,39 +173,30 @@ namespace InformacniSystemBanky.ViewModel
             SelectedAccountType = account.AccountType;
             IdOwner = account.PersonId;
             AccountId = account.AccountId;
+            SelectedOwner = PossibleOwners.First(x => x.ClientId == account.PersonId);
+
 
         }
 
         private void EditAccount()
         {
-            //string message = $"Upravovaný účet:\n" +
-            //     $"Číslo účtu: {AccountNumber}\n" +
-            //     $"Zůstatek: {Balance:C}\n" +
-            //     $"Limit: {Limit:C}\n" +
-            //     $"Vlastník (ID): {IdOwner}\n" +
-            //     $"Typ účtu: {SelectedAccountType}\n" +
-            //     $"Úroková sazba: {Interest}%\n" +
-            //     $"Maximální zůstatek: {MaxBalance:C}";
-
-            //MessageBox.Show(message, "Potvrzení úpravy účtu", MessageBoxButton.OK, MessageBoxImage.Information);
-            _accountService.UpdateAccount(AccountId, AccountNumber, (decimal)Balance, (decimal)Limit, IdOwner, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
+            if(AccountId == 0 || AccountNumber == null || Balance == 0 || Limit == 0 || SelectedOwner == null || SelectedAccountType == null)
+            {
+                MessageBox.Show("Všechna pole musí být vyplněna");
+                return;
+            }
+            _accountService.UpdateAccount(AccountId, AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.ClientId, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
             CloseAddingWindow();
         }
 
         private void AddNewAccount()
         {
-            //string message = $"Přidávaný účet:\n" +
-            //     $"Číslo účtu: {AccountNumber}\n" +
-            //     $"Zůstatek: {Balance:C}\n" +
-            //     $"Limit: {Limit:C}\n" +
-            //     $"Vlastník (ID): {IdOwner}\n" +
-            //     $"Typ účtu: {SelectedAccountType}\n" +
-            //     $"Úroková sazba: {Interest}%\n" +
-            //     $"Maximální zůstatek: {MaxBalance:C}";
-
-
-            _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, IdOwner, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
-            //MessageBox.Show(message, "Potvrzení přidání účtu", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (AccountId == 0 || AccountNumber == null || Balance == 0 || Limit == 0 || SelectedOwner == null || SelectedAccountType == null)
+            {
+                MessageBox.Show("Všechna pole musí být vyplněna");
+                return;
+            }
+            _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.ClientId, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
             CloseAddingWindow();
         }
 

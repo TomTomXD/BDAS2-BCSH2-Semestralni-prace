@@ -15,16 +15,21 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<Card> GetCards()
         {
-            string query = @"SELECT * FROM KARTY";
+            string query = @"SELECT * FROM KARTY_VIEW"; // Ujistěte se, že pohled KARTY_VIEW skutečně vrací potřebné sloupce
             return _databaseService.ExecuteSelect(query, reader => new Card
             {
-                CardId = reader.GetInt32(0),
-                CardNumber = reader.GetString(1),
-                IssuedDate = reader.GetDateTime(2),
-                ExpirationDate = reader.GetDateTime(3),
-                CVV = reader.GetString(4),
-                CardType = reader.GetString(5),
-                AccountId = reader.GetInt32(6)
+                CardId = reader.GetInt32(0), // ID karty
+                CardNumber = reader.GetString(1), // Číslo karty
+                IssuedDate = reader.GetDateTime(2), // Datum vydání
+                ExpirationDate = reader.GetDateTime(3), // Datum platnosti
+                CVV = reader.GetString(4), // CVV kód
+                CardType = new CardType
+                {
+                    Id = reader.GetInt32(5), // ID typu karty
+                    Name = reader.GetString(6) // Název typu karty
+                },
+                AccountId = reader.GetInt32(7), // ID účtu
+                AccountNumber = reader.GetString(8)
             });
         }
 

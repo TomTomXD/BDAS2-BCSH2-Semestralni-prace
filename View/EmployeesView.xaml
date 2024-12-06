@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="InformacniSystemBanky.View.AccountsView"
+﻿<UserControl x:Class="InformacniSystemBanky.View.EmployeesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -49,10 +49,10 @@
                 <Border.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
                 </Border.Effect>
-                <DataGrid ItemsSource="{Binding Accounts}" AutoGenerateColumns="False" Height="490" 
-                      SelectedItem="{Binding SelectedAccount}" Width="880" Margin="0,5">
+                <DataGrid ItemsSource="{Binding Addresses}" AutoGenerateColumns="False" Height="490" 
+                      SelectedItem="{Binding SelectedAddress}" Width="880" Margin="0,5">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Číslo Účtu" Binding="{Binding AccountNumber}" Width="*">
+                        <DataGridTextColumn Header="ID adresy" Binding="{Binding AddressId}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -60,7 +60,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Zůstatek" Binding="{Binding Balance}" Width="*">
+                        <DataGridTextColumn Header="Ulice" Binding="{Binding StreetName}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -68,7 +68,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Limit pro Platby" Binding="{Binding PaymentLimit}" Width="*">
+                        <DataGridTextColumn Header="Město" Binding="{Binding City}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -76,7 +76,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Vlastník" Binding="{Binding OwnerName}" Width="*">
+                        <DataGridTextColumn Header="Číslo popisné" Binding="{Binding HouseNumber}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -84,7 +84,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Typ účtu" Binding="{Binding AccountType}" Width="*">
+                        <DataGridTextColumn Header="PSČ" Binding="{Binding PostalCode}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -98,9 +98,9 @@
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Přidat Účet" Command="{Binding AddAccountCommand}" Width="150" Margin="5" />
-                <Button Content="Upravit Účet" Command="{Binding EditAccountCommand}" Width="150" Margin="5" />
-                <Button Content="Smazat Vybraný Účet" Command="{Binding DeleteAccountCommand}" IsEnabled="{Binding Path=SelectedAccount}" Width="150" Margin="5" />
+                <Button Content="Přidat Adresu" Command="{Binding AddAddressCommand}" Width="150" Margin="5" />
+                <Button Content="Upravit Adresu" Command="{Binding EditAddressCommand}" Width="150" Margin="5" />
+                <Button Content="Smazat Adresu" Command="{Binding DeleteAddressCommand}" IsEnabled="{Binding Path=SelectedAddress}" Width="150" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>

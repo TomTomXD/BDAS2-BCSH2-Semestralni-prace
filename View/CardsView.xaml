@@ -84,7 +84,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Typ karty" Binding="{Binding CardType}" Width="*">
+                        <DataGridTextColumn Header="Typ karty" Binding="{Binding CardType.Name}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -92,7 +92,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Účet" Binding="{Binding AccountId}" Width="*">
+                        <DataGridTextColumn Header="Účet" Binding="{Binding AccountNumber}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

@@ -1,4 +1,5 @@
-﻿using InformacniSystemBanky.Model;
+﻿using FinancniInformacniSystemBanky.Model.Helpers;
+using InformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
 using System.Windows;
 
@@ -28,7 +29,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             }
             else
             {
-                query = "SELECT * FROM UCTY";
+                query = "SELECT * FROM UCTY_VIEW";
             }
 
             return _databaseService.ExecuteSelect(query, reader => new Account
@@ -38,7 +39,8 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 Balance = reader.GetDecimal(2),
                 PaymentLimit = reader.GetDecimal(3),
                 PersonId = reader.GetInt32(4),
-                AccountType = reader.GetString(5)
+                OwnerName = reader.GetString(5),
+                AccountType = reader.GetString(6)
             }, configureCommand);
         }
 
@@ -165,6 +167,18 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             {
                 MessageBox.Show($"Nepodařilo se přidat účet. Chyba: {ex.Message}", "Přidání účtu", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public IEnumerable<Client> GetPossibleOwners()
+        {
+            string query = "SELECT * FROM VSICHNI_KLIENTI_VIEW";
+            return _databaseService.ExecuteSelect(query, reader => new Client
+            {
+                ClientId = reader.GetInt32(0),
+                FirstName = reader.GetString(1),
+                LastName = reader.GetString(2),
+                NationalIdNumber = reader.GetString(3)
+            });
         }
     }
 }

@@ -11,6 +11,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
     public class CardsViewModel : INotifyPropertyChanged
     {
         private readonly CardService _cardService;
+
         public ObservableCollection<Card> Cards { get; set; }
 
         private Card _selectedCard;
