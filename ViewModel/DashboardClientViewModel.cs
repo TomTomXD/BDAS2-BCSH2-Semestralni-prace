@@ -27,6 +27,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowLoans { get; }
         public ICommand LogOutCommand { get; }
         public ICommand ShowCardsCommand { get; }
+        public ICommand ShowChangeOfPersonalDetailsCommand { get; }
 
         public DashboardClientViewModel()
         {
@@ -35,10 +36,17 @@ namespace InformacniSystemBanky.ViewModel
             LogOutCommand = new RelayCommand(LogOut);
             ShowLoans = new RelayCommand(ShowLoansView);
             ShowCardsCommand = new RelayCommand(ShowCards);
+            ShowChangeOfPersonalDetailsCommand = new RelayCommand(ChangePersonalDetails);
 
             // Výchozí zobrazení
             CurrentView = new AdminMainView();
 
+        }
+
+        private void ChangePersonalDetails()
+        {
+            var clientEditPersonalDetailsView = new ClientEditPersonalDetailsView();
+            clientEditPersonalDetailsView.ShowDialog();
         }
 
         private void ShowCards()
