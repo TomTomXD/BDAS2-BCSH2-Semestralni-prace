@@ -68,12 +68,15 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void ChangeLimit()
         {
-            var changeLimitViewModel = new ClientEditAccountViewModel(SelectedAccount);
-            var changeLimitView = new ClientEditAccountView()
+            if(SelectedAccount != null)
             {
-                DataContext = changeLimitViewModel
-            };
-            changeLimitView.ShowDialog();
+                var changeLimitViewModel = new ClientEditAccountViewModel(SelectedAccount);
+                var changeLimitView = new ClientEditAccountView()
+                {
+                    DataContext = changeLimitViewModel
+                };
+                changeLimitView.ShowDialog();
+            }
         }
 
         private void AddAccount()

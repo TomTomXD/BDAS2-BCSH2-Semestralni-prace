@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.View;
+using FinancniInformacniSystemBanky.ViewModel;
 using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
@@ -22,20 +23,32 @@ namespace InformacniSystemBanky.ViewModel
         }
 
         //public ICommand ShowHomeCommand { get; }
-        public ICommand ShowAllAccountCommand { get; }
+        public ICommand ShowAccountCommand { get; }
         public ICommand ShowLoans { get; }
         public ICommand LogOutCommand { get; }
+        public ICommand ShowCardsCommand { get; }
 
         public DashboardClientViewModel()
         {
             //ShowHomeCommand = new RelayCommand(ShowHome);
-            ShowAllAccountCommand = new RelayCommand(ShowAccounts);
+            ShowAccountCommand = new RelayCommand(ShowAccounts);
             LogOutCommand = new RelayCommand(LogOut);
             ShowLoans = new RelayCommand(ShowLoansView);
+            ShowCardsCommand = new RelayCommand(ShowCards);
 
             // Výchozí zobrazení
             CurrentView = new AdminMainView();
 
+        }
+
+        private void ShowCards()
+        {
+            var clientCardsViewModel = new ClientCardsViewModel();
+            var clientCardsView = new CardsView()
+            {
+                DataContext = clientCardsViewModel
+            };
+            CurrentView = clientCardsView;
         }
 
         private void ShowLoansView()

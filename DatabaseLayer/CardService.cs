@@ -15,7 +15,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<Card> GetCards()
         {
-            string query = @"SELECT * FROM KARTY_VIEW"; // Ujistěte se, že pohled KARTY_VIEW skutečně vrací potřebné sloupce
+            string query = @"SELECT * FROM KARTY_VIEW"; 
             return _databaseService.ExecuteSelect(query, reader => new Card
             {
                 CardId = reader.GetInt32(0), // ID karty
@@ -33,6 +33,37 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
+        public IEnumerable<Card> GetClientsCards(int id)
+        {
+            string query = @"SELECT * 
+                     FROM KARTY_VIEW kv
+                     JOIN UCTY u ON kv.id_ucet = u.id_ucet
+                     JOIN OSOBY o ON u.klient_id_osoba = o.id_osoba
+                     WHERE o.id_osoba = :id_osoba";
+
+            return _databaseService.ExecuteSelect(query, reader =>
+            {
+                return new Card
+                {
+                    CardId = reader.GetInt32(0), // ID karty
+                    CardNumber = reader.GetString(1), // Číslo karty
+                    IssuedDate = reader.GetDateTime(2), // Datum vydání
+                    ExpirationDate = reader.GetDateTime(3), // Datum platnosti
+                    CVV = reader.GetString(4), // CVV kód
+                    CardType = new CardType
+                    {
+                        Id = reader.GetInt32(5), // ID typu karty
+                        Name = reader.GetString(6) // Název typu karty
+                    },
+                    AccountId = reader.GetInt32(7), // ID účtu
+                    AccountNumber = reader.GetString(8) // Account number
+                };
+            }, command =>
+            {
+                command.Parameters.Add("id_osoba", OracleDbType.Int32).Value = id;
+            });
+        }
+
         public void AddCard(
                 string cisloKarty,
                 DateTime datumVystaveni,
@@ -41,15 +72,13 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 int idTypuKarty,
                 int idBeznehoUctu
                 )
-        // Default value for vydavatel
         {
             try
             {
                 var procedureName = "upsert_karta"; // Name of the procedure
 
                 // DatabaseService to execute the procedure
-                DatabaseService dbService = new DatabaseService();
-                dbService.ExecuteProcedure(procedureName, command =>
+                _databaseService.ExecuteProcedure(procedureName, command =>
                 {
                     // Parameters for the procedure
                     command.Parameters.Add("p_id_karty", OracleDbType.Int32).Value = DBNull.Value; // NULL for a new card

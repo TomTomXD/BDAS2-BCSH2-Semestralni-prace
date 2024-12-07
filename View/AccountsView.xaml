@@ -84,7 +84,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Typ účtu" Binding="{Binding AccountType}" Width="*">
+                        <DataGridTextColumn Header="Typ účtu" Binding="{Binding FriendlyAccountType}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

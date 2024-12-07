@@ -15,6 +15,17 @@ namespace InformacniSystemBanky.Model
         public int PersonId { get; set; }
         public string OwnerName { get; set; }
         public string AccountType { get; set; }
+        public string FriendlyAccountType
+        {
+            get
+            {
+                return AccountType switch
+                {
+                    "B" => "Běžný",
+                    "S" => "Spořicí",
+                    _ => "Neznámý"
+                };
+            }
+        }
     }
-
 }

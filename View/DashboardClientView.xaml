@@ -83,7 +83,7 @@
 
         <UniformGrid Columns="1" Margin="10,95,10,5">
             <!--Účty button-->
-            <Button Command="{Binding ShowAllAccountCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+            <Button Command="{Binding ShowAccountCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-bank-account-48.png" Stretch="Fill" Height="40" Width="40" />
                     <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Moje Účty"/>
@@ -91,7 +91,7 @@
             </Button>
 
             <!--Karty button-->
-            <Button Command="{Binding ShowAllCardsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+            <Button Command="{Binding ShowCardsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-credit-card-80.png" Stretch="Fill" Height="40" Width="40" />
                     <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Moje Karty"/>
