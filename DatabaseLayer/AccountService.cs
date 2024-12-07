@@ -65,6 +65,26 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             }
         }
 
+        public IEnumerable<Account> GetAccountsByIdAndType(int id, char type)
+        {
+            string query = "SELECT * FROM UCTY_VIEW WHERE KLIENT_ID_OSOBA = :id AND TYP_UCTU = :type";
+
+            return _databaseService.ExecuteSelect(query, reader => new Account
+            {
+                AccountId = reader.GetInt32(0),
+                AccountNumber = reader.GetString(1),
+                Balance = reader.GetDecimal(2),
+                PaymentLimit = reader.GetDecimal(3),
+                PersonId = reader.GetInt32(4),
+                OwnerName = reader.GetString(5),
+                AccountType = reader.GetString(6)
+            }, command =>
+            {
+                command.Parameters.Add(new OracleParameter("id", id));
+                command.Parameters.Add(new OracleParameter("type", type)); // Přidání parametru pro typ účtu
+            });
+        }
+
         public void AddAccount(
             string cisloUctu,
             decimal zustatek,

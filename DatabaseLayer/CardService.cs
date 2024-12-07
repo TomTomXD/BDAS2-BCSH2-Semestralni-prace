@@ -159,7 +159,8 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
-        public string GenerateCardNumber(int cisloVadavatele)
+        // Defaultní hodnota 53 = MasterCard, možné rozšíření o další typy karet v budoucnu
+        public string GenerateCardNumber(int cisloVadavatele = 53)
         {
             try
             {

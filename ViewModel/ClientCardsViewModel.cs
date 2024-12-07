@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,12 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddCardToDatabase()
         {
+            var addClientCardViewModel = new ClientAddCardViewModel();
+            var addCardView = new ClientAddCardView()
+            {
+                DataContext = addClientCardViewModel
+            };
+            addCardView.ShowDialog();
             LoadCardsFromDatabase();
         }
 
