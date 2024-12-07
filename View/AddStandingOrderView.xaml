@@ -187,7 +187,7 @@
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
                        Margin="0,20,0,20"
-                       Width="180"/>
+                       Width="470" Height="15"/>
 
                 <TextBlock Text="Trvalý příkaz" 
                            FontSize="18" 
