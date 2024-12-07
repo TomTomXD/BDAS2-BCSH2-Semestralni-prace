@@ -74,7 +74,7 @@ public class RegisterCreatePasswordViewModel : INotifyPropertyChanged
                     _userRegistrationViewModel.AddressStreet,
                     _userRegistrationViewModel.AddressHouseNumber,
                     _userRegistrationViewModel.AddressCity,
-                    int.Parse(_userRegistrationViewModel.AddressZipCode),
+                    _userRegistrationViewModel.AddressZipCode,
                     hashedPassword,
                     saltBase64
                 );

@@ -12,10 +12,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
 {
     public class UsersViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<PersonDetails> People { get; set; }
+        public ObservableCollection<Person> People { get; set; }
         public ICollectionView FilteredPeople { get; set; }
         private string _searchText;
-        private PersonDetails selectedPerson;
+        private Person selectedPerson;
 
         public string SearchText
         {
@@ -27,7 +27,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 FilteredPeople.Refresh();
             }
         }
-        public PersonDetails SelectedPerson
+        public Person SelectedPerson
         {
             get => selectedPerson;
             set
@@ -41,16 +41,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ICommand ChangePersonalDataCommand { get; }
         public ICommand DeletePersonCommand { get; }
 
-        private readonly PersonDetailsService _personDetailsService;
+        private readonly PersonService _personDetailsService;
 
         public UsersViewModel()
         {
-            People = new ObservableCollection<PersonDetails>();
+            People = new ObservableCollection<Person>();
             FilteredPeople = CollectionViewSource.GetDefaultView(People);
             FilteredPeople.Filter = FilterPeople;
 
             var databaseService = new DatabaseService();
-            _personDetailsService = new PersonDetailsService();
+            _personDetailsService = new PersonService();
 
             LoadPeopleFromDatabase();
 
@@ -72,9 +72,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
+
         private bool FilterPeople(object obj)
         {
-            if (obj is PersonDetails person)
+            if (obj is Person person)
             {
                 return string.IsNullOrEmpty(SearchText) ||
                        person.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
@@ -82,8 +83,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
                        person.DoB.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
                        person.NationalIdNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
                        person.PhoneNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                       person.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-                       person.Role.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+                       person.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase); 
+                       //|| person.Role.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
             }
             return false;
         }
@@ -105,23 +106,12 @@ namespace FinancniInformacniSystemBanky.ViewModel
         {
             if (IsPersonSelected())
             {
-                var personDetailsService = new PersonDetailsService();
-                AddOrEditUserViewModel addOrEditUserViewModel;
-               
-                if (personDetailsService.GetTypeOfPerson(SelectedPerson.NationalIdNumber) == 'Z')
+                var editUserViewModel = new AddOrEditUserViewModel(SelectedPerson);
+                var editUserView = new AddPersonView()
                 {
-                    addOrEditUserViewModel = new AddOrEditUserViewModel(SelectedPerson, personDetailsService.GetEmployeeDetails(SelectedPerson.NationalIdNumber));
-                }
-                else
-                {
-                    addOrEditUserViewModel = new AddOrEditUserViewModel(SelectedPerson);
-                }
-               
-                var addPersonView = new AddPersonView
-                {
-                    DataContext = addOrEditUserViewModel
+                    DataContext = editUserViewModel
                 };
-                addPersonView.ShowDialog();
+                editUserView.ShowDialog();
             }
             LoadPeopleFromDatabase();
         }

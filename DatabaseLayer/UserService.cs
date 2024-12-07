@@ -8,12 +8,12 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
     public class UserService
     {
         private readonly DatabaseService _databaseService;
-        private readonly PersonDetailsService _personalDetails;
+        private readonly PersonService _personalDetails;
 
         public UserService()
         {
             _databaseService = new DatabaseService();
-            _personalDetails = new PersonDetailsService();
+            _personalDetails = new PersonService();
         }
 
         public bool RegisterNewUser(
@@ -28,7 +28,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
      string ulice,
      string cisloPopisne,
      string mesto,
-     int psc,
+     string psc,
      string hash,
      string salt,
      int? oddeleni = null,
@@ -51,7 +51,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                     command.Parameters.Add(new OracleParameter("p_ulice", OracleDbType.Varchar2)).Value = ulice;
                     command.Parameters.Add(new OracleParameter("p_cislo_popisne", OracleDbType.Char)).Value = cisloPopisne;
                     command.Parameters.Add(new OracleParameter("p_mesto", OracleDbType.Varchar2)).Value = mesto;
-                    command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32)).Value = psc;
+                    command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Char)).Value = psc;
                     command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2)).Value = hash;
                     command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2)).Value = salt;
                     command.Parameters.Add(new OracleParameter("p_id_oddeleni", OracleDbType.Int32)).Value = oddeleni ?? (object)DBNull.Value;
@@ -162,7 +162,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
     string ulice,
     string cisloPopisne,
     string mesto,
-    int psc,
+    string psc,
     string? hash = null,
     string? salt = null,
     int? oddeleni = null,
@@ -185,7 +185,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                     command.Parameters.Add(new OracleParameter("p_ulice", OracleDbType.Varchar2)).Value = ulice;
                     command.Parameters.Add(new OracleParameter("p_cislo_popisne", OracleDbType.Char)).Value = cisloPopisne;
                     command.Parameters.Add(new OracleParameter("p_mesto", OracleDbType.Varchar2)).Value = mesto;
-                    command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32)).Value = psc;
+                    command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Char)).Value = psc;
                     command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2)).Value = hash ?? (object)DBNull.Value;
                     command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2)).Value = salt ?? (object)DBNull.Value;
                     command.Parameters.Add(new OracleParameter("p_id_oddeleni", OracleDbType.Int32)).Value = oddeleni ?? (object)DBNull.Value;

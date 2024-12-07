@@ -8,9 +8,11 @@ namespace InformacniSystemBanky.Model
 {
     public class Address
     {
+        public int Id { get; set; }
         public string HouseNumber { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
+        public string FullAddress => $"{Street} {HouseNumber}, {City}, {PostalCode}";
     }
 }

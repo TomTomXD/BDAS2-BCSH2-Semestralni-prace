@@ -48,9 +48,31 @@ public class DatabaseService
         }
     }
 
-    /// <summary>
-    /// Executes a SELECT query and returns a list of results.
-    /// </summary>
+    ///// <summary>
+    ///// Executes a SELECT query and returns a list of results.
+    ///// </summary>
+    //public List<T> ExecuteSelect<T>(string query, Func<IDataReader, T> map, Action<OracleCommand> configureCommand = null)
+    //{
+    //    using (var connection = GetConnection() as OracleConnection)
+    //    {
+    //        connection.Open();
+    //        using (var command = new OracleCommand(query, connection))
+    //        {
+    //            command.CommandType = CommandType.Text;
+    //            configureCommand?.Invoke(command);
+
+    //            using (var reader = command.ExecuteReader())
+    //            {
+    //                var results = new List<T>();
+    //                while (reader.Read())
+    //                {
+    //                    results.Add(map(reader));
+    //                }
+    //                return results;
+    //            }
+    //        }
+    //    }
+    //}
     public List<T> ExecuteSelect<T>(string query, Func<IDataReader, T> map, Action<OracleCommand> configureCommand = null)
     {
         using (var connection = GetConnection() as OracleConnection)
@@ -66,7 +88,22 @@ public class DatabaseService
                     var results = new List<T>();
                     while (reader.Read())
                     {
-                        results.Add(map(reader));
+                        try
+                        {
+                            var item = map(reader);
+                            results.Add(item);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log the error with details from IDataReader if needed
+                            Console.WriteLine($"Error processing row: {ex.Message}");
+                            // Optionally log the content of the reader
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                Console.Write($"{reader.GetName(i)}: {(reader.IsDBNull(i) ? "NULL" : reader.GetValue(i).ToString())} | ");
+                            }
+                            Console.WriteLine();
+                        }
                     }
                     return results;
                 }

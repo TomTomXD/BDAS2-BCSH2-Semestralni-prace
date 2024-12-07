@@ -23,8 +23,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 { "Zaměstnanec", "Z" }
             };
 
-        private Employee _selectedEmployee;
-
         public ICommand AddNewPersonCommand { get; }
         public ICommand CancelAddingNewPersonCommand { get; }
         public ICommand EditPersonCommand { get; }
@@ -34,6 +32,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string selectedPersonType;
         private string actionLabelText;
         private string actionButtonText;
+        private int id;
         private string _name;
         private string _surname;
         private DateTime _doB;
@@ -43,21 +42,19 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string _street;
         private string _houseNumber;
         private string _city;
-        private int _postalCode;
+        private string _postalCode;
         private string _password;
-        private int id;
         private Role _selectedRole;
         private Department _selectedDepartment;
         private Position _selectedPosition;
         private Employee _selectedManager;
-
 
         private Visibility _departmentVisibility;
         private Visibility _positionVisibility;
         private Visibility _managerVisibility;
 
         private readonly RolesService _rolesService;
-        private readonly PersonDetailsService _personDetailsService;
+        private readonly PersonService _personDetailsService;
         private readonly UserService _userService;
         private readonly LookupTablesService _lookupTables;
         private readonly EmployeesService _employeesService;
@@ -123,7 +120,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             get => _city;
             set { _city = value; OnPropertyChanged(nameof(City)); }
         }
-        public int PostalCode
+        public string PostalCode
         {
             get => _postalCode;
             set { _postalCode = value; OnPropertyChanged(nameof(PostalCode)); }
@@ -210,7 +207,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         // Bezparametrický konstruktor pro přidání nové osoby
         public AddOrEditUserViewModel()
         {
-            _personDetailsService = new PersonDetailsService();
+            _personDetailsService = new PersonService();
             _rolesService = new RolesService();
             _userService = new UserService();
             _lookupTables = new LookupTablesService();
@@ -237,9 +234,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
         }
 
         // Konstruktor pro editaci osoby
-        public AddOrEditUserViewModel(PersonDetails personDetails, EmployeeDetails? employee = null)
+        public AddOrEditUserViewModel(Person selectedPerson)
         {
-            _personDetailsService = new PersonDetailsService();
+            _personDetailsService = new PersonService();
             _rolesService = new RolesService();
             _userService = new UserService();
             _lookupTables = new LookupTablesService();
@@ -251,46 +248,39 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Positions = new ObservableCollection<Position>(_lookupTables.GetLookupTableData<Position>("POZICE"));
             Managers = new ObservableCollection<Employee>(_employeesService.GetPossibleManagers());
 
-            id = _personDetailsService.GetPersonId(personDetails.NationalIdNumber);
-            Name = personDetails.Name;
-            Surname = personDetails.Surname;
-            DoB = personDetails.DoB;
-
-            NationalIdNumber = personDetails.NationalIdNumber;
-            PhoneNumber = personDetails.PhoneNumber;
-            Email = personDetails.Email;
-            //SelectedRole = personDetails.Role;
-
-            var address = _personDetailsService.GetAddress(id);
-            HouseNumber = address.HouseNumber;
-            Street = address.Street;
-            City = address.City;
-            PostalCode = address.PostalCode;
-
-            var personType = _personDetailsService.GetTypeOfPerson(personDetails.NationalIdNumber);
-            SelectedPersonType = personType == 'K' ? "Klient" : "Zaměstnanec";
-
-            actionLabelText = "Upravit osobu";
-            actionButtonText = "Upravit";
-            DepartmentVisibility = Visibility.Hidden;
-            PositionVisibility = Visibility.Hidden;
-            ManagerVisibility = Visibility.Hidden;
-
-            //if (employee != null)
-            //{
-            //    Department = employee.Department;
-            //    Position = employee.Position;
-            //    actionLabelText = "Upravit osobu";
-            //    actionButtonText = "Upravit";
-            //    DepartmentVisibility = Visibility.Visible;
-            //    PositionVisibility = Visibility.Visible;
-            //    ManagerVisibility = Visibility.Visible;
-            //}
-
-
             AddNewPersonCommand = new RelayCommand(EditPerson);
             CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
 
+            // načtení hodnot vybrané osoby do formuláře
+            id = selectedPerson.Id;
+            Name = selectedPerson.Name;
+            Surname = selectedPerson.Surname;
+            DoB = selectedPerson.DoB;
+            NationalIdNumber = selectedPerson.NationalIdNumber;
+            PhoneNumber = selectedPerson.PhoneNumber;
+            Email = selectedPerson.Email;
+            Street = selectedPerson.Address.Street;
+            HouseNumber = selectedPerson.Address.HouseNumber;
+            City = selectedPerson.Address.City;
+            PostalCode = selectedPerson.Address.PostalCode;
+            SelectedRole = Roles.First(r => r.Id == selectedPerson.Role.Id);
+
+            SelectedPersonType = selectedPerson.PersonType == "K" ? "Klient" : "Zaměstnanec";
+            if(SelectedPersonType == "Klient")
+            {
+                DepartmentVisibility = Visibility.Hidden;
+                PositionVisibility = Visibility.Hidden;
+                ManagerVisibility = Visibility.Hidden;
+            }
+            else
+            {
+                DepartmentVisibility = Visibility.Visible;
+                PositionVisibility = Visibility.Visible;
+                ManagerVisibility = Visibility.Visible;
+                SelectedDepartment = Departments.First(d => d.Id == selectedPerson.EmployeeDetails.Department.Id);
+                SelectedPosition = Positions.First(p => p.Id == selectedPerson.EmployeeDetails.Position.Id);
+                SelectedManager = Managers.First(m => m.Id == selectedPerson.EmployeeDetails.Manager.Id);
+            }
         }
 
         private string ConvertPersonTypeToDbFormat(string personType)
@@ -334,8 +324,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     SelectedManager.Id
                 );
 
-                MessageBox.Show($"id oddeleni: {SelectedDepartment.Id}, id pozice: {SelectedPosition.Id}, manazer: {SelectedManager.Id}");
-
                 if (result)
                 {
                     MessageBox.Show("Uživatel byl úspěšně aktualizován.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -355,8 +343,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 // Kontrola, zda jsou všechny povinné údaje vyplněny
                 if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Surname) || string.IsNullOrWhiteSpace(NationalIdNumber) ||
                     string.IsNullOrWhiteSpace(PhoneNumber) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(SelectedPersonType) ||
-                    string.IsNullOrWhiteSpace(SelectedRole.Name) || string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(City) ||
-                    PostalCode == 0 || string.IsNullOrWhiteSpace(Password))
+                    string.IsNullOrWhiteSpace(SelectedRole.Name) || string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(City))
                 {
                     MessageBox.Show("Prosím, vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -404,7 +391,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             {
                 MessageBox.Show($"Došlo k chybě při registraci: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            //CloseAddingWindow();
+            CloseAddingWindow();
         }
 
         private void CloseAddingWindow()
