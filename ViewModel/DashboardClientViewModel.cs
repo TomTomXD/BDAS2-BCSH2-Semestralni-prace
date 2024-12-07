@@ -23,6 +23,7 @@ namespace InformacniSystemBanky.ViewModel
 
         //public ICommand ShowHomeCommand { get; }
         public ICommand ShowAllAccountCommand { get; }
+        public ICommand ShowLoans { get; }
         public ICommand LogOutCommand { get; }
 
         public DashboardClientViewModel()
@@ -30,11 +31,18 @@ namespace InformacniSystemBanky.ViewModel
             //ShowHomeCommand = new RelayCommand(ShowHome);
             ShowAllAccountCommand = new RelayCommand(ShowAccounts);
             LogOutCommand = new RelayCommand(LogOut);
+            ShowLoans = new RelayCommand(ShowLoansView);
 
             // Výchozí zobrazení
             CurrentView = new AdminMainView();
 
         }
+
+        private void ShowLoansView()
+        {
+
+        }
+
         private void LogOut()
         {
             // Otevření nového přihlašovacího okna (LoginView)

@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
@@ -57,12 +58,12 @@ namespace InformacniSystemBanky.ViewModel
                         dashboardKlientView.Show();
                         break;
                     case 2:
-                        //var dashboardView = new DashboardNotVerifiedClientView();
-                        //dashboardView.Show();
+                        var dashboardNotVerifiedClientView = new DashboardNotVerifiedClientView();
+                        dashboardNotVerifiedClientView.Show();
                         break;
                     case 3:
-                        //var dashboardView = new DashboardEmployeeView();
-                        //dashboardView.Show();
+                        var dashboardEmployeeView = new DashboardEmployeeView();
+                        dashboardEmployeeView.Show();
                         break;
                     case 4:
                         var dashboardAdminView = new DashboardAdminView();
