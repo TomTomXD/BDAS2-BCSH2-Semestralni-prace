@@ -17,13 +17,14 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         public IEnumerable<StandingOrder> GetStandingOrders()
         {
             string query = @"
-                        SELECT * FROM TRVALE_PRIKAZY";
+                        SELECT * FROM V_TRVALE_PRIKAZY";
 
             return _databaseService.ExecuteSelect(query, reader => new StandingOrder
             {
                 StandingOrderId = reader.GetInt32(0),
                 Amount = reader.GetDecimal(1),
-                SendersAccountId = reader.GetInt32(2)
+                SendersAccountId = reader.GetInt32(2),
+                AccountNumber = reader.GetString(3)
             });
         }
 

@@ -5,5 +5,6 @@
         public int StandingOrderId { get; set; }
         public decimal Amount { get; set; }
         public int SendersAccountId { get; set; }
+        public string AccountNumber { get; set; }
     }
 }

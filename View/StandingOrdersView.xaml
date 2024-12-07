@@ -61,7 +61,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="ID odchozího účtu" Binding="{Binding SendersAccountId}" Width="*">
+                        <DataGridTextColumn Header="Odchozí účet" Binding="{Binding Balance, StringFormat='{}{0} Kč'}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
