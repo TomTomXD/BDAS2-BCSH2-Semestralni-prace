@@ -47,32 +47,6 @@ public class DatabaseService
             }
         }
     }
-
-    ///// <summary>
-    ///// Executes a SELECT query and returns a list of results.
-    ///// </summary>
-    //public List<T> ExecuteSelect<T>(string query, Func<IDataReader, T> map, Action<OracleCommand> configureCommand = null)
-    //{
-    //    using (var connection = GetConnection() as OracleConnection)
-    //    {
-    //        connection.Open();
-    //        using (var command = new OracleCommand(query, connection))
-    //        {
-    //            command.CommandType = CommandType.Text;
-    //            configureCommand?.Invoke(command);
-
-    //            using (var reader = command.ExecuteReader())
-    //            {
-    //                var results = new List<T>();
-    //                while (reader.Read())
-    //                {
-    //                    results.Add(map(reader));
-    //                }
-    //                return results;
-    //            }
-    //        }
-    //    }
-    //}
     public List<T> ExecuteSelect<T>(string query, Func<IDataReader, T> map, Action<OracleCommand> configureCommand = null)
     {
         using (var connection = GetConnection() as OracleConnection)

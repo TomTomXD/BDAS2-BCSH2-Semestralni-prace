@@ -8,7 +8,6 @@ namespace InformacniSystemBanky.View
         public DashboardKlientView()
         {
             InitializeComponent();
-            // Set DataContext to DashboardViewModel
             this.DataContext = new ViewModel.DashboardClientViewModel();
         }
 
@@ -18,7 +17,6 @@ namespace InformacniSystemBanky.View
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 this.DragMove();
-                MessageBox.Show("DragMove");
             }
         }
     }

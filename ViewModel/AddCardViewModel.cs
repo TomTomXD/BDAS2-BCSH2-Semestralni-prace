@@ -136,7 +136,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             CVV = selectedCard.CVV;
 
             // Najdeme odpovídající typ karty podle ID typu karty z selectedCard
-            SelectedCardType = CardTypes.First(x => x.Id == Convert.ToInt32(selectedCard.CardType));
+            SelectedCardType = CardTypes.First(x => x.Id == Convert.ToInt32(selectedCard.CardType.Id));
 
             DateOfIssue = selectedCard.IssuedDate;
             ExpirationDate = selectedCard.ExpirationDate;

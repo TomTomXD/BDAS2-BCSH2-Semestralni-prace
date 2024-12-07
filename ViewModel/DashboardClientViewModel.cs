@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
@@ -8,38 +9,32 @@ namespace InformacniSystemBanky.ViewModel
 {
     public class DashboardClientViewModel : INotifyPropertyChanged
     {
-        private object _currentViewModel;
+        private object _currentView;
 
-        public object CurrentViewModel
+        public object CurrentView
         {
-            get => _currentViewModel;
+            get => _currentView;
             set
             {
-                _currentViewModel = value;
-                OnPropertyChanged(nameof(CurrentViewModel));
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
             }
         }
 
-        public ICommand ShowHomeCommand { get; }
-        //public ICommand ShowSettingsCommand { get; }
-        public ICommand ShowProfileCommand { get; }
-        public ICommand LogoClickedCommand { get; }
-        public ICommand ShowAccountsCommand { get; }
+        //public ICommand ShowHomeCommand { get; }
+        public ICommand ShowAllAccountCommand { get; }
         public ICommand LogOutCommand { get; }
 
         public DashboardClientViewModel()
         {
-            ShowHomeCommand = new RelayCommand(ShowHome);
-            //ShowSettingsCommand = new RelayCommand(ShowSettings);
-            ShowProfileCommand = new RelayCommand(ShowProfile);
-            LogoClickedCommand = new RelayCommand(ShowHome);
-            ShowAccountsCommand = new RelayCommand(ShowAccounts);
+            //ShowHomeCommand = new RelayCommand(ShowHome);
+            ShowAllAccountCommand = new RelayCommand(ShowAccounts);
             LogOutCommand = new RelayCommand(LogOut);
 
-            // Výchozí pohled
-            //CurrentViewModel = new HomeViewModel(); // Změněno na HomeViewModel
-        }
+            // Výchozí zobrazení
+            CurrentView = new AdminMainView();
 
+        }
         private void LogOut()
         {
             // Otevření nového přihlašovacího okna (LoginView)
@@ -78,11 +73,7 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowAccounts()
         {
-            CurrentViewModel = new AccountsView()
-            {
-                DataContext = new AccountsViewModel(Session.Instance.CurrentUserId)
-            };
-            MessageBox.Show("Accounts clicked");
+            CurrentView = new ClientAccountsView();
         }
 
         // INotifyPropertyChanged implementace

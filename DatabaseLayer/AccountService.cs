@@ -12,16 +12,16 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         public AccountService()
         {
             _databaseService = new DatabaseService();
-        }   
+        }
 
         public IEnumerable<Account> GetAccounts(int? id = null)
         {
             string query;
             Action<OracleCommand> configureCommand = null;
 
-            if (id !=null)
+            if (id != null)
             {
-                query = "SELECT * FROM UCTY WHERE KLIENT_ID_OSOBA = :id";
+                query = "SELECT * FROM UCTY_VIEW WHERE KLIENT_ID_OSOBA = :id";
                 configureCommand = command =>
                 {
                     command.Parameters.Add(new OracleParameter("id", id.Value));
@@ -42,6 +42,27 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 OwnerName = reader.GetString(5),
                 AccountType = reader.GetString(6)
             }, configureCommand);
+        }
+
+        public IEnumerable<Account> GetAccountsById(int id)
+        {
+            {
+                string query = "SELECT * FROM UCTY_VIEW WHERE KLIENT_ID_OSOBA =: id";
+
+               return _databaseService.ExecuteSelect(query, reader => new Account
+               {
+                   AccountId = reader.GetInt32(0),
+                   AccountNumber = reader.GetString(1),
+                   Balance = reader.GetDecimal(2),
+                   PaymentLimit = reader.GetDecimal(3),
+                   PersonId = reader.GetInt32(4),
+                   OwnerName = reader.GetString(5),
+                   AccountType = reader.GetString(6)
+               }, command =>
+               {
+                   command.Parameters.Add(new OracleParameter("id", id));
+               });
+            }
         }
 
         public void AddAccount(
@@ -109,7 +130,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 });
                 MessageBox.Show("Účet odstraněn.", "Odstranění účtu", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Nepodařilo se odstranit účet.", "Odstranění účtu", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -179,6 +200,42 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 LastName = reader.GetString(2),
                 NationalIdNumber = reader.GetString(3)
             });
+        }
+
+        public void ChangeLimit(int accountId, decimal newLimit)
+        {
+            try
+            {
+                string query = "UPDATE UCTY SET LIMIT_PRO_PLATBY = :newLimit WHERE ID_UCET = :accountId";
+
+                _databaseService.ExecuteNonQuery(query, command =>
+                {
+                    command.Parameters.Add(new OracleParameter("newLimit", newLimit));
+                    command.Parameters.Add(new OracleParameter("accountId", accountId));
+                });
+                MessageBox.Show("Limit byl úspěšně změněn.", "Změna limitu", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nepodařilo se změnit limit. Chyba: {ex.Message}", "Změna limitu", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void AddClientAccount(int clientId)
+        {
+            string storedProcedure = "insert_bezny_ucet";
+
+            try
+            {
+                _databaseService.ExecuteProcedure(storedProcedure, command =>
+                {
+                    command.Parameters.Add("p_klient_id_osoba", OracleDbType.Int32).Value = clientId;
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nepodařilo se přidat účet. Chyba: {ex.Message}", "Přidání účtu", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
