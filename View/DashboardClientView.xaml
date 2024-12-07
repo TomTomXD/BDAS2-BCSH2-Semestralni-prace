@@ -86,7 +86,7 @@
             <Button Command="{Binding ShowAllAccountCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-bank-account-48.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Všechny účty"/>
+                    <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Moje Účty"/>
                 </StackPanel>
             </Button>
 
@@ -94,7 +94,7 @@
             <Button Command="{Binding ShowAllCardsCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-credit-card-80.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Všechny karty"/>
+                    <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Moje Karty"/>
                 </StackPanel>
             </Button>
 
@@ -102,7 +102,7 @@
             <Button Command="{Binding ShowLoansCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-loan-64.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,10,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Úvěry"/>
+                    <TextBlock Margin="0,10,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Moje Úvěry"/>
                 </StackPanel>
             </Button>
 
@@ -111,7 +111,7 @@
             <Button Command="{Binding ShowFilesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-file-100.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Soubory"/>
+                    <TextBlock Margin="0,5,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="Moje Soubory"/>
                 </StackPanel>
             </Button>
             <!--Požádat úvěry button-->
