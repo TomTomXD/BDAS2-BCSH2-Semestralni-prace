@@ -251,6 +251,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
             AddNewPersonCommand = new RelayCommand(EditPerson);
             CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
 
+            actionLabelText = "Upravit osobu";
+            actionButtonText = "Upravit";
+
             // načtení hodnot vybrané osoby do formuláře
             id = selectedPerson.Id;
             Name = selectedPerson.Name;
@@ -279,7 +282,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 ManagerVisibility = Visibility.Visible;
                 SelectedDepartment = Departments.First(d => d.Id == selectedPerson.EmployeeDetails.Department.Id);
                 SelectedPosition = Positions.First(p => p.Id == selectedPerson.EmployeeDetails.Position.Id);
-                SelectedManager = Managers.First(m => m.Id == selectedPerson.EmployeeDetails.Manager.Id);
+                SelectedManager = Managers.FirstOrDefault(m => m.Id == selectedPerson.EmployeeDetails.Manager?.Id);
             }
         }
 
