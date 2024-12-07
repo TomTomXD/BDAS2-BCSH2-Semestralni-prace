@@ -12,7 +12,8 @@
         AllowsTransparency="True"
         Background="Transparent"
         FontFamily="Open Sans"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+                 Icon="pack://application:,,,/Images/icons8-bank-48.ico">
 
     <Grid>
         <Grid.ColumnDefinitions>
