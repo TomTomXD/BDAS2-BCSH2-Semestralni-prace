@@ -12,7 +12,8 @@ namespace FinancniInformacniSystemBanky.Model.Helpers
         public int ClientId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string NationalIdNumber { get; set; }
+        public string? NationalIdNumber { get; set; }
         public string FullDesc => $"{FirstName} {LastName} (r.č.: {NationalIdNumber})";
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

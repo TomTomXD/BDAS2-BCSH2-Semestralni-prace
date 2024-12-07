@@ -214,15 +214,15 @@ namespace FinancniInformacniSystemBanky.ViewModel
             InterestRate = selectedLoan.InterestRate;
             DateOfApproval = selectedLoan.DateOfApproval;
             DateOfRepayment = selectedLoan.DateOfRepayment;
-            ClientId = selectedLoan.ClientId;
-            CreditCounselorId = selectedLoan.CreditCounselorId;
-            LoanStatus = selectedLoan.LoanStatus;
-            LoanType = selectedLoan.LoanType;
+            //ClientId = selectedLoan.ClientId;
+            //CreditCounselorId = selectedLoan.CreditCounselorId;
+            //LoanStatus = selectedLoan.LoanStatus;
+            //LoanType = selectedLoan.LoanType;
 
-            SelectedLoanStatus = LoanStatuses.First(x => x.Id == selectedLoan.LoanStatus);
-            SelectedLoanType = LoanTypes.First(x => x.Id == selectedLoan.LoanType);
-            SelectedClient = Clients.First(x => x.Id == selectedLoan.ClientId);
-            SelectedCreditCounselor = CreditCounselors.First(x => x.Id == selectedLoan.CreditCounselorId);
+            //SelectedLoanStatus = LoanStatuses.First(x => x.Id == selectedLoan.LoanStatus);
+            //SelectedLoanType = LoanTypes.First(x => x.Id == selectedLoan.LoanType);
+            //SelectedClient = Clients.First(x => x.Id == selectedLoan.ClientId);
+            //SelectedCreditCounselor = CreditCounselors.First(x => x.Id == selectedLoan.CreditCounselorId);
 
             ActionLabelText = "Upravit Úvěr";
             ActionButtonText = "Upravit";

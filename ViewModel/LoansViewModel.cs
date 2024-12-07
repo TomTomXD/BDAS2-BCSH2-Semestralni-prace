@@ -76,8 +76,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
             foreach (var loan in loansFromDb)
             {
                 Loans.Add(loan);
+                Console.WriteLine($"Loaded loan: {loan.LoanId} - {loan.Amount}");
             }
         }
+
         private bool CanDeleteLoan()
         {
             return SelectedLoan != null;

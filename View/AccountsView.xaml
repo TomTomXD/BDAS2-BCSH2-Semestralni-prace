@@ -60,7 +60,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Zůstatek" Binding="{Binding Balance}" Width="*">
+                        <DataGridTextColumn Header="Zůstatek" Binding="{Binding Balance, StringFormat='{}{0} Kč'}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -68,7 +68,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Limit pro Platby" Binding="{Binding PaymentLimit}" Width="*">
+                        <DataGridTextColumn Header="Limit pro Platby" Binding="{Binding PaymentLimit, StringFormat='{}{0} Kč'}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

@@ -16,7 +16,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<Loan> GetLoans()
         {
-            string query = @"SELECT * FROM UVERY";
+            string query = @"SELECT * FROM V_VSECHNY_UVERY";
 
             return _databaseService.ExecuteSelect(query, reader => new Loan
             {
@@ -25,10 +25,29 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 InterestRate = reader.GetDecimal(2),
                 DateOfApproval = reader.GetDateTime(3),
                 DateOfRepayment = reader.GetDateTime(4),
-                ClientId = reader.GetInt32(5),
-                CreditCounselorId = reader.GetInt32(6),
-                LoanType = reader.GetInt32(7),
-                LoanStatus = reader.GetInt32(8)
+                Client = new Client
+                {
+                    ClientId = reader.GetInt32(5),
+                    FirstName = reader.GetString(6),
+                    LastName = reader.GetString(7),
+                    NationalIdNumber = null,
+                },
+                CreditCounselor = new Employee
+                {
+                    Id = reader.GetInt32(8),
+                    FirstName = reader.GetString(9),
+                    LastName = reader.GetString(10)
+                },
+                LoanType = new LoanType
+                {
+                    Id = reader.GetInt32(11),
+                    Name = reader.GetString(12)
+                },
+                LoanStatus = new LoanStatus
+                {
+                    Id = reader.GetInt32(13),
+                    Name = reader.GetString(14)
+                }
             });
         }
 

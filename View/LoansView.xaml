@@ -45,7 +45,7 @@
                 <DataGrid ItemsSource="{Binding Loans}" AutoGenerateColumns="False" Height="490" 
                       SelectedItem="{Binding SelectedLoan}" Width="880">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Částka" Binding="{Binding Amount}" Width="150" MinWidth="150">
+                        <DataGridTextColumn Header="Částka" Binding="{Binding Amount, StringFormat='{}{0} Kč'}" Width="150" MinWidth="150">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -53,7 +53,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Sazba" Binding="{Binding InterestRate}" Width="50" MinWidth="50">
+                        <DataGridTextColumn Header="Sazba" Binding="{Binding InterestRate, StringFormat='{}{0} %'}" Width="50" MinWidth="50">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -77,7 +77,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Klient" Binding="{Binding ClientId}" Width="200" MinWidth="200">
+                        <DataGridTextColumn Header="Klient" Binding="{Binding Client.FullName}" Width="200" MinWidth="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -85,7 +85,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Zaměstnanec" Binding="{Binding CreditCounselorId}" Width="200" MinWidth="200">
+                        <DataGridTextColumn Header="Zaměstnanec" Binding="{Binding CreditCounselor.FullName}" Width="200" MinWidth="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -93,7 +93,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Typ úvěru" Binding="{Binding LoanType}" Width="200" MinWidth="200">
+                        <DataGridTextColumn Header="Typ úvěru" Binding="{Binding LoanType.Name}" Width="200" MinWidth="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -101,7 +101,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Stav úvěru" Binding="{Binding LoanStatus}" Width="200" MinWidth="200">
+                        <DataGridTextColumn Header="Stav úvěru" Binding="{Binding LoanStatus.Name}" Width="200" MinWidth="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
