@@ -18,7 +18,7 @@ namespace InformacniSystemBanky.ViewModel
         {
             _registerPersonalDetailsView = registerPersonalDetailsView;
             _userRegistrationViewModel = userRegistrationViewModel;
-            OpenRegisterAddressViewCommand = new RelayCommand(OpenRegisterAddressView, CanExecuteOpenRegisterAddressView);
+            OpenRegisterAddressViewCommand = new RelayCommand(OpenRegisterAddressView);
             DateOfBirth = DateTime.Now;         // nastavení defaultní hodnoty pro datum narození na dnešní datum
         }
 
@@ -88,16 +88,6 @@ namespace InformacniSystemBanky.ViewModel
             }
         }
 
-        private bool CanExecuteOpenRegisterAddressView()
-        {
-            return !string.IsNullOrWhiteSpace(FirstName) &&
-                   !string.IsNullOrWhiteSpace(LastName) &&
-                   !DateOfBirth.Equals(null) &&
-                   !string.IsNullOrWhiteSpace(RodneCislo) &&
-                   !string.IsNullOrWhiteSpace(PhoneNumber) &&
-                   !string.IsNullOrWhiteSpace(Email) && ValidateInputs();
-        }
-
         private bool ValidateInputs()
         {
             // Validace rodného čísla (ve tvaru xxxxxx/xxxx)
@@ -111,6 +101,15 @@ namespace InformacniSystemBanky.ViewModel
 
             private void OpenRegisterAddressView()
         {
+            if(string.IsNullOrWhiteSpace(FirstName) &&
+                       string.IsNullOrWhiteSpace(LastName) &&
+                       DateOfBirth.Equals(null) &&
+                       string.IsNullOrWhiteSpace(RodneCislo) &&
+                       string.IsNullOrWhiteSpace(PhoneNumber) &&
+                       string.IsNullOrWhiteSpace(Email) && ValidateInputs())
+            {
+                return;
+            }
             var registerAddressView = new RegisterAddressView(_userRegistrationViewModel);
             registerAddressView.Show();
             _registerPersonalDetailsView.Close();

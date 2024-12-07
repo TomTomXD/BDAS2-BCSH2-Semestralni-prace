@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinancniInformacniSystemBanky.Model.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace FinancniInformacniSystemBanky.Model
 {
     public class EmployeeDetails
     {
-        public string Department { get; set; }
-        public string Position { get; set; }
+        public Department Department { get; set; }
+        public Position Position { get; set; }
         public Employee? Manager { get; set; }
     }
 }

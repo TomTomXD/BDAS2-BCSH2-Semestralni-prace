@@ -17,59 +17,60 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         }
 
         public bool RegisterNewUser(
-            string jmeno,
-            string prijmeni,
-            DateTime datumNarozeni,
-            string rodneCislo,
-            string telefon,
-            string email,
-            string typOsoby,
-            int idRole,
-            string ulice,
-            string cisloPopisne,
-            string mesto,
-            int psc,
-            string hash,
-            string salt,
-            int? id = null,
-            string? oddeleni = null,
-            string? pozice = null)
+     string jmeno,
+     string prijmeni,
+     DateTime datumNarozeni,
+     string rodneCislo,
+     string telefon,
+     string email,
+     string typOsoby,
+     int idRole,
+     string ulice,
+     string cisloPopisne,
+     string mesto,
+     int psc,
+     string hash,
+     string salt,
+     int? oddeleni = null,
+     int? pozice = null,
+     int? idManager = null)
         {
             try
             {
                 _databaseService.ExecuteProcedure("upsert_osoba_adresa_heslo", command =>
                 {
-                    command.Parameters.Add(new OracleParameter("p_id_osoba", OracleDbType.Int32) { Value = id });
-                    command.Parameters.Add(new OracleParameter("p_jmeno", OracleDbType.Varchar2) { Value = jmeno });
-                    command.Parameters.Add(new OracleParameter("p_prijmeni", OracleDbType.Varchar2) { Value = prijmeni });
-                    command.Parameters.Add(new OracleParameter("p_datum_narozeni", OracleDbType.Date) { Value = datumNarozeni });
-                    command.Parameters.Add(new OracleParameter("p_rodne_cislo", OracleDbType.Varchar2) { Value = rodneCislo });
-                    command.Parameters.Add(new OracleParameter("p_telefon", OracleDbType.Char) { Value = telefon });
-                    command.Parameters.Add(new OracleParameter("p_email", OracleDbType.Varchar2) { Value = email });
-                    command.Parameters.Add(new OracleParameter("p_typ_osoby", OracleDbType.Char) { Value = typOsoby });
-                    command.Parameters.Add(new OracleParameter("p_id_role", OracleDbType.Int32) { Value = idRole });
-                    command.Parameters.Add(new OracleParameter("p_ulice", OracleDbType.Varchar2) { Value = ulice });
-                    command.Parameters.Add(new OracleParameter("p_cislo_popisne", OracleDbType.Char) { Value = cisloPopisne });
-                    command.Parameters.Add(new OracleParameter("p_mesto", OracleDbType.Varchar2) { Value = mesto });
-                    command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32) { Value = psc });
-                    command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2) { Value = hash });
-                    command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2) { Value = salt });
-                    command.Parameters.Add(new OracleParameter("p_oddeleni", OracleDbType.Varchar2) { Value = oddeleni ?? (object)DBNull.Value });
-                    command.Parameters.Add(new OracleParameter("p_pozice", OracleDbType.Varchar2) { Value = pozice ?? (object)DBNull.Value });
+                    command.Parameters.Add(new OracleParameter("p_id_osoba", OracleDbType.Int32)).Value = DBNull.Value; // pro nového zaměstnance
+                    command.Parameters.Add(new OracleParameter("p_jmeno", OracleDbType.Varchar2)).Value = jmeno;
+                    command.Parameters.Add(new OracleParameter("p_prijmeni", OracleDbType.Varchar2)).Value = prijmeni;
+                    command.Parameters.Add(new OracleParameter("p_datum_narozeni", OracleDbType.Date)).Value = datumNarozeni;
+                    command.Parameters.Add(new OracleParameter("p_rodne_cislo", OracleDbType.Varchar2)).Value = rodneCislo;
+                    command.Parameters.Add(new OracleParameter("p_telefon", OracleDbType.Char)).Value = telefon;
+                    command.Parameters.Add(new OracleParameter("p_email", OracleDbType.Varchar2)).Value = email;
+                    command.Parameters.Add(new OracleParameter("p_typ_osoby", OracleDbType.Char)).Value = typOsoby;
+                    command.Parameters.Add(new OracleParameter("p_id_role", OracleDbType.Int32)).Value = idRole;
+                    command.Parameters.Add(new OracleParameter("p_ulice", OracleDbType.Varchar2)).Value = ulice;
+                    command.Parameters.Add(new OracleParameter("p_cislo_popisne", OracleDbType.Char)).Value = cisloPopisne;
+                    command.Parameters.Add(new OracleParameter("p_mesto", OracleDbType.Varchar2)).Value = mesto;
+                    command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32)).Value = psc;
+                    command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2)).Value = hash;
+                    command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2)).Value = salt;
+                    command.Parameters.Add(new OracleParameter("p_id_oddeleni", OracleDbType.Int32)).Value = oddeleni ?? (object)DBNull.Value;
+                    command.Parameters.Add(new OracleParameter("p_id_pozice", OracleDbType.Int32)).Value = pozice ?? (object)DBNull.Value;
+                    command.Parameters.Add(new OracleParameter("p_zamestnanec_id_osoba", OracleDbType.Int32)).Value = idManager ?? (object)DBNull.Value; // Ujistěte se, jestli ve vaší proceduře je tento parametr správně pojmenován
                 });
 
-                return true; // Vložení úspěšné
+                return true; // Úspěch
             }
             catch (OracleException ex)
             {
                 MessageBox.Show($"Chyba při vykonávání procedury: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false; // Neúspěch
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Neočekávaná chyba: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false; // Neúspěch
             }
-
-            return false; // Vložení neúspěšné
         }
 
         public bool LoginUser(string email, string heslo)
@@ -149,53 +150,56 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         }
 
         public bool EditUserDetails(
-            int id,
-            string jmeno,
-            string prijmeni,
-            DateTime datumNarozeni,
-            string rodneCislo,
-            string telefon,
-            string email,
-            string typOsoby,
-            int idRole,
-            string ulice,
-            string cisloPopisne,
-            string mesto,
-            int psc,
-            string? hash = null,
-            string? salt = null,
-            string? oddeleni = null,
-            string? pozice = null)
+    int id,
+    string jmeno,
+    string prijmeni,
+    DateTime datumNarozeni,
+    string rodneCislo,
+    string telefon,
+    string email,
+    string typOsoby,
+    int idRole,
+    string ulice,
+    string cisloPopisne,
+    string mesto,
+    int psc,
+    string? hash = null,
+    string? salt = null,
+    int? oddeleni = null,
+    int? pozice = null,
+    int? idManager = null)
         {
             try
             {
                 _databaseService.ExecuteProcedure("upsert_osoba_adresa_heslo", command =>
                 {
-                    command.Parameters.Add("p_id_osoba", OracleDbType.Int32).Value = id;
-                    command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = jmeno;
-                    command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = prijmeni;
-                    command.Parameters.Add("p_datum_narozeni", OracleDbType.Date).Value = datumNarozeni;
-                    command.Parameters.Add("p_rodne_cislo", OracleDbType.Varchar2).Value = rodneCislo;
-                    command.Parameters.Add("p_telefon", OracleDbType.Char).Value = telefon;
-                    command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = email;
-                    command.Parameters.Add("p_typ_osoby", OracleDbType.Char).Value = typOsoby;
-                    command.Parameters.Add("p_id_role", OracleDbType.Int32).Value = idRole;
-                    command.Parameters.Add("p_ulice", OracleDbType.Varchar2).Value = ulice;
-                    command.Parameters.Add("p_cislo_popisne", OracleDbType.Char).Value = cisloPopisne;
-                    command.Parameters.Add("p_mesto", OracleDbType.Varchar2).Value = mesto;
-                    command.Parameters.Add("p_psc", OracleDbType.Int32).Value = psc;
-                    command.Parameters.Add("p_hash", OracleDbType.Varchar2).Value = hash ?? (object)DBNull.Value;
-                    command.Parameters.Add("p_salt", OracleDbType.Varchar2).Value = salt ?? (object)DBNull.Value;
-                    command.Parameters.Add("p_nazev_oddeleni", OracleDbType.Varchar2).Value = oddeleni ?? (object)DBNull.Value;
-                    command.Parameters.Add("p_nazev_pozice", OracleDbType.Varchar2).Value = pozice ?? (object)DBNull.Value;
+                    command.Parameters.Add(new OracleParameter("p_id_osoba", OracleDbType.Int32)).Value = id;
+                    command.Parameters.Add(new OracleParameter("p_jmeno", OracleDbType.Varchar2)).Value = jmeno;
+                    command.Parameters.Add(new OracleParameter("p_prijmeni", OracleDbType.Varchar2)).Value = prijmeni;
+                    command.Parameters.Add(new OracleParameter("p_datum_narozeni", OracleDbType.Date)).Value = datumNarozeni;
+                    command.Parameters.Add(new OracleParameter("p_rodne_cislo", OracleDbType.Varchar2)).Value = rodneCislo;
+                    command.Parameters.Add(new OracleParameter("p_telefon", OracleDbType.Char)).Value = telefon;
+                    command.Parameters.Add(new OracleParameter("p_email", OracleDbType.Varchar2)).Value = email;
+                    command.Parameters.Add(new OracleParameter("p_typ_osoby", OracleDbType.Char)).Value = typOsoby;
+                    command.Parameters.Add(new OracleParameter("p_id_role", OracleDbType.Int32)).Value = idRole;
+                    command.Parameters.Add(new OracleParameter("p_ulice", OracleDbType.Varchar2)).Value = ulice;
+                    command.Parameters.Add(new OracleParameter("p_cislo_popisne", OracleDbType.Char)).Value = cisloPopisne;
+                    command.Parameters.Add(new OracleParameter("p_mesto", OracleDbType.Varchar2)).Value = mesto;
+                    command.Parameters.Add(new OracleParameter("p_psc", OracleDbType.Int32)).Value = psc;
+                    command.Parameters.Add(new OracleParameter("p_hash", OracleDbType.Varchar2)).Value = hash ?? (object)DBNull.Value;
+                    command.Parameters.Add(new OracleParameter("p_salt", OracleDbType.Varchar2)).Value = salt ?? (object)DBNull.Value;
+                    command.Parameters.Add(new OracleParameter("p_id_oddeleni", OracleDbType.Int32)).Value = oddeleni ?? (object)DBNull.Value;
+                    command.Parameters.Add(new OracleParameter("p_id_pozice", OracleDbType.Int32)).Value = pozice ?? (object)DBNull.Value;
+                    command.Parameters.Add(new OracleParameter("p_id_manager", OracleDbType.Int32)).Value = idManager ?? (object)DBNull.Value;
                 });
 
-                return true;
+                return true; // Úspěch
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as needed
-                return false;
+                MessageBox.Show($"Neočekávaná chyba: {ex.Message}",
+                               "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false; // Neúspěch
             }
         }
 

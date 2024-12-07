@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using FinancniInformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
+using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -20,17 +17,17 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         /// Načte seznam rolí z databáze jako IEnumerable.
         /// </summary>
         /// <returns>IEnumerable obsahující názvy rolí.</returns>
-        public IEnumerable<string> GetRoles()
+        public IEnumerable<Role> GetRoles()
         {
-            const string query = "SELECT role FROM ROLE";
-
-            foreach (var role in _databaseService.ExecuteSelect(
-                query,
-                reader => reader["role"].ToString()
-            ))
-            {
-                yield return role; // Vracení hodnot pomocí `yield return`.
-            }
+            string query = "SELECT * FROM ROLE";
+            return _databaseService.ExecuteSelect(query, reader =>
+             {
+               return new Role
+                 {
+                     Id = reader.GetInt32(0),
+                     Name = reader.GetString(1)
+                 };
+             });
         }
 
         /// <summary>

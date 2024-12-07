@@ -346,8 +346,12 @@
                     </Grid.RowDefinitions>
 
                     <Label Content="Role" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="34,5,33,5"/>
-                    <ComboBox x:Name="RoleComboBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10" ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}"/>
-
+                    <ComboBox x:Name="RoleComboBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10"
+                             ItemsSource="{Binding Roles}" 
+                                DisplayMemberPath="Name"
+                                SelectedValuePath="Id"
+                                SelectedValue="{Binding Id}"
+                                SelectedItem="{Binding SelectedRole}"/>
                     <Label Content="Heslo" Grid.Column="2" Foreground="White" Margin="34,5,33,5" Width="NaN"/>
                     <PasswordBox x:Name="PasswordBox" 
                                  Grid.Column="3" 
@@ -394,12 +398,30 @@
                     </Grid.RowDefinitions>
                     <Label Content="Oddělení" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="0,0,0,10"
                         Visibility="{Binding DepartmentVisibility}"/>
-                    <ComboBox x:Name="DepartmentComboBox" Grid.Column="1" Grid.Row="0" Margin="11,9,11,1" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedPersonType}" Visibility="{Binding DepartmentVisibility}"/>
+                    <ComboBox x:Name="DepartmentComboBox" Grid.Column="1" Grid.Row="0" Margin="11,9,11,1" 
+                              ItemsSource="{Binding Departments}" 
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="Id"
+                              SelectedValue="{Binding Id}"
+                              SelectedItem="{Binding SelectedDepartment}"
+                              Visibility="{Binding DepartmentVisibility}"/>
                     <Label Content="Pozice" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="0,0,0,10"
                         Visibility="{Binding PositionVisibility}"/>
-                    <ComboBox x:Name="PositionComboBox" Grid.Column="3" Grid.Row="0" Margin="11,9,11,1" ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPersonType}" Visibility="{Binding PositionVisibility}"/>
+                    <ComboBox x:Name="PositionComboBox" Grid.Column="3" Grid.Row="0" Margin="11,9,11,1" 
+                              ItemsSource="{Binding Positions}" 
+                                DisplayMemberPath="Name"
+                                SelectedValuePath="Id"
+                                SelectedValue="{Binding Id}"
+                                SelectedItem="{Binding SelectedPosition}"
+                                Visibility="{Binding PositionVisibility}"/>
                     <Label Content="Nadřízený" Grid.Column="0" Grid.Row="1" Foreground="White" Margin="36,9,36,1" Visibility="{Binding ManagerVisibility}"/>
-                    <ComboBox x:Name="ManegerComboBox" Grid.Column="1" Grid.Row="1" Margin="11,9,11,1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedPersonType}" Visibility="{Binding ManagerVisibility}"/>
+                    <ComboBox x:Name="ManegerComboBox" Grid.Column="1" Grid.Row="1" Margin="11,9,11,1"
+                              ItemsSource="{Binding Managers}" 
+                                DisplayMemberPath="FullName"
+                                SelectedValuePath="Id"
+                                SelectedValue="{Binding Id}"
+                                SelectedItem="{Binding SelectedManager}"
+                                Visibility="{Binding ManagerVisibility}"/>
 
                 </Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">

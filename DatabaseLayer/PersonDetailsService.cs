@@ -176,37 +176,39 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 JOIN OSOBY os ON z.id_osoba = os.id_osoba
                 WHERE os.rodne_cislo = :nationalIdNumber";
 
-            try
-            {
-                var employeeDetails = _databaseService.ExecuteSelect(query, reader =>
-                {
-                    return new EmployeeDetails
-                    {
-                        Department = reader.GetString(reader.GetOrdinal("oddeleni")),
-                        Position = reader.GetString(reader.GetOrdinal("pozice"))
-                    };
-                },
-                command =>
-                {
-                    command.Parameters.Add(new OracleParameter("nationalIdNumber", OracleDbType.Varchar2)
-                    {
-                        Value = nationalIdNumber
-                    });
-                }).FirstOrDefault();
+            //try
+            //{
+            //    //var employeeDetails = _databaseService.ExecuteSelect(query, reader =>
+            //    //{
+            //    //    return new EmployeeDetails
+            //    //    {
+            //    //        Department = reader.GetString(reader.GetOrdinal("oddeleni")),
+            //    //        Position = reader.GetString(reader.GetOrdinal("pozice"))
+            //    //    };
+            //    //},
+            //    //command =>
+            //    //{
+            //    //    command.Parameters.Add(new OracleParameter("nationalIdNumber", OracleDbType.Varchar2)
+            //    //    {
+            //    //        Value = nationalIdNumber
+            //    //    });
+            //    //}).FirstOrDefault();
 
-                if (employeeDetails == null)
-                {
-                    // No data found for the given national ID
-                    MessageBox.Show("Details not found for the provided national ID number.", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+            //    if (employeeDetails == null)
+            //    {
+            //        // No data found for the given national ID
+            //        MessageBox.Show("Details not found for the provided national ID number.", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    }
 
-                return employeeDetails;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return null;
-            }
+            //    return employeeDetails;
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return null;
+            //}
+
+            throw new NotSupportedException();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using FinancniInformacniSystemBanky.Model.Helpers;
+﻿using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.Model.Helpers;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
 {
@@ -62,5 +63,54 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
             return employees.Where(e => e.ManagerId == 0).ToList();
         }
+
+        public IEnumerable<Employee> GetEmployees()
+        {
+            string query = @"SELECT * FROM V_ZAMESTNANCI";
+
+            return _databaseService.ExecuteSelect(query, reader =>
+            {
+                return new Employee
+                {
+                    Id = reader.GetInt32(0),
+                    FirstName = reader.GetString(1),
+                    LastName = reader.GetString(2),
+                    Details = new EmployeeDetails
+                    {
+                        Department = new Department
+                        {
+                            Id = reader.GetInt32(3),
+                            Name = reader.GetString(4)
+                        },
+                        Position = new Position
+                        {
+                            Id = reader.GetInt32(5),
+                            Name = reader.GetString(6)
+                        },
+                        Manager = reader.IsDBNull(7) ? null : new Employee
+                        {
+                            Id = reader.GetInt32(7),
+                            FirstName = reader.GetString(8),
+                            LastName = reader.GetString(9)
+                        }
+                    }
+                };
+            });
+        }
+
+        public IEnumerable<Employee> GetPossibleManagers()
+        {
+            string query = "SELECT ID_OSOBA, JMENO, PRIJMENI FROM V_ZAMESTNANCI";
+            return _databaseService.ExecuteSelect(query, reader =>
+            {
+                return new Employee
+                {
+                    Id = reader.GetInt32(0),        
+                    FirstName = reader.GetString(1), 
+                    LastName = reader.GetString(2)   
+                };
+            });
+        }
+
     }
 }

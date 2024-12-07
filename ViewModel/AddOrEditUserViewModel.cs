@@ -25,15 +25,12 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private Employee _selectedEmployee;
 
-        public ObservableCollection<string> Roles { get; set; }
         public ICommand AddNewPersonCommand { get; }
         public ICommand CancelAddingNewPersonCommand { get; }
         public ICommand EditPersonCommand { get; }
         public event Action PersonAdded;
         public List<string> PersonTypes { get; } = new List<string> { "Klient", "Zaměstnanec" };
 
-        private string _department;
-        private string _position;
         private string selectedPersonType;
         private string actionLabelText;
         private string actionButtonText;
@@ -43,13 +40,17 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string _nationalIdNumber;
         private string _phoneNumber;
         private string _email;
-        private string _selectedRole;
         private string _street;
         private string _houseNumber;
         private string _city;
         private int _postalCode;
         private string _password;
         private int id;
+        private Role _selectedRole;
+        private Department _selectedDepartment;
+        private Position _selectedPosition;
+        private Employee _selectedManager;
+
 
         private Visibility _departmentVisibility;
         private Visibility _positionVisibility;
@@ -58,25 +59,15 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private readonly RolesService _rolesService;
         private readonly PersonDetailsService _personDetailsService;
         private readonly UserService _userService;
+        private readonly LookupTablesService _lookupTables;
+        private readonly EmployeesService _employeesService;
 
-        public string Department
-        {
-            get { return _department; }
-            set
-            {
-                _department = value;
-                OnPropertyChanged(nameof(Department));
-            }
-        }
-        public string Position
-        {
-            get { return _position; }
-            set
-            {
-                _position = value;
-                OnPropertyChanged(nameof(Position));
-            }
-        }
+        public ObservableCollection<Role> Roles { get; set; }
+        public ObservableCollection<Employee> Managers { get; set; }
+        public ObservableCollection<Department> Departments { get; set; }
+        public ObservableCollection<Position> Positions { get; set; }
+
+
         public string ActionLabelText
         {
             get => actionLabelText;
@@ -117,15 +108,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             get => _email;
             set { _email = value; OnPropertyChanged(nameof(Email)); }
         }
-        public string SelectedRole
-        {
-            get => _selectedRole;
-            set
-            {
-                _selectedRole = value;
-                OnPropertyChanged(nameof(SelectedRole));
-            }
-        }
         public string Street
         {
             get => _street;
@@ -161,6 +143,42 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 UpdateVisibility();
             }
         }
+        public Role SelectedRole
+        {
+            get => _selectedRole;
+            set
+            {
+                _selectedRole = value;
+                OnPropertyChanged(nameof(SelectedRole));
+            }
+        }
+        public Department SelectedDepartment
+        {
+            get => _selectedDepartment;
+            set
+            {
+                _selectedDepartment = value;
+                OnPropertyChanged(nameof(SelectedDepartment));
+            }
+        }
+        public Position SelectedPosition
+        {
+            get => _selectedPosition;
+            set
+            {
+                _selectedPosition = value;
+                OnPropertyChanged(nameof(SelectedPosition));
+            }
+        }
+        public Employee SelectedManager
+        {
+            get => _selectedManager;
+            set
+            {
+                _selectedManager = value;
+                OnPropertyChanged(nameof(SelectedManager));
+            }
+        }
         public Visibility DepartmentVisibility
         {
             get => _departmentVisibility;
@@ -189,32 +207,26 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-        public Employee SelectedEmployee
-        {
-            get => _selectedEmployee;
-            set
-            {
-                _selectedEmployee = value;
-                OnPropertyChanged(nameof(SelectedEmployee));
-            }
-        }
-
-        public ObservableCollection<Employee> Employees { get; set; }
-
-
         // Bezparametrický konstruktor pro přidání nové osoby
         public AddOrEditUserViewModel()
         {
             _personDetailsService = new PersonDetailsService();
             _rolesService = new RolesService();
             _userService = new UserService();
+            _lookupTables = new LookupTablesService();
+            _employeesService = new EmployeesService();
 
-            Roles = new ObservableCollection<string>(_rolesService.GetRoles());
             AddNewPersonCommand = new RelayCommand(AddNewPerson);
             CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
 
             // Nastavení defaultních hodnot pro dnešní datum v datepickeru
-            //DoB = DateOnly.FromDateTime(DateTime.Now);
+            DoB = DateTime.Now;
+
+            // Získání hodnot pro comboboxy
+            Roles = new ObservableCollection<Role>(_lookupTables.GetLookupTableData<Role>("ROLE"));
+            Departments = new ObservableCollection<Department>(_lookupTables.GetLookupTableData<Department>("ODDELENI"));
+            Positions = new ObservableCollection<Position>(_lookupTables.GetLookupTableData<Position>("POZICE"));
+            Managers = new ObservableCollection<Employee>(_employeesService.GetPossibleManagers());
 
             actionLabelText = "Přidat osobu";
             actionButtonText = "Přidat";
@@ -230,7 +242,15 @@ namespace FinancniInformacniSystemBanky.ViewModel
             _personDetailsService = new PersonDetailsService();
             _rolesService = new RolesService();
             _userService = new UserService();
-            
+            _lookupTables = new LookupTablesService();
+            _employeesService = new EmployeesService();
+
+            // Získání hodnot pro comboboxy
+            Roles = new ObservableCollection<Role>(_lookupTables.GetLookupTableData<Role>("ROLE"));
+            Departments = new ObservableCollection<Department>(_lookupTables.GetLookupTableData<Department>("ODDELENI"));
+            Positions = new ObservableCollection<Position>(_lookupTables.GetLookupTableData<Position>("POZICE"));
+            Managers = new ObservableCollection<Employee>(_employeesService.GetPossibleManagers());
+
             id = _personDetailsService.GetPersonId(personDetails.NationalIdNumber);
             Name = personDetails.Name;
             Surname = personDetails.Surname;
@@ -239,15 +259,13 @@ namespace FinancniInformacniSystemBanky.ViewModel
             NationalIdNumber = personDetails.NationalIdNumber;
             PhoneNumber = personDetails.PhoneNumber;
             Email = personDetails.Email;
-            SelectedRole = personDetails.Role;
+            //SelectedRole = personDetails.Role;
 
             var address = _personDetailsService.GetAddress(id);
             HouseNumber = address.HouseNumber;
             Street = address.Street;
             City = address.City;
             PostalCode = address.PostalCode;
-
-            MessageBox.Show($"House number: {HouseNumber}, Street: {Street}, City: {City}, Postal code: {PostalCode}");
 
             var personType = _personDetailsService.GetTypeOfPerson(personDetails.NationalIdNumber);
             SelectedPersonType = personType == 'K' ? "Klient" : "Zaměstnanec";
@@ -258,19 +276,18 @@ namespace FinancniInformacniSystemBanky.ViewModel
             PositionVisibility = Visibility.Hidden;
             ManagerVisibility = Visibility.Hidden;
 
-            if (employee != null)
-            {
-                Department = employee.Department;
-                Position = employee.Position;
-                actionLabelText = "Upravit osobu";
-                actionButtonText = "Upravit";
-                DepartmentVisibility = Visibility.Visible;
-                PositionVisibility = Visibility.Visible;
-                ManagerVisibility = Visibility.Visible;
-            }
-            
+            //if (employee != null)
+            //{
+            //    Department = employee.Department;
+            //    Position = employee.Position;
+            //    actionLabelText = "Upravit osobu";
+            //    actionButtonText = "Upravit";
+            //    DepartmentVisibility = Visibility.Visible;
+            //    PositionVisibility = Visibility.Visible;
+            //    ManagerVisibility = Visibility.Visible;
+            //}
 
-            Roles = new ObservableCollection<string>(_rolesService.GetRoles());
+
             AddNewPersonCommand = new RelayCommand(EditPerson);
             CancelAddingNewPersonCommand = new RelayCommand(CloseAddingWindow);
 
@@ -305,16 +322,19 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     PhoneNumber,
                     Email,
                     ConvertPersonTypeToDbFormat(SelectedPersonType),
-                    _rolesService.GetRoleId(SelectedRole),
+                    SelectedRole.Id,
                     Street,
                     HouseNumber,
                     City,
                     PostalCode,
                     passwordHash,
                     saltAsString,
-                    Department,
-                    Position
+                    SelectedDepartment.Id,
+                    SelectedPosition.Id,
+                    SelectedManager.Id
                 );
+
+                MessageBox.Show($"id oddeleni: {SelectedDepartment.Id}, id pozice: {SelectedPosition.Id}, manazer: {SelectedManager.Id}");
 
                 if (result)
                 {
@@ -335,7 +355,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 // Kontrola, zda jsou všechny povinné údaje vyplněny
                 if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Surname) || string.IsNullOrWhiteSpace(NationalIdNumber) ||
                     string.IsNullOrWhiteSpace(PhoneNumber) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(SelectedPersonType) ||
-                    string.IsNullOrWhiteSpace(SelectedRole) || string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(City) ||
+                    string.IsNullOrWhiteSpace(SelectedRole.Name) || string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(City) ||
                     PostalCode == 0 || string.IsNullOrWhiteSpace(Password))
                 {
                     MessageBox.Show("Prosím, vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -356,29 +376,35 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 // Převod hodnoty z comboboxu na hodnotu pro databázi
                 string personTypeForDb = ConvertPersonTypeToDbFormat(SelectedPersonType);
 
+                MessageBox.Show($"id oddeleni: {SelectedDepartment.Id}, id pozice: {SelectedPosition.Id}, manazer: {SelectedManager.Id}");
+
                 _userService.RegisterNewUser(
-                    Name,
-                    Surname,
-                    DoB,
-                    NationalIdNumber,
-                    PhoneNumber,
-                    Email,
-                    personTypeForDb,
-                    _rolesService.GetRoleId(SelectedRole),
-                    Street,
-                    houseNumber,
-                    City,
-                    PostalCode,
-                    hashedPassword,
-                    saltBase64
-                );
+                        Name,
+                        Surname,
+                        DoB,
+                        NationalIdNumber,
+                        PhoneNumber,
+                        Email,
+                        personTypeForDb,
+                        SelectedRole.Id,
+                        Street,
+                        houseNumber,
+                        City,
+                        PostalCode,
+                        hashedPassword,
+                        saltBase64,
+                        SelectedDepartment != null ? SelectedDepartment.Id : (int?)null, // Ošetření null
+                        SelectedPosition != null ? SelectedPosition.Id : (int?)null,   // Ošetření null
+                        SelectedManager != null ? SelectedManager.Id : (int?)null      // Ošetření null
+                    );
+
                 MessageBox.Show("Osoba byla úspěšně přidána.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Došlo k chybě při registraci: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            CloseAddingWindow();
+            //CloseAddingWindow();
         }
 
         private void CloseAddingWindow()
