@@ -140,6 +140,14 @@
 
         </UniformGrid>
 
+        <Label Content="EMULACE" 
+               Margin="360,18,458,675" Grid.Column="1"
+               FontSize="50"
+               Foreground="Red"
+               FontWeight="Bold"
+               Visibility="{Binding EmulationLabelVisibility}"
+               />
+
         <!--Logo button-->
         <Button Command="{Binding LogoClickedCommand}" Margin="25,15,0,655" Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
             <StackPanel Orientation="Horizontal">

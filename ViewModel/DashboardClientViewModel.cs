@@ -5,6 +5,7 @@ using InformacniSystemBanky.View;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace InformacniSystemBanky.ViewModel
 {
@@ -19,6 +20,18 @@ namespace InformacniSystemBanky.ViewModel
             {
                 _currentView = value;
                 OnPropertyChanged(nameof(CurrentView));
+            }
+        }
+
+        private Visibility _emulationLabelVisibility = Visibility.Hidden; // Defaultně nastavíme na Hidden
+
+        public Visibility EmulationLabelVisibility
+        {
+            get { return _emulationLabelVisibility; }
+            set
+            {
+                _emulationLabelVisibility = value;
+                OnPropertyChanged(nameof(EmulationLabelVisibility));
             }
         }
 
@@ -37,10 +50,13 @@ namespace InformacniSystemBanky.ViewModel
             ShowLoans = new RelayCommand(ShowLoansView);
             ShowCardsCommand = new RelayCommand(ShowCards);
             ShowChangeOfPersonalDetailsCommand = new RelayCommand(ChangePersonalDetails);
-
             // Výchozí zobrazení
             CurrentView = new AdminMainView();
 
+            if(Session.Instance.EmulatedUserId != null)
+            {
+                EmulationLabelVisibility = Visibility.Visible;
+            }
         }
 
         private void ChangePersonalDetails()

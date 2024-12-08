@@ -1,4 +1,5 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
+using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.View;
 using System.ComponentModel;
@@ -22,6 +23,17 @@ namespace InformacniSystemBanky.ViewModel
             }
         }
 
+        private Visibility _emulationLabelVisibility = Visibility.Hidden; // Defaultně nastavíme na Hidden
+
+        public Visibility EmulationLabelVisibility
+        {
+            get { return _emulationLabelVisibility; }
+            set
+            {
+                _emulationLabelVisibility = value;
+                OnPropertyChanged(nameof(EmulationLabelVisibility));
+            }
+        }
 
         public ICommand ShowHomeCommand { get; }
         public ICommand ShowLoansCommand { get; }
@@ -59,6 +71,11 @@ namespace InformacniSystemBanky.ViewModel
             ShowEmulationWindowCommand = new RelayCommand(ShowEmulationWindow);
 
             CurrentView = new AdminMainView();
+
+            if (Session.Instance.EmulatedUserId != null)
+            {
+                EmulationLabelVisibility = Visibility.Visible;
+            }
         }
 
         private void ShowEmulationWindow()

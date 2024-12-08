@@ -47,11 +47,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void Emulate()
         {
-            var emulatedPersonId = SelectedPerson.Id;
-            var emulatedPersonRoleId = SelectedPerson.Role.Id;
+            Session.Instance.EmulateUser(SelectedPerson.Id, SelectedPerson.Role.Id);
 
             // Přihlášení úspěšné, otevřete zatím admin dashboard pro testování a ladění loginů
-            switch (emulatedPersonRoleId)
+            switch (Session.Instance.EmulatedRoleId)
             {
                 case 1:
                     var dashboardKlientView = new DashboardKlientView();
@@ -73,6 +72,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     MessageBox.Show("Nepodařilo se emulovat tuto osobu.", "Chyba přihlášení", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
+            CloseWindow();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

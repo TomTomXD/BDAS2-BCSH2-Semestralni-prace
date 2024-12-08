@@ -25,19 +25,13 @@
             EmulatedRoleId = null;
         }
 
-        // Emulace jiného uživatele příprava na emulaci pro admina (BDAS2 požadavek)
-        //public void EmulateUser(int userId, int roleId)
-        //{
-        //    EmulatedUserId = userId;
-        //    EmulatedRoleId = roleId;
-        //}
+        //Emulace jiného uživatele příprava na emulaci pro admina(BDAS2 požadavek)
+        public void EmulateUser(int userId, int roleId)
+        {
+            EmulatedUserId = userId;
+            EmulatedRoleId = roleId;
+        }
 
-        //// Ukončení emulace
-        //public void StopEmulation()
-        //{
-        //    EmulatedUserId = null;
-        //    EmulatedRoleId = null;
-        //}
 
         // Aktuální kontext uživatele (přihlášený nebo emulovaný)
         public int CurrentUserId => EmulatedUserId ?? LoggedInUserId;

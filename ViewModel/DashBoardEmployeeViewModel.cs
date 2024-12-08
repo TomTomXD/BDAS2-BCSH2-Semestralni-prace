@@ -1,4 +1,5 @@
-﻿using FinancniInformacniSystemBanky.View;
+﻿using FinancniInformacniSystemBanky.Model;
+using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System;
@@ -27,7 +28,17 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
+        private Visibility _emulationLabelVisibility = Visibility.Hidden; // Defaultně nastavíme na Hidden
 
+        public Visibility EmulationLabelVisibility
+        {
+            get { return _emulationLabelVisibility; }
+            set
+            {
+                _emulationLabelVisibility = value;
+                OnPropertyChanged(nameof(EmulationLabelVisibility));
+            }
+        }
         public ICommand ShowHomeCommand { get; }
         public ICommand ShowLoansCommand { get; }
         public ICommand LogoClickedCommand { get; }
@@ -52,6 +63,12 @@ namespace FinancniInformacniSystemBanky.ViewModel
             ShowHierarchyCommand = new RelayCommand(DisplayHierarchyTree);
 
             CurrentView = new AdminMainView();
+
+
+            if (Session.Instance.EmulatedUserId != null)
+            {
+                EmulationLabelVisibility = Visibility.Visible;
+            }
         }
 
         private void DisplayHierarchyTree()

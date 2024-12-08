@@ -205,6 +205,14 @@
             </StackPanel>
         </Button>
 
+        <Label Content="EMULACE" 
+               Margin="360,18,458,675" Grid.Column="1"
+               FontSize="50"
+               Foreground="Red"
+               FontWeight="Bold"
+               Visibility="{Binding EmulationLabelVisibility}"
+               />
+
         <!-- Logout Button -->
         <Button Command="{Binding LogOutCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,32,45,0" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Grid.Column="1" Width="136">
             <StackPanel Orientation="Horizontal">

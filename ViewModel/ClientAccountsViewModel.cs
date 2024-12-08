@@ -12,6 +12,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
     public class ClientAccountsViewModel : INotifyPropertyChanged
     {
         private readonly AccountService _accountService;
+        private readonly int _currentUserId;
         public ObservableCollection<Account> Accounts { get; set; }
 
         private Account _selectedAccount;
@@ -32,11 +33,21 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         public ClientAccountsViewModel()
         {
+            
             _accountService = new AccountService();
             AddAccountCommand = new RelayCommand(AddAccount);
             ChangeLimitCommand = new RelayCommand(ChangeLimit);
             DeleteAccountCommand = new RelayCommand(DeleteAccount, CanDeleteAccount);
             
+            if(Session.Instance.EmulatedUserId == null )
+            {
+                _currentUserId = Session.Instance.CurrentUserId;
+            }
+            else
+            {
+                _currentUserId = (int) Session.Instance.EmulatedUserId;
+            }
+
             Accounts = new ObservableCollection<Account>();
             LoadAccountsFromDatabase();
         }
@@ -57,7 +68,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void LoadAccountsFromDatabase()
         {
-            var accountsFromDb = _accountService.GetAccountsById(Session.Instance.CurrentUserId);
+            var accountsFromDb = _accountService.GetAccountsById(_currentUserId);
 
             Accounts.Clear();
             foreach (var account in accountsFromDb)
@@ -81,7 +92,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddAccount()
         {
-            _accountService.AddClientAccount(Session.Instance.CurrentUserId);
+            _accountService.AddClientAccount(_currentUserId);
             LoadAccountsFromDatabase();
         }
 

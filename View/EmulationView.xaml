@@ -217,7 +217,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Label Content="Přiřadit k účtu" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="61,0,0,9" HorizontalAlignment="Left" Width="132" Grid.ColumnSpan="2"/>
+                    <Label Content="Účet k emulaci" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="61,0,0,9" HorizontalAlignment="Left" Width="132" Grid.ColumnSpan="2"/>
                     <ComboBox x:Name="AllAccountsComboBox" 
                           Grid.Column="1" 
                           Grid.Row="0" 
@@ -228,6 +228,17 @@
                           SelectedValuePath="Id"
                           SelectedValue="{Binding Id}"
                           SelectedItem="{Binding SelectedPerson}" />
+                    <Label Grid.Column="2"
+       Grid.RowSpan="2"
+       HorizontalAlignment="Left"
+       Width="208" 
+       Grid.ColumnSpan="2"
+                           Margin="30,0,0,0">
+                        <TextBlock TextWrapping="Wrap" FontStyle="Italic" FontSize="10">
+        (Emulace je podporována jen pro účty s rolí 
+        Admin/Zaměstnanec/Klient)
+                        </TextBlock>
+                    </Label>
 
 
                 </Grid>
