@@ -49,19 +49,19 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             {
                 string query = "SELECT * FROM UCTY_VIEW WHERE KLIENT_ID_OSOBA =: id";
 
-               return _databaseService.ExecuteSelect(query, reader => new Account
-               {
-                   AccountId = reader.GetInt32(0),
-                   AccountNumber = reader.GetString(1),
-                   Balance = reader.GetDecimal(2),
-                   PaymentLimit = reader.GetDecimal(3),
-                   PersonId = reader.GetInt32(4),
-                   OwnerName = reader.GetString(5),
-                   AccountType = reader.GetString(6)
-               }, command =>
-               {
-                   command.Parameters.Add(new OracleParameter("id", id));
-               });
+                return _databaseService.ExecuteSelect(query, reader => new Account
+                {
+                    AccountId = reader.GetInt32(0),
+                    AccountNumber = reader.GetString(1),
+                    Balance = reader.GetDecimal(2),
+                    PaymentLimit = reader.GetDecimal(3),
+                    PersonId = reader.GetInt32(4),
+                    OwnerName = reader.GetString(5),
+                    AccountType = reader.GetString(6)
+                }, command =>
+                {
+                    command.Parameters.Add(new OracleParameter("id", id));
+                });
             }
         }
 
@@ -255,6 +255,23 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             catch (Exception ex)
             {
                 MessageBox.Show($"Nepodařilo se přidat účet. Chyba: {ex.Message}", "Přidání účtu", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void LockedAccount(string accountNumber)
+        {
+            string storedProcedure = "zablokuj_bezny_ucet";
+            try
+            {
+                _databaseService.ExecuteProcedure(storedProcedure, command =>
+                {
+                    command.Parameters.Add("p_cislo_uctu", OracleDbType.Char).Value = accountNumber;
+                });
+                MessageBox.Show("Účet byl úspěšně zablokován.\n" + "Kontaktuje nebo navštivte naší nejbližší pobočku ohledně dalšího postupu.", "Zablokování účtu", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nepodařilo se zablokovat účet. Chyba: {ex.Message}", "Zablokování účtu", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

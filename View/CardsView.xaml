@@ -105,7 +105,7 @@
             </Border>
 
             <!-- Buttons -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Width="486">
                 <Button Content="Přidat Kartu" Command="{Binding AddCardCommand}" Width="150" Margin="5" />
                 <Button Content="Upravit Kartu" Command="{Binding EditCardCommand}" Visibility="{Binding EditCardVisibility}" Width="150" Margin="5" />
                 <Button Content="Smazat Kartu" Command="{Binding DeleteCardCommand}" IsEnabled="{Binding Path=SelectedCard}" Width="150" Margin="5" />

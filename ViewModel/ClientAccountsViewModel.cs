@@ -5,6 +5,7 @@ using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
@@ -30,16 +31,17 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ICommand AddAccountCommand { get; }
         public ICommand ChangeLimitCommand { get; }
         public ICommand DeleteAccountCommand { get; }
+        public ICommand LockAccountCommand { get; }
 
         public ClientAccountsViewModel()
         {
-            
             _accountService = new AccountService();
             AddAccountCommand = new RelayCommand(AddAccount);
             ChangeLimitCommand = new RelayCommand(ChangeLimit);
             DeleteAccountCommand = new RelayCommand(DeleteAccount, CanDeleteAccount);
-            
-            if(Session.Instance.EmulatedUserId == null )
+            LockAccountCommand = new RelayCommand(LockAccount);
+
+            if (Session.Instance.EmulatedUserId == null )
             {
                 _currentUserId = Session.Instance.CurrentUserId;
             }
@@ -50,6 +52,24 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             Accounts = new ObservableCollection<Account>();
             LoadAccountsFromDatabase();
+        }
+
+        private void LockAccount()
+        {
+            if (SelectedAccount != null)
+            {
+                var result = MessageBox.Show(
+                    "Pokud si myslíte že Váš účet byl napaden, nebo se někdo zmocnil vaší karty/karet spojených s tímto účtem, MŮŽETE ÚČET ZABLOKOVAT. VŠECHNY KARTY PŘIŘAZENÝ K TOMUTO ÚČTU JSOU IHNED ZRUŠENY A VAŠE LIMITY JSOU NASTAVENY NA 0.",
+                    "ZABEZPEČENÍ ÚČTU",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes) 
+                {
+                    _accountService.LockedAccount(SelectedAccount.AccountNumber);
+                    LoadAccountsFromDatabase();
+                }
+            }
         }
 
         private bool CanDeleteAccount()
@@ -87,6 +107,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     DataContext = changeLimitViewModel
                 };
                 changeLimitView.ShowDialog();
+                LoadAccountsFromDatabase();
             }
         }
 
