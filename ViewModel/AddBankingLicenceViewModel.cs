@@ -163,7 +163,7 @@ namespace FinancniInformacniSystemBanky
             IssueDate = selectedLicence.IssueDate;
             ExpirationDate = selectedLicence.ExpirationDate;
 
-            SelectedLicenceType = BankingLicenceTypes.First(x => x.Id == selectedLicence.LicenceType);
+            SelectedLicenceType = BankingLicenceTypes.First(x => x.Id == selectedLicence.LicenceType.Id);
             SelectedEmployee = Employees.First(x => x.Id == selectedLicence.LicenceHolderId);
 
             ActionLabelText = "Upravit licenci";

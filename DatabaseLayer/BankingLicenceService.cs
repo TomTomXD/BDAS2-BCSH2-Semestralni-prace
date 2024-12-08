@@ -19,16 +19,22 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         {
             try
             {
-                string query = @"SELECT * FROM BANKERSKE_LICENCE";
+                string query = @"SELECT * FROM v_licence_s_drziteli";
 
                 return _databaseService.ExecuteSelect(query, reader => new BankingLicence
                 {
-                    BankingLicenseId = reader.GetInt32(0),
-                    LicenceNumber = reader.GetString(1),
-                    IssueDate = reader.GetDateTime(2),
-                    ExpirationDate = reader.GetDateTime(3),
-                    LicenceType = reader.GetInt32(4),
-                    LicenceHolderId = reader.GetInt32(5)
+                    BankingLicenseId = reader.GetInt32(0), // ID_LICENCE
+                    LicenceNumber = reader.GetString(1),    // CISLO_LICENCE
+                    IssueDate = reader.GetDateTime(2),      // DATUM_ZISKANI
+                    ExpirationDate = reader.GetDateTime(3), // DATUM_PLATNOSTI
+                    LicenceType = new BankingLicenceType
+                    {
+                        Id = reader.GetInt32(4),            // ID_TYPU_LICENCE
+                        Name = reader.GetString(5)          // TYP_LICENCE
+                    },
+                    LicenceHolderId = reader.GetInt32(6),   // ZAMESTNANEC_ID_OSOBA
+                    LicenceHolderName = reader.GetString(7), // JMENO
+                    LicenceHolderSurname = reader.GetString(8) // PRIJMENI
                 });
             }
             catch (Exception ex)

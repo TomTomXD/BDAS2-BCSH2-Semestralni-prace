@@ -166,14 +166,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void DeletePerson()
         {
-            if (SelectedPerson == null)
+            if (IsPersonSelected())
             {
-                MessageBox.Show("Vyberte osobu, kterou chcete smazat.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                if (HideSensitiveData == true)
+                {
+                    MessageBox.Show("Nelze odstranit osobu, pokud jsou skryté citlivé informace. Odkryjte citlivé informace a abyste se ujistili, o kterou osobu se jedná.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
             }
 
             var rodneCislo = SelectedPerson.NationalIdNumber;
-
             var result = MessageBox.Show($"Opravdu chcete smazat osobu s rodným číslem {rodneCislo}?",
                                          "Smazání osoby", MessageBoxButton.YesNo, MessageBoxImage.Question);
 

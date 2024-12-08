@@ -79,6 +79,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private void LoadLicencesFromDatabase()
         {
             var licencesFromDb = _bankingLicencesService.GetBankingLicences();
+            foreach (var licence in licencesFromDb)
+            {
+                Console.WriteLine($"Loaded Licence: {licence.LicenceNumber} - {licence.LicenceHolderFullName}");
+            }
             Licences.Clear();
             foreach (var licence in licencesFromDb)
             {

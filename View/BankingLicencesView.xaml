@@ -45,7 +45,7 @@
                 <DataGrid ItemsSource="{Binding Licences}" AutoGenerateColumns="False" Height="490" 
                       SelectedItem="{Binding SelectedLicence}" Width="880">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Č. licence" Binding="{Binding LicenceNumber}" Width="*">
+                        <DataGridTextColumn Header="Č. licence" Binding="{Binding LicenceNumber}" Width="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -53,7 +53,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Datum vydání" Binding="{Binding FormattedIssueDate}" Width="*">
+                        <DataGridTextColumn Header="Datum vydání" Binding="{Binding FormattedIssueDate}" Width="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -61,7 +61,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Platnost do" Binding="{Binding FormattedExpirationDate}" Width="*">
+                        <DataGridTextColumn Header="Platnost do" Binding="{Binding FormattedExpirationDate}" Width="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -69,18 +69,18 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Typ licence" Binding="{Binding LicenceType}" Width="*">
+                        <DataGridTextColumn Header="Typ licence" Binding="{Binding LicenceType.Name}" Width="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Držizel" Binding="{Binding LicenceHolderId}" Width="*">
+                        <DataGridTextColumn Header="Držizel" Binding="{Binding LicenceHolderFullName}" Width="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
