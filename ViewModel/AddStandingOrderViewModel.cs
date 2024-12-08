@@ -65,6 +65,17 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             NormalAccounts = new ObservableCollection<NormalAccount>(_standingOrderService.GetAllNormalAccounts());
 
+            if(Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1){
+                var accountsService = new AccountService();
+                var clientAccounts = accountsService.GetAccountsByIdAndType(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId, 'B');
+
+                // Filtrování NormalAccounts tak, aby obsahoval pouze ty účty, které jsou také v clientAccounts
+                NormalAccounts = new ObservableCollection<NormalAccount>(
+                    NormalAccounts.Where(normalAccount =>
+                        clientAccounts.Any(clientAccount => clientAccount.AccountNumber == normalAccount.AccountNumber))
+                );
+            }
+
             ActionLabelText = "Přidání trvalého příkazu";
             ActionButtonText = "Přidat";
         }

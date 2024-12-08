@@ -76,7 +76,8 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowStandingOrders()
         {
-
+            var addStandingOrder = new AddStandingOrderView();
+            addStandingOrder.ShowDialog();
         }
 
         private void ChangePersonalDetails()

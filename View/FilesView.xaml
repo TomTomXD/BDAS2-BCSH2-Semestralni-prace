@@ -86,10 +86,10 @@
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Přidat Soubor" Command="{Binding AddFileCommand}" Width="150" Margin="5" />
-                <Button Content="Upravit Soubor" Command="{Binding EditFileCommand}" Width="150" Margin="5" />
-                <Button Content="Stáhnout Soubor" Command="{Binding DownloadFileCommand}" IsEnabled="{Binding Path=SelectedFile}" Width="150" Margin="5" />
-                <Button Content="Smazat Soubor" Command="{Binding DeleteFileCommand}" IsEnabled="{Binding Path=SelectedFile}" Width="150" Margin="5" />
+                <Button Content="Přidat Soubor" Command="{Binding AddFileCommand}" Width="158" Margin="5" />
+                <Button Content="Upravit Soubor" Command="{Binding EditFileCommand}" Width="159" Margin="5" />
+                <Button Content="Stáhnout Soubor" Command="{Binding DownloadFileCommand}" IsEnabled="{Binding Path=SelectedFile}" Width="158" Margin="5" />
+                <Button Content="Smazat Soubor" Command="{Binding DeleteFileCommand}" IsEnabled="{Binding Path=SelectedFile}" Width="158" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>
