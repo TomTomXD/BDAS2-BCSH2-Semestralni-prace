@@ -114,8 +114,8 @@
             </Border>
 
             <!-- Buttons -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Přidat Úvěr" Command="{Binding AddLoanCommand}" Width="150" Margin="5" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Visibility="{Binding LoanButtons}">
+                <Button Content="Přidat Úvěr" Command="{Binding AddLoanCommand}" Width="150" Margin="5"/>
                 <Button Content="Upravit Úvěr" Command="{Binding EditLoanCommand}" Width="150" Margin="5" />
                 <Button Content="Smazat Vybraný Účet" Command="{Binding DeleteLoanCommand}" IsEnabled="{Binding Path=SelectedLoan}" Width="150" Margin="5" />
             </StackPanel>

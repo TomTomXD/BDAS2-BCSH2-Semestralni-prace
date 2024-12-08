@@ -16,6 +16,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private Person _selectedPerson;
 
+        private int _originalUserId;
+        private int _originalRoleId;
         public ObservableCollection<Person> People { get; set; }
         public ICommand EmulateCommand { get; }
         public ICommand CloseEmulationWindow { get; }
@@ -47,32 +49,45 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void Emulate()
         {
+            // Uložení aktuálních hodnot
+            _originalUserId = Session.Instance.CurrentUserId;
+            _originalRoleId = Session.Instance.CurrentRoleId;
+
+            // Nastavení emulovaného uživatele
             Session.Instance.EmulateUser(SelectedPerson.Id, SelectedPerson.Role.Id);
 
-            // Přihlášení úspěšné, otevřete zatím admin dashboard pro testování a ladění loginů
+            // Otevírání dashboardu podle role
             switch (Session.Instance.EmulatedRoleId)
             {
                 case 1:
                     var dashboardKlientView = new DashboardKlientView();
-                    dashboardKlientView.Show();
+                    dashboardKlientView.ShowDialog();
                     break;
                 case 2:
                     var dashboardNotVerifiedClientView = new DashboardNotVerifiedClientView();
-                    dashboardNotVerifiedClientView.Show();
+                    dashboardNotVerifiedClientView.ShowDialog();
                     break;
                 case 3:
                     var dashboardEmployeeView = new DashboardEmployeeView();
-                    dashboardEmployeeView.Show();
+                    dashboardEmployeeView.ShowDialog();
                     break;
                 case 4:
                     var dashboardAdminView = new DashboardAdminView();
-                    dashboardAdminView.Show();
+                    dashboardAdminView.ShowDialog();
                     break;
                 default:
                     MessageBox.Show("Nepodařilo se emulovat tuto osobu.", "Chyba přihlášení", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
+
+            // Obnovení původního uživatele po skončení emulace
+            RestoreOriginalUser();
             CloseWindow();
+        }
+
+        private void RestoreOriginalUser()
+        {
+            Session.Instance.SetUser(_originalUserId, _originalRoleId);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -34,7 +34,7 @@
 
 
         // Aktuální kontext uživatele (přihlášený nebo emulovaný)
-        public int CurrentUserId => EmulatedUserId ?? LoggedInUserId;
-        public int CurrentRoleId => EmulatedRoleId ?? LoggedInRoleId;
+        public int CurrentUserId => LoggedInUserId;
+        public int CurrentRoleId => LoggedInRoleId;
     }
 }

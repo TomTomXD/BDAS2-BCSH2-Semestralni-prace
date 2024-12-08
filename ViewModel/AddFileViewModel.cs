@@ -89,7 +89,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-
         public byte[] FileContent { get; set; }
 
         public AddFileViewModel()
@@ -112,7 +111,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 SelectedPossibleFileOwner = PossibleFileOwners.FirstOrDefault(x => x.Id == (Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId));
                 ChangeUser = false;
             }
-
         }
 
         public AddFileViewModel(File selectedFile)

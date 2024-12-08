@@ -96,7 +96,7 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowLoansView()
         {
-
+            CurrentView = new LoansView();
         }
 
         private void LogOut()
