@@ -322,9 +322,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
                     PostalCode,
                     passwordHash,
                     saltAsString,
-                    SelectedDepartment.Id,
-                    SelectedPosition.Id,
-                    SelectedManager.Id
+                    SelectedDepartment.Id, // Předá null, pokud je SelectedDepartment null
+                    SelectedPosition.Id, // Předá null, pokud je SelectedPosition null
+                    SelectedManager.Id // Předá null, pokud je SelectedManager null
                 );
 
                 if (result)

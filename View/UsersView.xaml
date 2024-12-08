@@ -118,7 +118,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Datum narození" Binding="{Binding DoB}" Width="200" MinWidth="200">
+                        <DataGridTextColumn Header="Datum narození" Binding="{Binding FormattedDoB}" Width="200" MinWidth="200">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

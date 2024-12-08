@@ -2,6 +2,7 @@
 using FinancniInformacniSystemBanky.Model;
 using FinancniInformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -37,6 +38,18 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
+        private bool _hideSensitiveData;
+        public bool HideSensitiveData
+        {
+            get => _hideSensitiveData;
+            set
+            {
+                _hideSensitiveData = value;
+                OnPropertyChanged(nameof(HideSensitiveData));
+                PerformActionOnCheckBoxChange();
+            }
+        }
+
         public ICommand AddPersonCommand { get; }
         public ICommand ChangePersonalDataCommand { get; }
         public ICommand DeletePersonCommand { get; }
@@ -59,6 +72,30 @@ namespace FinancniInformacniSystemBanky.ViewModel
             DeletePersonCommand = new RelayCommand(DeletePerson);
         }
 
+        private void PerformActionOnCheckBoxChange()
+        {
+            if (HideSensitiveData)
+            {
+                foreach (var person in People)
+                {
+                    // Schování jména a příjmení
+                    person.Name = $"{person.Name[0]}{new string('*', person.Name.Length - 1)}";
+                    person.Surname = $"{person.Surname[0]}{new string('*', person.Surname.Length - 1)}";
+                    person.NationalIdNumber = "*********";
+                }
+            }
+            else
+            {
+                //    LoadPeopleFromDatabase();
+                var peopleFromDb = _personDetailsService.GetPersonDetails();
+
+                People.Clear();
+                foreach (var person in peopleFromDb)
+                {
+                    People.Add(person);
+                }
+            }
+        }
 
         // Metoda pro načtení osob z databáze
         private void LoadPeopleFromDatabase()
@@ -69,6 +106,13 @@ namespace FinancniInformacniSystemBanky.ViewModel
             foreach (var person in peopleFromDb)
             {
                 People.Add(person);
+                if (HideSensitiveData)
+                {
+                        // Schování jména a příjmení
+                        person.Name = $"{person.Name[0]}{new string('*', person.Name.Length - 1)}";
+                        person.Surname = $"{person.Surname[0]}{new string('*', person.Surname.Length - 1)}";
+                        person.NationalIdNumber = "*********";
+                }
             }
         }
 
@@ -84,7 +128,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                        person.NationalIdNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
                        person.PhoneNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
                        person.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase); 
-                       //|| person.Role.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
             }
             return false;
         }
@@ -106,6 +149,11 @@ namespace FinancniInformacniSystemBanky.ViewModel
         {
             if (IsPersonSelected())
             {
+                if(HideSensitiveData == true)
+                {
+                    MessageBox.Show("Nelze upravit osobu, pokud jsou skryté citlivé informace. Odkryjte citlivé informace a abyste se ujistili, o kterou osobu se jedná.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 var editUserViewModel = new AddOrEditUserViewModel(SelectedPerson);
                 var editUserView = new AddPersonView()
                 {
