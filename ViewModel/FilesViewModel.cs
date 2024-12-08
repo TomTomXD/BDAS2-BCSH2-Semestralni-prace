@@ -74,7 +74,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void LoadFilesFromDatabase()
         {
-            var files = _fileService.GetFiles();
+            IEnumerable<File> files;
+            if (Session.Instance.CurrentRoleId == 1 || Session.Instance.EmulatedRoleId == 1)
+            {
+                 files = _fileService.GetFilesById(Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId);
+            }
+            else
+            {
+                files = _fileService.GetFiles();
+            }
+
             Files.Clear();
             foreach (var file in files)
             {

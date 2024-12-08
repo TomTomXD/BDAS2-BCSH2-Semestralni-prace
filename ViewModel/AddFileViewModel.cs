@@ -78,6 +78,17 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
+        private bool _changeUser;
+        public bool ChangeUser
+        {
+            get => _changeUser;
+            set
+            {
+                _changeUser = value;
+                OnPropertyChanged(nameof(ChangeUser));
+            }
+        }
+
 
         public byte[] FileContent { get; set; }
 
@@ -92,8 +103,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
             DateOfUpload = DateTime.Now;
             ActionButtonText = "Nahrát";
             ActionLabelText = "Nahrání nového souboru";
+            ChangeUser = true;
 
             PossibleFileOwners = new ObservableCollection<PossibleFileOwner>(_fileService.GetPossibleFileOwners());
+            
+            if(Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
+            {
+                SelectedPossibleFileOwner = PossibleFileOwners.FirstOrDefault(x => x.Id == (Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId));
+                ChangeUser = false;
+            }
+
         }
 
         public AddFileViewModel(File selectedFile)
@@ -114,6 +133,13 @@ namespace FinancniInformacniSystemBanky.ViewModel
             DateOfUpload = selectedFile.UploadDate;
             PossibleFileOwners = new ObservableCollection<PossibleFileOwner>(_fileService.GetPossibleFileOwners());
             SelectedPossibleFileOwner = PossibleFileOwners.FirstOrDefault(x => x.Id == selectedFile.Owner.OwnerId);
+            ChangeUser = true;
+
+            if (Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
+            {
+                SelectedPossibleFileOwner = PossibleFileOwners.FirstOrDefault(x => x.Id == (Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId));
+                ChangeUser = false;
+            }
 
             ActionButtonText = "Upravit";
             ActionLabelText = "Úprava uloženého souboru";

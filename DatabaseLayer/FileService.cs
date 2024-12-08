@@ -34,6 +34,30 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
+        public IEnumerable<File> GetFilesById(int id)
+        {
+            string query = "SELECT * FROM V_SOUBORY_S_VLASTNIKY WHERE id_osoba = :id";
+
+            return _databaseService.ExecuteSelect(query, reader => new File
+            {
+                FileId = reader.GetInt32(0),
+                FileName = reader.GetString(1),
+                UploadDate = reader.GetDateTime(2),
+                Note = reader.IsDBNull(3) ? null : reader.GetString(3),
+                Owner = new File.FileOwner
+                {
+                    OwnerId = reader.GetInt32(4),
+                    Name = reader.GetString(5),
+                    Surname = reader.GetString(6),
+                    Role = reader.GetString(7)
+                }
+            }, command =>
+            {
+                // Přidání parametru pro id osoby
+                command.Parameters.Add(new OracleParameter("id", id));
+            });
+        }
+
         public IEnumerable<PossibleFileOwner> GetPossibleFileOwners()
         {
             string query = "SELECT OSOBA_ID, OSOBA_JMENO, OSOBA_PRIJMENI, RODNE_CISLO FROM V_VSECHNY_OSOBY";

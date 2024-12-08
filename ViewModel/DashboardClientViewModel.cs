@@ -37,19 +37,23 @@ namespace InformacniSystemBanky.ViewModel
 
         //public ICommand ShowHomeCommand { get; }
         public ICommand ShowAccountCommand { get; }
-        public ICommand ShowLoans { get; }
         public ICommand LogOutCommand { get; }
         public ICommand ShowCardsCommand { get; }
-        public ICommand ShowChangeOfPersonalDetailsCommand { get; }
+        public ICommand ShowStandingOrdersCommand { get; }
+        public ICommand ShowFilesCommand { get; }
+        public ICommand ShowLoansCommand { get; }
+        public ICommand ShowApplyForLoanCommand { get; }
 
         public DashboardClientViewModel()
         {
-            //ShowHomeCommand = new RelayCommand(ShowHome);
             ShowAccountCommand = new RelayCommand(ShowAccounts);
             LogOutCommand = new RelayCommand(LogOut);
-            ShowLoans = new RelayCommand(ShowLoansView);
             ShowCardsCommand = new RelayCommand(ShowCards);
-            ShowChangeOfPersonalDetailsCommand = new RelayCommand(ChangePersonalDetails);
+            ShowStandingOrdersCommand = new RelayCommand(ShowStandingOrders);
+            ShowFilesCommand = new RelayCommand(ShowFiles);
+            ShowLoansCommand = new RelayCommand(ShowLoansView);
+            ShowApplyForLoanCommand = new RelayCommand(ShowApplyForLoan);
+
             // Výchozí zobrazení
             CurrentView = new AdminMainView();
 
@@ -57,6 +61,21 @@ namespace InformacniSystemBanky.ViewModel
             {
                 EmulationLabelVisibility = Visibility.Visible;
             }
+        }
+
+        private void ShowApplyForLoan()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ShowFiles()
+        {
+            CurrentView = new FilesView();
+        }
+
+        private void ShowStandingOrders()
+        {
+
         }
 
         private void ChangePersonalDetails()
