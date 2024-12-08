@@ -38,7 +38,7 @@
 
     </UserControl.Resources>
 
-    <Grid Background="Transparent" Margin="0,-86,0,0">
+    <Grid Background="Transparent" >
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="915">
             <!-- Border to create rounded corners -->
             <Border Background="White" CornerRadius="15" BorderBrush="White" BorderThickness="1" Padding="1">
@@ -53,7 +53,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Datum vydání" Binding="{Binding IssueDate}" Width="*">
+                        <DataGridTextColumn Header="Datum vydání" Binding="{Binding FormattedIssueDate}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -61,7 +61,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Platnost do" Binding="{Binding ExpirationDate}" Width="*">
+                        <DataGridTextColumn Header="Platnost do" Binding="{Binding FormattedExpirationDate}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

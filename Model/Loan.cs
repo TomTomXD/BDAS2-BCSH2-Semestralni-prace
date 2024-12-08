@@ -13,5 +13,8 @@ namespace FinancniInformacniSystemBanky.Model
         public Employee CreditCounselor { get; set; }
         public LoanType LoanType { get; set; }
         public LoanStatus LoanStatus { get; set; }
+
+        public string FormattedDateOfApproval => DateOfApproval.ToString("dd.MM. yyyy");
+        public string FormattedDateOfRepayment => DateOfRepayment.ToString("dd.MM. yyyy");
     }
 }

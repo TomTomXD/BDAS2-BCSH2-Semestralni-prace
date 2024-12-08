@@ -15,5 +15,8 @@ namespace InformacniSystemBanky.Model
         public DateTime ExpirationDate { get; set; }
         public int LicenceType { get; set; }
         public int LicenceHolderId { get; set; }
+
+        public string FormattedIssueDate => IssueDate.ToString("dd.MM. yyyy");
+        public string FormattedExpirationDate => ExpirationDate.ToString("dd.MM. yyyy");
     }
 }

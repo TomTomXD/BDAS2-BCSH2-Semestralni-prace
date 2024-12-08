@@ -16,18 +16,36 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public IEnumerable<File> GetFiles()
         {
-            string query = @"SELECT ID_SOUBOR, NAZEV_SOUBORU, DATUM_NAHRANI, POZNAMKA, ID_OSOBA FROM SOUBORY";
+            string query = "SELECT * FROM V_SOUBORY_S_VLASTNIKY";
 
             return _databaseService.ExecuteSelect(query, reader => new File
             {
                 FileId = reader.GetInt32(0),
                 FileName = reader.GetString(1),
-                UploadDate = DateOnly.FromDateTime(reader.GetDateTime(2)),
+                UploadDate = reader.GetDateTime(2),
                 Note = reader.IsDBNull(3) ? null : reader.GetString(3),
-                OwnerId = reader.GetInt32(4)
+                Owner = new File.FileOwner
+                {
+                    OwnerId = reader.GetInt32(4),
+                    Name = reader.GetString(5),
+                    Surname = reader.GetString(6),
+                    Role = reader.GetString(7)
+                }
             });
         }
 
+        public IEnumerable<PossibleFileOwner> GetPossibleFileOwners()
+        {
+            string query = "SELECT OSOBA_ID, OSOBA_JMENO, OSOBA_PRIJMENI, RODNE_CISLO FROM V_VSECHNY_OSOBY";
+
+            return _databaseService.ExecuteSelect(query, reader => new PossibleFileOwner
+            {
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1),
+                Surname = reader.GetString(2),
+                NationalIdNumber = reader.GetString(3)
+            });
+        }
 
         public void SaveFileToDisk(int idSoubor)
         {

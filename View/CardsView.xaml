@@ -60,7 +60,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Datum vystavení" Binding="{Binding IssuedDate}" Width="*">
+                        <DataGridTextColumn Header="Datum vystavení" Binding="{Binding FormattedIssuedDate}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -68,7 +68,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Platnost do" Binding="{Binding ExpirationDate}" Width="*">
+                        <DataGridTextColumn Header="Platnost do" Binding="{Binding FormattedExpirationDate}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

@@ -10,5 +10,8 @@
         public CardType CardType { get; set; }
         public int AccountId { get; set; }
         public string AccountNumber { get; set; }
+
+        public string FormattedIssuedDate => IssuedDate.ToString("dd.MM. yyyy");
+        public string FormattedExpirationDate => ExpirationDate.ToString("dd.MM. yyyy");
     }
 }

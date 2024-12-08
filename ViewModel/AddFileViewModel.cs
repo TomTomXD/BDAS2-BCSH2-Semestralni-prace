@@ -3,6 +3,7 @@ using FinancniInformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -64,6 +65,20 @@ namespace FinancniInformacniSystemBanky.ViewModel
             set { actionButtonText = value; OnPropertyChanged(nameof(ActionButtonText)); }
         }
 
+        public ObservableCollection<PossibleFileOwner> PossibleFileOwners { get; set; }
+        private PossibleFileOwner _SelectedPossibleFileOwner;
+        public PossibleFileOwner SelectedPossibleFileOwner
+        {
+            get => _SelectedPossibleFileOwner;
+            set
+            {
+                _SelectedPossibleFileOwner = value;
+                OwnerId = value.Id;
+                OnPropertyChanged(nameof(SelectedPossibleFileOwner));
+            }
+        }
+
+
         public byte[] FileContent { get; set; }
 
         public AddFileViewModel()
@@ -77,6 +92,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
             DateOfUpload = DateTime.Now;
             ActionButtonText = "Nahrát";
             ActionLabelText = "Nahrání nového souboru";
+
+            PossibleFileOwners = new ObservableCollection<PossibleFileOwner>(_fileService.GetPossibleFileOwners());
         }
 
         public AddFileViewModel(File selectedFile)
@@ -90,12 +107,14 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             // nastavení hodnot z vybraného souboru
             fileId = selectedFile.FileId;
-            OwnerId = selectedFile.OwnerId;
+
             FilePath = selectedFile.FileName;
             FileDescription = selectedFile.Note;
             FileName = selectedFile.FileName;
-            DateOfUpload = selectedFile.UploadDate.ToDateTime(TimeOnly.MinValue).Date;
-            
+            DateOfUpload = selectedFile.UploadDate;
+            PossibleFileOwners = new ObservableCollection<PossibleFileOwner>(_fileService.GetPossibleFileOwners());
+            SelectedPossibleFileOwner = PossibleFileOwners.FirstOrDefault(x => x.Id == selectedFile.Owner.OwnerId);
+
             ActionButtonText = "Upravit";
             ActionLabelText = "Úprava uloženého souboru";
         }
@@ -133,7 +152,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         {
             try
             {
-                _fileService.UploadFile(null, FileName, DateOfUpload, FileContent, FileDescription, OwnerId);
+                _fileService.UploadFile(null, FileName, DateOfUpload, FileContent, FileDescription, SelectedPossibleFileOwner.Id);
                 CloseAddingWindow();
             }
             catch (Exception ex)
