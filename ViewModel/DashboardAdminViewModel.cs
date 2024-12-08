@@ -51,6 +51,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowLookUpTablesCommand { get; }
         public ICommand ShowHierarchyCommand { get; }
         public ICommand ShowEmulationWindowCommand { get; }
+        public ICommand ShowLogsCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -69,6 +70,7 @@ namespace InformacniSystemBanky.ViewModel
             ShowLookUpTablesCommand = new RelayCommand(ShowLookUpTables);
             ShowHierarchyCommand = new RelayCommand(DisplayHierarchyTree);
             ShowEmulationWindowCommand = new RelayCommand(ShowEmulationWindow);
+            ShowLogsCommand = new RelayCommand(ShowLogs);
 
             CurrentView = new AdminMainView();
 
@@ -76,6 +78,11 @@ namespace InformacniSystemBanky.ViewModel
             {
                 EmulationLabelVisibility = Visibility.Visible;
             }
+        }
+
+        private void ShowLogs()
+        {
+            CurrentView = new LogsView();
         }
 
         private void ShowEmulationWindow()

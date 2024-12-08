@@ -366,8 +366,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 // Převod hodnoty z comboboxu na hodnotu pro databázi
                 string personTypeForDb = ConvertPersonTypeToDbFormat(SelectedPersonType);
 
-                MessageBox.Show($"id oddeleni: {SelectedDepartment.Id}, id pozice: {SelectedPosition.Id}, manazer: {SelectedManager.Id}");
-
                 _userService.RegisterNewUser(
                         Name,
                         Surname,
