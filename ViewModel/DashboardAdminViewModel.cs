@@ -38,6 +38,7 @@ namespace InformacniSystemBanky.ViewModel
         public ICommand ShowStandingOrdersCommand { get; }
         public ICommand ShowLookUpTablesCommand { get; }
         public ICommand ShowHierarchyCommand { get; }
+        public ICommand ShowEmulationWindowCommand { get; }
 
         public DashboardAdminViewModel()
         {
@@ -55,8 +56,15 @@ namespace InformacniSystemBanky.ViewModel
             ShowStandingOrdersCommand = new RelayCommand(ShowStandingOrders);
             ShowLookUpTablesCommand = new RelayCommand(ShowLookUpTables);
             ShowHierarchyCommand = new RelayCommand(DisplayHierarchyTree);
-           
+            ShowEmulationWindowCommand = new RelayCommand(ShowEmulationWindow);
+
             CurrentView = new AdminMainView();
+        }
+
+        private void ShowEmulationWindow()
+        {
+             var emulationView = new EmulationView();
+            emulationView.ShowDialog();
         }
 
         private void DisplayHierarchyTree()

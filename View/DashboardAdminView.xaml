@@ -125,7 +125,7 @@
             <!--Změna osobních údajů button-->
             <Button Command="{Binding ShowBankingLicencesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-id-50 1.png" Stretch="Fill" Height="40" Width="40" />
+                    <Image Source="pack://application:,,,/Images/icons8-id-50 1.png" Stretch="Fill" Height="45" Width="45" Margin="0,0,0,-1"/>
                     <TextBlock Margin="0,8,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Bankovní licence" Height="28"/>
                 </StackPanel>
             </Button>
@@ -180,10 +180,10 @@
             </Button>
 
             <!--Zaměstnanci-->
-            <Button Command="{Binding ShowEmployeesCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
+            <Button Command="{Binding ShowEmulationWindowCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="0,10">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Images/icons8-employees-50.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="NO_FUNCTION" Height="28"/>
+                    <Image Source="pack://application:,,,/Images/icons8-virtual-machine-64.png" Stretch="Fill" Height="40" Width="40" />
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Emulace" Height="28"/>
                 </StackPanel>
             </Button>
 

@@ -120,6 +120,8 @@ namespace FinancniInformacniSystemBanky.Model
 
         public string FormattedDoB => DoB.ToString("dd.MM. yyyy");
 
+        public string AccountInfo => $"{Name} {Surname} - {Role}";
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
