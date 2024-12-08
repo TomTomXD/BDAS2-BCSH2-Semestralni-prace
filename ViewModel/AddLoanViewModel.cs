@@ -25,7 +25,34 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private int _creditCounselorId;
         private int _loanType;
         private int _loanStatus;
+        private bool _clientSetter;
+        private bool _creditCounselorSetter;
+        private bool _statusSetter;
+        private bool _interestRateSetter;
 
+        public bool InterestRateSetter
+        {
+            get => _interestRateSetter;
+            set { _interestRateSetter = value; OnPropertyChanged(nameof(InterestRateSetter)); }
+        }
+
+        public bool StatusSetter
+        {
+            get => _statusSetter;
+            set { _statusSetter = value; OnPropertyChanged(nameof(StatusSetter)); }
+        }
+
+        public bool CreditCounselorSetter
+        {
+            get => _creditCounselorSetter;
+            set { _creditCounselorSetter = value; OnPropertyChanged(nameof(CreditCounselorSetter)); }
+        }
+
+        public bool ClientSetter
+        {
+            get => _clientSetter;
+            set { _clientSetter = value; OnPropertyChanged(nameof(ClientSetter)); }
+        }
         public int LoanId
         {
             get => _loanId;
@@ -189,9 +216,27 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Clients = new ObservableCollection<EligibleClientForLoan>(_loanService.GetEligibleClientsForLoan());
             LoanTypes = new ObservableCollection<LoanType>(_loanService.GetLoanTypes());
             LoanStatuses = new ObservableCollection<LoanStatus>(_loanService.GetLoanStatus());
+            ClientSetter = true;
+            CreditCounselorSetter = true;
 
             DateOfApproval = DateTime.Now;
             DateOfRepayment = DateTime.Now;
+
+            if (Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
+            {
+                SelectedClient = Clients.First(x => x.Id == (Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId));
+                SelectedLoanStatus = LoanStatuses.First(x => x.Id == 3);
+
+               var random = new Random();
+               SelectedCreditCounselor = CreditCounselors[random.Next(CreditCounselors.Count)];
+
+                InterestRate = (decimal)5.2;
+
+                ClientSetter = false;
+                CreditCounselorSetter = false;
+                StatusSetter = false;
+                InterestRateSetter = false;
+            }
 
             ActionLabelText = "Přidat Úvěr";
             ActionButtonText = "Přidat";
@@ -214,15 +259,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
             InterestRate = selectedLoan.InterestRate;
             DateOfApproval = selectedLoan.DateOfApproval;
             DateOfRepayment = selectedLoan.DateOfRepayment;
-            //ClientId = selectedLoan.ClientId;
-            //CreditCounselorId = selectedLoan.CreditCounselorId;
-            //LoanStatus = selectedLoan.LoanStatus;
-            //LoanType = selectedLoan.LoanType;
+            ClientId = selectedLoan.Client.ClientId;
+            CreditCounselorId = selectedLoan.CreditCounselor.Id;
+            LoanStatus = selectedLoan.LoanStatus.Id;
+            LoanType = selectedLoan.LoanType.Id;
 
-            //SelectedLoanStatus = LoanStatuses.First(x => x.Id == selectedLoan.LoanStatus);
-            //SelectedLoanType = LoanTypes.First(x => x.Id == selectedLoan.LoanType);
-            //SelectedClient = Clients.First(x => x.Id == selectedLoan.ClientId);
-            //SelectedCreditCounselor = CreditCounselors.First(x => x.Id == selectedLoan.CreditCounselorId);
+            // nastavení aktuální hodnoty do comboboxů
+            SelectedLoanStatus = LoanStatuses.First(x => x.Id == selectedLoan.LoanStatus.Id);
+            SelectedLoanType = LoanTypes.First(x => x.Id == selectedLoan.LoanType.Id);
+            SelectedClient = Clients.First(x => x.Id == selectedLoan.Client.ClientId);
+            SelectedCreditCounselor = CreditCounselors.First(x => x.Id == selectedLoan.CreditCounselor.Id);
 
             ActionLabelText = "Upravit Úvěr";
             ActionButtonText = "Upravit";
@@ -258,7 +304,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 currentWindow.Close();
             }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

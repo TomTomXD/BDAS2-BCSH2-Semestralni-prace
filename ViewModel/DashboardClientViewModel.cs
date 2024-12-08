@@ -65,7 +65,8 @@ namespace InformacniSystemBanky.ViewModel
 
         private void ShowApplyForLoan()
         {
-            throw new NotImplementedException();
+            var clientApplication = new AddLoanView();
+            clientApplication.ShowDialog();
         }
 
         private void ShowFiles()

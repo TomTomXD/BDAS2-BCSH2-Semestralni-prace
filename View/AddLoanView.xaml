@@ -217,7 +217,7 @@
                     <Label Content="Výše úvěru" Grid.Column="0" Grid.Row="0" Foreground="White" Margin="0,0,0,10"/>
                     <TextBox x:Name="LoanAmountTextBox" Grid.Column="1" Grid.Row="0" Margin="0,0,0,10" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Úroková sazba" Grid.Column="2" Grid.Row="0" Foreground="White" Margin="31,0,0,10" HorizontalAlignment="Left" Width="126"/>
-                    <TextBox x:Name="BalanceTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10" Text="{Binding InterestRate, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="BalanceTextBox" Grid.Column="3" Grid.Row="0" Margin="0,0,0,10" Text="{Binding InterestRate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding InterestRateSetter}"/>
                     <Label Content="Datum schválení" Grid.Column="0" Grid.Row="1" Foreground="White" Margin="34,5,0,5" HorizontalAlignment="Left" Width="122"/>
                     <Border Grid.Column="1" 
                             Grid.Row="1" 
@@ -281,6 +281,7 @@
                               Grid.Column="3" 
                               Grid.Row="4" 
                               Margin="9,2,8,8" 
+                              IsEnabled= "{Binding StatusSetter}"
                               ItemsSource="{Binding LoanStatuses}" 
                               DisplayMemberPath="Name"
                               SelectedValuePath="Id"
@@ -321,7 +322,8 @@
                     <Label Content="Sjednává" Grid.Column="0" Foreground="White" Margin="45,1,27,9"/>
                     <ComboBox x:Name="ClientComboBox" 
                               Grid.Column="1" 
-                              Margin="12,2,10,8" 
+                              Margin="12,2,10,8"
+                              IsEnabled="{Binding ClientSetter}"
                               ItemsSource="{Binding Clients}"
                               DisplayMemberPath="FullName"
                               SelectedValuePath="Id"
@@ -331,6 +333,7 @@
                     <ComboBox x:Name="CreditCounselorComboBox" 
                               Grid.Column="4" 
                               Margin="0,2,22,8" 
+                              IsEnabled="{Binding CreditCounselorSetter}"
                               ItemsSource="{Binding CreditCounselors}"
                               DisplayMemberPath="FullName"
                               SelectedValuePath="Id"

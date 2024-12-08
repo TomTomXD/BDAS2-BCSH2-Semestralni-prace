@@ -103,7 +103,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         {
             try
             {
-                var procedureName = "upsert_uver"; 
+                var procedureName = "upsert_uver";
 
                 _databaseService.ExecuteProcedure(procedureName, configureCommand =>
                 {
@@ -117,7 +117,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                     configureCommand.Parameters.Add("p_typ_uveru", OracleDbType.Int32).Value = loanType;
                     configureCommand.Parameters.Add("p_stav_uveru", OracleDbType.Int32).Value = loanStatus;
                 });
-                MessageBox.Show("Úvěr úšpěšně přidán","Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Úvěr úšpěšně přidán", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception e)
             {
@@ -205,7 +205,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         public IEnumerable<EligibleClientForLoan> GetEligibleClientsForLoan()
         {
             string query = @"SELECT * FROM DOSPELE_OSOBY";
-            
+
             return _databaseService.ExecuteSelect(query, reader => new EligibleClientForLoan
             {
                 Id = reader.GetInt32(0),
@@ -215,9 +215,23 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
-        public void EditLoan()
+        public int GetRandomCreditCounselorId()
         {
-            throw new NotImplementedException();
+            // Tady předpokládáme, že máte uloženou funkci nebo SQL, která vrací náhodné ID
+            string query = "SELECT NAHODNY_SCHVALOVAC_ID FROM DUAL";
+
+            // Zavolejte ExecuteScalar, abyste získali náhodné ID
+            object result = _databaseService.ExecuteScalar(query);
+
+            // Zajistěte, aby výsledek nebyl NULL a převeďte na int
+            if (result != null && int.TryParse(result.ToString(), out int randomId))
+            {
+                return randomId;
+            }
+
+            // Vratí zaměstnance s ID 1, pokud se nepodaří získat náhodné ID
+            return 1;
         }
     }
+
 }

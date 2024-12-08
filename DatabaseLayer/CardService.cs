@@ -173,7 +173,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                return null; // nebo nějaké defaultní vrácení
+                return null; 
             }
         }
     }

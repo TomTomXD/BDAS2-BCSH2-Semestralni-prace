@@ -71,7 +71,18 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void LoadCardsFromDatabase()
         {
-            var loadedCards = _cardService.GetClientsCards(Session.Instance.CurrentUserId);
+            IEnumerable<Card> loadedCards;
+
+            //var loadedCards = _cardService.GetClientsCards(Session.Instance.CurrentUserId);
+
+            if (Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
+            {
+                loadedCards = _cardService.GetClientsCards(Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId);
+            }
+            else
+            {
+                loadedCards = _cardService.GetCards();
+            }
 
             Cards.Clear();
             foreach (var card in loadedCards)

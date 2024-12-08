@@ -100,7 +100,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             if (Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
             {
-                loansFromDb = _loanService.GetLoansByClientId(Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId);
+                loansFromDb = _loanService.GetLoansByClientId(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId);
             }
             else
             {
