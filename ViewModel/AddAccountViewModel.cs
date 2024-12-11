@@ -170,7 +170,7 @@ namespace InformacniSystemBanky.ViewModel
             AccountNumber = account.AccountNumber;
             Balance = (double)account.Balance;
             Limit = (double)account.PaymentLimit;
-            SelectedAccountType = account.AccountType;
+            SelectedAccountType = account.FriendlyAccountType;
             IdOwner = account.PersonId;
             AccountId = account.AccountId;
             SelectedOwner = PossibleOwners.First(x => x.ClientId == account.PersonId);
@@ -180,9 +180,9 @@ namespace InformacniSystemBanky.ViewModel
 
         private void EditAccount()
         {
-            if(AccountId == 0 || AccountNumber == null || Balance == 0 || Limit == 0 || SelectedOwner == null || SelectedAccountType == null)
+            if(AccountNumber == null || Balance == 0 || Limit == 0 || SelectedOwner == null || SelectedAccountType == null)
             {
-                MessageBox.Show("Všechna pole musí být vyplněna");
+                MessageBox.Show("Všechna pole musí být vyplněna", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             _accountService.UpdateAccount(AccountId, AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.ClientId, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
@@ -191,9 +191,9 @@ namespace InformacniSystemBanky.ViewModel
 
         private void AddNewAccount()
         {
-            if (AccountId == 0 || AccountNumber == null || Balance == 0 || Limit == 0 || SelectedOwner == null || SelectedAccountType == null)
+            if (AccountNumber == null || Balance == 0 || Limit == 0 || SelectedOwner == null || SelectedAccountType == null)
             {
-                MessageBox.Show("Všechna pole musí být vyplněna");
+                MessageBox.Show("Všechna pole musí být vyplněna", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.ClientId, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);

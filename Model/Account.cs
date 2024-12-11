@@ -15,6 +15,9 @@ namespace InformacniSystemBanky.Model
         public int PersonId { get; set; }
         public string OwnerName { get; set; }
         public string AccountType { get; set; }
+
+        // Nevytváříme objekt AccountType v databázi jsou hodnoty omezeny jen na B (běžný) a S (spořicí)),
+        // v databázi jako supertyp a subtypy
         public string FriendlyAccountType
         {
             get
