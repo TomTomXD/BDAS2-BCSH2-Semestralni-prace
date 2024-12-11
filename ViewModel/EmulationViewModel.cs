@@ -36,6 +36,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
             People = new ObservableCollection<Person>(_personService.GetPersonDetails());
             EmulateCommand = new RelayCommand(Emulate);
             CloseEmulationWindow = new RelayCommand(CloseWindow);
+
+            People.Where(p => p.Id == Session.Instance.CurrentUserId).ToList().ForEach(p => People.Remove(p));
         }
 
         private void CloseWindow()
@@ -61,19 +63,23 @@ namespace FinancniInformacniSystemBanky.ViewModel
             {
                 case 1:
                     var dashboardKlientView = new DashboardKlientView();
-                    dashboardKlientView.ShowDialog();
+                    CloseWindow();
+                    dashboardKlientView.Show();
                     break;
                 case 2:
                     var dashboardNotVerifiedClientView = new DashboardNotVerifiedClientView();
-                    dashboardNotVerifiedClientView.ShowDialog();
+                    CloseWindow();
+                    dashboardNotVerifiedClientView.Show();
                     break;
                 case 3:
                     var dashboardEmployeeView = new DashboardEmployeeView();
-                    dashboardEmployeeView.ShowDialog();
+                    CloseWindow();
+                    dashboardEmployeeView.Show();
                     break;
                 case 4:
                     var dashboardAdminView = new DashboardAdminView();
-                    dashboardAdminView.ShowDialog();
+                    CloseWindow();
+                    dashboardAdminView.Show();
                     break;
                 default:
                     MessageBox.Show("Nepodařilo se emulovat tuto osobu.", "Chyba přihlášení", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -82,7 +88,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             // Obnovení původního uživatele po skončení emulace
             RestoreOriginalUser();
-            CloseWindow();
         }
 
         private void RestoreOriginalUser()
