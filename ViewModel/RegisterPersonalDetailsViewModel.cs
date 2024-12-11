@@ -1,5 +1,4 @@
 ﻿using InformacniSystemBanky.View;
-using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -19,7 +18,7 @@ namespace InformacniSystemBanky.ViewModel
             _registerPersonalDetailsView = registerPersonalDetailsView;
             _userRegistrationViewModel = userRegistrationViewModel;
             OpenRegisterAddressViewCommand = new RelayCommand(OpenRegisterAddressView);
-            DateOfBirth = DateTime.Now;         // nastavení defaultní hodnoty pro datum narození na dnešní datum
+            DateOfBirth = DateTime.Now; // nastavení defaultní hodnoty pro datum narození na dnešní datum
         }
 
         public string FirstName
@@ -60,7 +59,10 @@ namespace InformacniSystemBanky.ViewModel
             get => _userRegistrationViewModel.DateOfBirth;
             set
             {
-                _userRegistrationViewModel.DateOfBirth = (DateTime)value;
+                if (value.HasValue)
+                {
+                    _userRegistrationViewModel.DateOfBirth = value.Value;
+                }
                 OnPropertyChanged(nameof(DateOfBirth));
                 CommandManager.InvalidateRequerySuggested();
             }
@@ -90,26 +92,65 @@ namespace InformacniSystemBanky.ViewModel
 
         private bool ValidateInputs()
         {
+            // Kontrola, zda jsou všechny povinné hodnoty vyplněny
+            if (string.IsNullOrWhiteSpace(FirstName) ||
+                string.IsNullOrWhiteSpace(LastName) ||
+                string.IsNullOrWhiteSpace(RodneCislo) ||
+                !DateOfBirth.HasValue ||
+                string.IsNullOrWhiteSpace(PhoneNumber) ||
+                string.IsNullOrWhiteSpace(Email))
+            {
+                MessageBox.Show("Všechny povinné hodnoty musí být vyplněny.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
             // Validace rodného čísla (ve tvaru xxxxxx/xxxx)
             if (!Regex.IsMatch(RodneCislo, @"^\d{6}/\d{4}$"))
             {
                 MessageBox.Show("Rodné číslo musí mít tvar xxxxxx/xxxx (6 číslic, lomítko, 4 číslice).", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
-            return false;
+
+            // Validace jména (začíná velkým písmenem)
+            if (!Regex.IsMatch(FirstName, @"^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][a-záčďéěíňóřšťúůýž]*$"))
+            {
+                MessageBox.Show("Jméno musí začínat velkým písmenem.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Validace příjmení (začíná velkým písmenem)
+            if (!Regex.IsMatch(LastName, @"^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][a-záčďéěíňóřšťúůýž]*$"))
+            {
+                MessageBox.Show("Příjmení musí začínat velkým písmenem.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Validace telefonního čísla (9 číslic)
+            if (!Regex.IsMatch(PhoneNumber, @"^\d{9}$"))
+            {
+                MessageBox.Show("Telefonní číslo musí mít 9 číslic.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+
+            // Validace emailu (obsahuje @ a minimálně jednu tečku)
+            if (!Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                MessageBox.Show("Email musí obsahovat @ a minimálně jednu tečku.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true;
         }
 
-            private void OpenRegisterAddressView()
+        private void OpenRegisterAddressView()
         {
-            if(string.IsNullOrWhiteSpace(FirstName) &&
-                       string.IsNullOrWhiteSpace(LastName) &&
-                       DateOfBirth.Equals(null) &&
-                       string.IsNullOrWhiteSpace(RodneCislo) &&
-                       string.IsNullOrWhiteSpace(PhoneNumber) &&
-                       string.IsNullOrWhiteSpace(Email) && ValidateInputs())
+            // Pokud jsou vstupy platné, otevřete okno
+            if (!ValidateInputs())
             {
                 return;
             }
+
             var registerAddressView = new RegisterAddressView(_userRegistrationViewModel);
             registerAddressView.Show();
             _registerPersonalDetailsView.Close();

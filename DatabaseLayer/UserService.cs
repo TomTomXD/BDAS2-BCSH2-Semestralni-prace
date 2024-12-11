@@ -63,7 +63,14 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             }
             catch (OracleException ex)
             {
-                MessageBox.Show($"Chyba při vykonávání procedury: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                if(ex.Number == 20001)
+                {
+                    MessageBox.Show("Aby se uživatel mohl zaregistrovat, musí mu být alespoň 10 let.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Chyba při vykonávání procedury: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 return false; // Neúspěch
             }
             catch (Exception ex)

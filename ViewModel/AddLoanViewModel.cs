@@ -218,6 +218,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
             LoanStatuses = new ObservableCollection<LoanStatus>(_loanService.GetLoanStatus());
             ClientSetter = true;
             CreditCounselorSetter = true;
+            StatusSetter = true;
+            InterestRateSetter = true;
 
             DateOfApproval = DateTime.Now;
             DateOfRepayment = DateTime.Now;

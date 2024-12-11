@@ -70,7 +70,7 @@ public class RegisterCreatePasswordViewModel : INotifyPropertyChanged
                     _userRegistrationViewModel.PhoneNumber,
                     _userRegistrationViewModel.Email,
                     "K",
-                    2,
+                    1,
                     _userRegistrationViewModel.AddressStreet,
                     _userRegistrationViewModel.AddressHouseNumber,
                     _userRegistrationViewModel.AddressCity,
@@ -78,14 +78,16 @@ public class RegisterCreatePasswordViewModel : INotifyPropertyChanged
                     hashedPassword,
                     saltBase64
                 );
-
-                MessageBox.Show("Hesla jsou v pořádku, probíhá registrace.", "Registrace", MessageBoxButton.OK, MessageBoxImage.Information);
-                _registrationCreatePassword.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Došlo k chybě při registraci: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
+            MessageBox.Show("Hesla jsou v pořádku, probíhá registrace. Zapněte prosím znovu aplikaci a přihlašte se.", "Registrace", MessageBoxButton.OK, MessageBoxImage.Information);
+            var loginView = new LoginView();
+            loginView.ShowDialog();
+            _registrationCreatePassword.Close();
         }
     }
 
