@@ -59,34 +59,30 @@ namespace FinancniInformacniSystemBanky.ViewModel
             Session.Instance.EmulateUser(SelectedPerson.Id, SelectedPerson.Role.Id);
 
             // Otevírání dashboardu podle role
+            Window dashboardView = null;
             switch (Session.Instance.EmulatedRoleId)
             {
                 case 1:
-                    var dashboardKlientView = new DashboardKlientView();
-                    CloseWindow();
-                    dashboardKlientView.Show();
+                    dashboardView = new DashboardKlientView();
                     break;
                 case 2:
-                    var dashboardNotVerifiedClientView = new DashboardNotVerifiedClientView();
-                    CloseWindow();
-                    dashboardNotVerifiedClientView.Show();
+                    dashboardView = new DashboardNotVerifiedClientView();
                     break;
                 case 3:
-                    var dashboardEmployeeView = new DashboardEmployeeView();
-                    CloseWindow();
-                    dashboardEmployeeView.Show();
+                    dashboardView = new DashboardEmployeeView();
                     break;
                 case 4:
-                    var dashboardAdminView = new DashboardAdminView();
-                    CloseWindow();
-                    dashboardAdminView.Show();
+                    dashboardView = new DashboardAdminView();
                     break;
                 default:
                     MessageBox.Show("Nepodařilo se emulovat tuto osobu.", "Chyba přihlášení", MessageBoxButton.OK, MessageBoxImage.Error);
-                    break;
+                    return; // Ukončit metodu, abychom zabránili zbytku kódu
             }
 
-            // Obnovení původního uživatele po skončení emulace
+            // Otevři modální okno
+            dashboardView.ShowDialog(); // Tato metoda blokuje další provádění až do zavření okna
+
+            // Obnovení původního uživatele po zavření dashboardu
             RestoreOriginalUser();
         }
 

@@ -98,11 +98,12 @@ namespace FinancniInformacniSystemBanky.ViewModel
         {
             IEnumerable<Loan> loansFromDb;
 
+
             if (Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
             {
-                loansFromDb = _loanService.GetLoansByClientId(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId);
+                loansFromDb = _loanService.GetLoansByClientId(Session.Instance.EmulatedRoleId ?? Session.Instance.CurrentUserId);
             }
-            if (Session.Instance.EmulatedRoleId == 3 || Session.Instance.CurrentRoleId == 3)
+            else if (Session.Instance.EmulatedRoleId == 3 || Session.Instance.CurrentRoleId == 3)
             {
                 loansFromDb = _loanService.GetLoansByCreditCounselorId(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId);
             }
