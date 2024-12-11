@@ -82,7 +82,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             // Otevři modální okno
             dashboardView.ShowDialog(); // Tato metoda blokuje další provádění až do zavření okna
 
-            // Obnovení původního uživatele po zavření dashboardu
+            // Obnovení původního uživatele po zavření emulovaného dashboardu
             RestoreOriginalUser();
         }
 

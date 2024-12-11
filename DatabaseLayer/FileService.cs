@@ -72,9 +72,8 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         }
 
 
-        public void UploadFile(int? fileId, string fileName, DateTime uploadDate, byte[] fileContent, string note, int ownerId)
+        public void UploadFile(int? fileId, string fileName, DateTime uploadDate, byte[] fileContent, string note, int ownerId, string fileType)
         {
-            string fileType = Path.GetExtension(fileName).TrimStart('.'); // Získání typu souboru bez tečky
             try
             {
                 _databaseService.ExecuteProcedure("upsert_soubor", command =>
@@ -153,7 +152,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
                 Title = "Vyberte místo pro uložení souboru",
-                Filter = "Automaticky dle souboru",
+                Filter = "Automaticky dle souboru|*.* ",
                 FileName = "NovySoubor"
             };
 

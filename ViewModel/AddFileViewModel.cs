@@ -179,7 +179,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         {
             try
             {
-                _fileService.UploadFile(null, FileName, DateOfUpload, FileContent, FileDescription, SelectedPossibleFileOwner.Id);
+                _fileService.UploadFile(null, FileName, DateOfUpload, FileContent, FileDescription, SelectedPossibleFileOwner.Id, _fileType);
                 CloseAddingWindow();
             }
             catch (Exception ex)
