@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+	  <ApplicationIcon>Images\icons8-bank-48.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
