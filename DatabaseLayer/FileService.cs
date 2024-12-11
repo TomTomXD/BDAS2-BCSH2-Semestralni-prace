@@ -1,6 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.Model;
 using Oracle.ManagedDataAccess.Client;
-using System.Data;
+using System.IO;
 using System.Windows;
 
 namespace FinancniInformacniSystemBanky.DatabaseLayer
@@ -14,17 +14,17 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             _databaseService = new DatabaseService();
         }
 
-        public IEnumerable<File> GetFiles()
+        public IEnumerable<Model.File> GetFiles()
         {
             string query = "SELECT * FROM V_SOUBORY_S_VLASTNIKY";
 
-            return _databaseService.ExecuteSelect(query, reader => new File
+            return _databaseService.ExecuteSelect(query, reader => new Model.File
             {
                 FileId = reader.GetInt32(0),
                 FileName = reader.GetString(1),
                 UploadDate = reader.GetDateTime(2),
                 Note = reader.IsDBNull(3) ? null : reader.GetString(3),
-                Owner = new File.FileOwner
+                Owner = new Model.File.FileOwner
                 {
                     OwnerId = reader.GetInt32(4),
                     Name = reader.GetString(5),
@@ -34,17 +34,17 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
-        public IEnumerable<File> GetFilesById(int id)
+        public IEnumerable<Model.File> GetFilesById(int id)
         {
             string query = "SELECT * FROM V_SOUBORY_S_VLASTNIKY WHERE id_osoba = :id";
 
-            return _databaseService.ExecuteSelect(query, reader => new File
+            return _databaseService.ExecuteSelect(query, reader => new Model.File
             {
                 FileId = reader.GetInt32(0),
                 FileName = reader.GetString(1),
                 UploadDate = reader.GetDateTime(2),
                 Note = reader.IsDBNull(3) ? null : reader.GetString(3),
-                Owner = new File.FileOwner
+                Owner = new Model.File.FileOwner
                 {
                     OwnerId = reader.GetInt32(4),
                     Name = reader.GetString(5),
@@ -71,52 +71,10 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
-        public void SaveFileToDisk(int idSoubor)
-        {
-            // Inicializace dialogu pro výběr souboru
-            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
-            {
-                Title = "Vyberte místo pro uložení souboru",
-                Filter = "Všechny soubory (*.*)|*.*",
-                FileName = "NovySoubor"
-            };
-
-            // Zobrazení dialogu
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                // Vybraný souborový cestu
-                string filePath = saveFileDialog.FileName;
-
-                try
-                {
-                    // Stažení obsahu souboru z databáze
-                    byte[] fileContent = DownloadFile(idSoubor);
-
-                    // Uložení souboru
-                    if (fileContent != null && fileContent.Length > 0)
-                    {
-                        System.IO.File.WriteAllBytes(filePath, fileContent);
-                        MessageBox.Show($"Soubor byl úspěšně uložen do: {filePath}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Soubor nebyl nalezen nebo je prázdný.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Došlo k chybě při ukládání souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Uložení souboru bylo zrušeno uživatelem.", "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
 
         public void UploadFile(int? fileId, string fileName, DateTime uploadDate, byte[] fileContent, string note, int ownerId)
         {
+            string fileType = Path.GetExtension(fileName).TrimStart('.'); // Získání typu souboru bez tečky
             try
             {
                 _databaseService.ExecuteProcedure("upsert_soubor", command =>
@@ -127,6 +85,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                     command.Parameters.Add("p_soubor", OracleDbType.Blob).Value = fileContent;
                     command.Parameters.Add("p_poznamka", OracleDbType.Varchar2).Value = note;
                     command.Parameters.Add("p_id_osoba", OracleDbType.Int32).Value = ownerId;
+                    command.Parameters.Add("p_typ_souboru", OracleDbType.Varchar2).Value = fileType; // Předání typu souboru
                 });
 
                 MessageBox.Show("Soubor byl úspěšně nahrán do databáze.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -139,6 +98,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
 
         public void UpdateFile(int fileId, string fileName, DateTime uploadDate, byte[] fileContent, string note, int ownerId)
         {
+            string fileType = Path.GetExtension(fileName).TrimStart('.'); // Získání typu souboru bez tečky
             try
             {
                 _databaseService.ExecuteProcedure("upsert_soubor", command =>
@@ -149,6 +109,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                     command.Parameters.Add("p_soubor", OracleDbType.Blob).Value = fileContent;
                     command.Parameters.Add("p_poznamka", OracleDbType.Varchar2).Value = note;
                     command.Parameters.Add("p_id_osoba", OracleDbType.Int32).Value = ownerId;
+                    command.Parameters.Add("p_typ_souboru", OracleDbType.Varchar2).Value = fileType; // Předání typu souboru
                 });
 
                 MessageBox.Show("Soubor byl úspěšně upraven.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -173,15 +134,70 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 MessageBox.Show($"Došlo k chybě při mazání souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private byte[] DownloadFile(int fileId)
+        private (byte[] fileContent, string fileType) DownloadFile(int fileId)
         {
-            string query = @"SELECT SOUBOR FROM SOUBORY WHERE ID_SOUBOR = :idSoubor";
+            string query = @"SELECT SOUBOR, TYP_SOUBORU FROM SOUBORY WHERE ID_SOUBOR = :idSoubor";
 
             return _databaseService.ExecuteSelect(query,
-                reader => (byte[])reader["SOUBOR"],
+                reader => (
+                    (byte[])reader["SOUBOR"],
+                    reader.GetString(1) // Předpokládáme, že typ souboru je na druhém sloupci
+                ),
                 command => command.Parameters.Add(new OracleParameter("idSoubor", fileId))
             ).FirstOrDefault();
+        }
+
+        public void SaveFileToDisk(int idSoubor)
+        {
+            // Inicializace dialogu pro výběr souboru
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Title = "Vyberte místo pro uložení souboru",
+                Filter = "Automaticky dle souboru",
+                FileName = "NovySoubor"
+            };
+
+            // Zobrazení dialogu
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                // Vybraný souborový cestu
+                string filePath = saveFileDialog.FileName;
+
+                try
+                {
+                    // Stažení obsahu souboru z databáze
+                    var (fileContent, fileType) = DownloadFile(idSoubor);
+
+                    // Uložení souboru
+                    if (fileContent != null && fileContent.Length > 0)
+                    {
+                        // Pokud je typ souboru dostupný, přidejte ho k názvu souboru
+                        if (!string.IsNullOrEmpty(fileType))
+                        {
+                            string newFileName = Path.ChangeExtension(filePath, fileType);
+                            System.IO.File.WriteAllBytes(newFileName, fileContent);
+                            MessageBox.Show($"Soubor byl úspěšně uložen do: {newFileName}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                        {
+                            System.IO.File.WriteAllBytes(filePath, fileContent);
+                            MessageBox.Show($"Soubor byl úspěšně uložen do: {filePath}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Soubor nebyl nalezen nebo je prázdný.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Došlo k chybě při ukládání souboru: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Uložení souboru bylo zrušeno uživatelem.", "Informace", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
     }

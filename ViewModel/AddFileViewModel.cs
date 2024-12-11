@@ -5,6 +5,7 @@ using InformacniSystemBanky.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -23,6 +24,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private int _ownerId;
         private bool _isDatePickerEnabled;
         private int fileId;
+        private string _fileType;
 
         public bool IsDatePickerEnabled
         {
@@ -113,7 +115,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-        public AddFileViewModel(File selectedFile)
+        public AddFileViewModel(Model.File selectedFile)
         {
             _fileService = new FileService();
             CancelAddingNewFileCommand = new RelayCommand(CloseAddingWindow);
@@ -169,6 +171,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 FilePath = openFileDialog.FileName;
                 FileName = openFileDialog.SafeFileName;
                 FileContent = System.IO.File.ReadAllBytes(FilePath);
+                _fileType = Path.GetExtension(FilePath).TrimStart('.');
             }
         }
 
