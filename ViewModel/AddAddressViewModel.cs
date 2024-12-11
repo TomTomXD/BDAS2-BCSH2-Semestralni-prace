@@ -2,18 +2,13 @@
 using FinancniInformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
 {
-   public class AddAddressViewModel : INotifyPropertyChanged
+    public class AddAddressViewModel : INotifyPropertyChanged
     {
         private readonly AddressService _addressService;
 

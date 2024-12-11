@@ -82,6 +82,7 @@
             Padding="10,5"
             Margin="307,25,0,25" 
             Style="{StaticResource TextBoxClassic}"
+            PreviewTextInput="NumberValidation"
             Text="{Binding AddressHouseNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="212" >
         </TextBox>
         <TextBlock  Text="PSČ:" 
