@@ -102,9 +102,13 @@ namespace FinancniInformacniSystemBanky.ViewModel
             {
                 loansFromDb = _loanService.GetLoansByClientId(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId);
             }
+            if (Session.Instance.EmulatedRoleId == 3 || Session.Instance.CurrentRoleId == 3)
+            {
+                loansFromDb = _loanService.GetLoansByCreditCounselorId(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId);
+            }
             else
             {
-                 loansFromDb = _loanService.GetLoans();
+                loansFromDb = _loanService.GetLoans();
             }
 
             Loans.Clear();

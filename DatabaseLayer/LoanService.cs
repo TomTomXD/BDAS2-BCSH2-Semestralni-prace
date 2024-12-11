@@ -91,6 +91,46 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
+        public IEnumerable<Loan> GetLoansByCreditCounselorId(int id)
+        {
+            string query = @"SELECT * FROM V_VSECHNY_UVERY WHERE zamestnanec_id_osoba = :id";
+
+            return _databaseService.ExecuteSelect(query, reader => new Loan
+            {
+                LoanId = reader.GetInt32(0),
+                Amount = reader.GetDecimal(1),
+                InterestRate = reader.GetDecimal(2),
+                DateOfApproval = reader.GetDateTime(3),
+                DateOfRepayment = reader.GetDateTime(4),
+                Client = new Client
+                {
+                    ClientId = reader.GetInt32(5),
+                    FirstName = reader.GetString(6),
+                    LastName = reader.GetString(7),
+                    NationalIdNumber = null,
+                },
+                CreditCounselor = new Employee
+                {
+                    Id = reader.GetInt32(8),
+                    FirstName = reader.GetString(9),
+                    LastName = reader.GetString(10)
+                },
+                LoanType = new LoanType
+                {
+                    Id = reader.GetInt32(11),
+                    Name = reader.GetString(12)
+                },
+                LoanStatus = new LoanStatus
+                {
+                    Id = reader.GetInt32(13),
+                    Name = reader.GetString(14)
+                }
+            }, command =>
+            {
+                command.Parameters.Add(new OracleParameter("zamestnanec_id_osoba", id));
+            });
+        }
+
         public void AddLoan(
             decimal ammount,
             decimal interestRate,
