@@ -18,7 +18,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private string actionButtonText;
         private string actionLabelText;
-        
+
         private int _addressId;
         private string _streetName;
         private string _houseNumber;
@@ -80,23 +80,31 @@ namespace FinancniInformacniSystemBanky.ViewModel
             City = selectedAddress.City;
             PostalCode = selectedAddress.PostalCode;
 
-
             ActionLabelText = "Úprava adresy";
             ActionButtonText = "Upravit";
         }
 
         private void UpdateAddress()
         {
+            if (!ChechForBlankFields())
+            {
+                return;
+            }
+
             _addressService.UpdateAddress(_addressId, StreetName, City, HouseNumber, PostalCode);
             CloseAddingWindow();
         }
 
         private void AddAddressToDatabase()
         {
+            if (!ChechForBlankFields())
+            {
+                return;
+            }
+
             _addressService.AddAddress(StreetName, City, HouseNumber, PostalCode);
             CloseAddingWindow();
         }
-
 
         private void CloseAddingWindow()
         {
@@ -112,6 +120,17 @@ namespace FinancniInformacniSystemBanky.ViewModel
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private bool ChechForBlankFields()
+        {
+            if (string.IsNullOrEmpty(StreetName) || string.IsNullOrEmpty(HouseNumber) ||
+                string.IsNullOrEmpty(City) || string.IsNullOrEmpty(PostalCode))
+            {
+                MessageBox.Show("Prosím vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
         }
     }
 }

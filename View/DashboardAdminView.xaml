@@ -171,11 +171,11 @@
                 </StackPanel>
             </Button>
 
-            <!--Datový slovník-->
+            <!--Systémový katalog-->
             <Button Command="{Binding ShowDataDictionaryCommand}" Height="80" Background="Transparent" BorderThickness="0" Margin="2,12,-2,11">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <Image Source="pack://application:,,,/Images/icons8-database-administrator-80.png" Stretch="Fill" Height="40" Width="40" />
-                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Datový slovník" Height="28"/>
+                    <TextBlock Margin="0,10,0,0" Foreground="White" HorizontalAlignment="Center" FontSize="16" TextWrapping="WrapWithOverflow" Text="Sys. katalog" Height="28"/>
                 </StackPanel>
             </Button>
 

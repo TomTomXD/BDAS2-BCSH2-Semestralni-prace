@@ -44,7 +44,6 @@
 
     <Grid Background="Transparent">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="915">
-            <!-- Border for rounded corners and shadow effect -->
             <Border Background="White" CornerRadius="15" BorderBrush="#E0E0E0" BorderThickness="1" Padding="1">
                 <Border.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>

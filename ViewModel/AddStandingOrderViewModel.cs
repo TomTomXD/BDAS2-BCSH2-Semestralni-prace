@@ -65,7 +65,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
             NormalAccounts = new ObservableCollection<NormalAccount>(_standingOrderService.GetAllNormalAccounts());
 
-            if(Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1){
+            if (Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
+            {
                 var accountsService = new AccountService();
                 var clientAccounts = accountsService.GetAccountsByIdAndType(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId, 'B');
 
@@ -101,11 +102,22 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void UpdateStandingOrder()
         {
+            if (!ValidateFields())
+            {
+                return;
+            }
+
             _standingOrderService.EditStandingOrder(_standingOrderId, Amount, SelectedNormalAccount.AccountId);
             CloseAddingWindow();
         }
+
         private void AddStandingOrderToDatabase()
         {
+            if (!ValidateFields())
+            {
+                return;
+            }
+
             _standingOrderService.AddStandingOrder(Amount, SelectedNormalAccount.AccountId);
             CloseAddingWindow();
         }
@@ -126,5 +138,14 @@ namespace FinancniInformacniSystemBanky.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private bool ValidateFields()
+        {
+            if (Amount <= 0 || SelectedNormalAccount == null)
+            {
+                MessageBox.Show("Prosím vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
+        }
     }
 }
