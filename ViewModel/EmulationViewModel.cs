@@ -65,9 +65,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 case 1:
                     dashboardView = new DashboardKlientView();
                     break;
-                case 2:
-                    dashboardView = new DashboardNotVerifiedClientView();
-                    break;
                 case 3:
                     dashboardView = new DashboardEmployeeView();
                     break;

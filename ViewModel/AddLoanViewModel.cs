@@ -266,6 +266,10 @@ namespace FinancniInformacniSystemBanky.ViewModel
             LoanStatus = selectedLoan.LoanStatus.Id;
             LoanType = selectedLoan.LoanType.Id;
 
+            CreditCounselorSetter = true;
+            StatusSetter = true;
+            InterestRateSetter = true;
+
             // nastavení aktuální hodnoty do comboboxů
             SelectedLoanStatus = LoanStatuses.First(x => x.Id == selectedLoan.LoanStatus.Id);
             SelectedLoanType = LoanTypes.First(x => x.Id == selectedLoan.LoanType.Id);

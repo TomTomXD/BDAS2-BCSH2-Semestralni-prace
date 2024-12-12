@@ -57,10 +57,6 @@ namespace InformacniSystemBanky.ViewModel
                         var dashboardKlientView = new DashboardKlientView();
                         dashboardKlientView.Show();
                         break;
-                    case 2:
-                        var dashboardNotVerifiedClientView = new DashboardNotVerifiedClientView();
-                        dashboardNotVerifiedClientView.Show();
-                        break;
                     case 3:
                         var dashboardEmployeeView = new DashboardEmployeeView();
                         dashboardEmployeeView.Show();
