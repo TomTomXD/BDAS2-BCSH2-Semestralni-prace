@@ -122,7 +122,9 @@ namespace FinancniInformacniSystemBanky.ViewModel
             AddNewFileCommand = new RelayCommand(UpdateFile);
             AddFileCommand = new RelayCommand(AddFile);
 
-            IsDatePickerEnabled = true;
+
+            IsDatePickerEnabled = false;
+            DateOfUpload = DateTime.Now;
 
             // nastavení hodnot z vybraného souboru
             fileId = selectedFile.FileId;
@@ -147,6 +149,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void UpdateFile()
         {
+            // Kontrola prázdnosti polí
+            if (string.IsNullOrEmpty(FileName) ||
+                string.IsNullOrEmpty(FileDescription) ||
+                SelectedPossibleFileOwner == null ||
+                FileContent == null)
+            {
+                MessageBox.Show("Prosím vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             try
             {
                 _fileService.UpdateFile(fileId, FileName, DateOfUpload, FileContent, FileDescription, OwnerId);
@@ -177,6 +189,16 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddNewFile()
         {
+            // Kontrola prázdnosti polí
+            if (string.IsNullOrEmpty(FileName) ||
+                string.IsNullOrEmpty(FileDescription) ||
+                SelectedPossibleFileOwner == null ||
+                FileContent == null)
+            {
+                MessageBox.Show("Prosím vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             try
             {
                 _fileService.UploadFile(null, FileName, DateOfUpload, FileContent, FileDescription, SelectedPossibleFileOwner.Id, _fileType);

@@ -169,8 +169,26 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddNewCard()
         {
+            // Kontrola prázdnosti polí
+            if (string.IsNullOrEmpty(CardNumber) ||
+                string.IsNullOrEmpty(CVV) ||
+                SelectedCardType == null ||
+                SelectedNormalAccount == null)
+            {
+                MessageBox.Show("Prosím vyplňte všechny povinné údaje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Kontrola platnosti datumu expirace
+            if (ExpirationDate <= DateOfIssue)
+            {
+                MessageBox.Show("Datum expirace musí být po datu vydání.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Pokud jsou všechny kontroly úspěšné, zavolejte metodu přidání karty
             _cardService.AddCard(
-               CardNumber, DateOfIssue, ExpirationDate, CVV, SelectedCardType.Id, SelectedNormalAccount.AccountId);
+                CardNumber, DateOfIssue, ExpirationDate, CVV, SelectedCardType.Id, SelectedNormalAccount.AccountId);
             CloseAddingWindow();
         }
 
