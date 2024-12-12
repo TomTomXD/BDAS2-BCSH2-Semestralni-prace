@@ -27,7 +27,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 DateOfRepayment = reader.GetDateTime(4),
                 Client = new Client
                 {
-                    ClientId = reader.GetInt32(5),
+                    Id = reader.GetInt32(5),
                     FirstName = reader.GetString(6),
                     LastName = reader.GetString(7),
                     NationalIdNumber = null,
@@ -64,7 +64,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 DateOfRepayment = reader.GetDateTime(4),
                 Client = new Client
                 {
-                    ClientId = reader.GetInt32(5),
+                    Id = reader.GetInt32(5),
                     FirstName = reader.GetString(6),
                     LastName = reader.GetString(7),
                     NationalIdNumber = null,
@@ -104,7 +104,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
                 DateOfRepayment = reader.GetDateTime(4),
                 Client = new Client
                 {
-                    ClientId = reader.GetInt32(5),
+                    Id = reader.GetInt32(5),
                     FirstName = reader.GetString(6),
                     LastName = reader.GetString(7),
                     NationalIdNumber = null,
@@ -242,11 +242,11 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             });
         }
 
-        public IEnumerable<EligibleClientForLoan> GetEligibleClientsForLoan()
+        public IEnumerable<Client> GetEligibleClientsForLoan()
         {
             string query = @"SELECT * FROM DOSPELE_OSOBY";
 
-            return _databaseService.ExecuteSelect(query, reader => new EligibleClientForLoan
+            return _databaseService.ExecuteSelect(query, reader => new Client
             {
                 Id = reader.GetInt32(0),
                 FirstName = reader.GetString(1),

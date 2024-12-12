@@ -1,5 +1,6 @@
 ﻿using FinancniInformacniSystemBanky.DatabaseLayer;
 using FinancniInformacniSystemBanky.Model;
+using InformacniSystemBanky.Model;
 using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.ComponentModel;
@@ -22,7 +23,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private string _streetName;
         private string _houseNumber;
         private string _city;
-        private int _postalCode;
+        private string _postalCode;
 
         public string StreetName
         {
@@ -39,7 +40,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             get => _city;
             set { _city = value; OnPropertyChanged(nameof(City)); }
         }
-        public int PostalCode
+        public string PostalCode
         {
             get => _postalCode;
             set { _postalCode = value; OnPropertyChanged(nameof(PostalCode)); }
@@ -66,15 +67,15 @@ namespace FinancniInformacniSystemBanky.ViewModel
             ActionLabelText = "Přidání nové adresy";
             ActionButtonText = "Přidat";
         }
-        public AddAddressViewModel(AddressTable selectedAddress)
+        public AddAddressViewModel(Address selectedAddress)
         {
             _addressService = new AddressService();
 
             AddNewAddressCommand = new RelayCommand(UpdateAddress);
             CancelAddingNewAddressCommand = new RelayCommand(CloseAddingWindow);
 
-            _addressId = selectedAddress.AddressId;
-            StreetName = selectedAddress.StreetName;
+            _addressId = selectedAddress.Id;
+            StreetName = selectedAddress.Street;
             HouseNumber = selectedAddress.HouseNumber;
             City = selectedAddress.City;
             PostalCode = selectedAddress.PostalCode;

@@ -158,7 +158,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private LoanStatus _selectedLoanStatus;
         private LoanType _lelectedLoanType;
         private CreditCounselor _selectedCreditCounselor;
-        private EligibleClientForLoan _selectedClient;
+        private Client _selectedClient;
 
         public LoanType SelectedLoanType
         {
@@ -187,7 +187,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
                 OnPropertyChanged(nameof(SelectedCreditCounselor));
             }
         }
-        public EligibleClientForLoan SelectedClient
+        public Client SelectedClient
         {
             get => _selectedClient;
             set
@@ -197,7 +197,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             }
         }
 
-        public ObservableCollection<EligibleClientForLoan> Clients { get; set; }
+        public ObservableCollection<Client> Clients { get; set; }
         public ObservableCollection<CreditCounselor> CreditCounselors { get; set; }
         public ObservableCollection<LoanType> LoanTypes { get; set; }
         public ObservableCollection<LoanStatus> LoanStatuses { get; set; }
@@ -213,7 +213,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             CancelAddingNewLoanCommand = new RelayCommand(CloseAddingWindow);
             
             CreditCounselors = new ObservableCollection<CreditCounselor>(_loanService.GetCreditCounselors());
-            Clients = new ObservableCollection<EligibleClientForLoan>(_loanService.GetEligibleClientsForLoan());
+            Clients = new ObservableCollection<Client>(_loanService.GetEligibleClientsForLoan());
             LoanTypes = new ObservableCollection<LoanType>(_loanService.GetLoanTypes());
             LoanStatuses = new ObservableCollection<LoanStatus>(_loanService.GetLoanStatus());
             ClientSetter = true;
@@ -252,7 +252,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             CancelAddingNewLoanCommand = new RelayCommand(CloseAddingWindow);
 
             CreditCounselors = new ObservableCollection<CreditCounselor>(_loanService.GetCreditCounselors());
-            Clients = new ObservableCollection<EligibleClientForLoan>(_loanService.GetEligibleClientsForLoan());
+            Clients = new ObservableCollection<Client>(_loanService.GetEligibleClientsForLoan());
             LoanTypes = new ObservableCollection<LoanType>(_loanService.GetLoanTypes());
             LoanStatuses = new ObservableCollection<LoanStatus>(_loanService.GetLoanStatus());
 
@@ -261,7 +261,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             InterestRate = selectedLoan.InterestRate;
             DateOfApproval = selectedLoan.DateOfApproval;
             DateOfRepayment = selectedLoan.DateOfRepayment;
-            ClientId = selectedLoan.Client.ClientId;
+            ClientId = selectedLoan.Client.Id;
             CreditCounselorId = selectedLoan.CreditCounselor.Id;
             LoanStatus = selectedLoan.LoanStatus.Id;
             LoanType = selectedLoan.LoanType.Id;
@@ -269,7 +269,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             // nastavení aktuální hodnoty do comboboxů
             SelectedLoanStatus = LoanStatuses.First(x => x.Id == selectedLoan.LoanStatus.Id);
             SelectedLoanType = LoanTypes.First(x => x.Id == selectedLoan.LoanType.Id);
-            SelectedClient = Clients.First(x => x.Id == selectedLoan.Client.ClientId);
+            SelectedClient = Clients.First(x => x.Id == selectedLoan.Client.Id);
             SelectedCreditCounselor = CreditCounselors.First(x => x.Id == selectedLoan.CreditCounselor.Id);
 
             ActionLabelText = "Upravit Úvěr";

@@ -173,7 +173,7 @@ namespace InformacniSystemBanky.ViewModel
             SelectedAccountType = account.FriendlyAccountType;
             IdOwner = account.PersonId;
             AccountId = account.AccountId;
-            SelectedOwner = PossibleOwners.First(x => x.ClientId == account.PersonId);
+            SelectedOwner = PossibleOwners.First(x => x.Id == account.PersonId);
 
 
         }
@@ -185,7 +185,7 @@ namespace InformacniSystemBanky.ViewModel
                 MessageBox.Show("Všechna pole musí být vyplněna", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            _accountService.UpdateAccount(AccountId, AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.ClientId, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
+            _accountService.UpdateAccount(AccountId, AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.Id, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
             CloseAddingWindow();
         }
 
@@ -196,7 +196,7 @@ namespace InformacniSystemBanky.ViewModel
                 MessageBox.Show("Všechna pole musí být vyplněna", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.ClientId, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
+            _accountService.AddAccount(AccountNumber, (decimal)Balance, (decimal)Limit, SelectedOwner.Id, ConvertAccountTypeToDbFormat(SelectedAccountType), (decimal)Interest, (decimal)MaxBalance);
             CloseAddingWindow();
         }
 

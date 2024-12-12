@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
@@ -17,8 +18,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
     public class AddressesViewModel : INotifyPropertyChanged
     {
         private readonly AddressService _addressService;
-        private AddressTable _selectedAddress;
-        public AddressTable SelectedAddress
+        private Address _selectedAddress;
+        public Address SelectedAddress
         {
             get => _selectedAddress;
             set
@@ -32,7 +33,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
         public ICommand EditAddressCommand { get; }
         public ICommand DeleteAddressCommand { get; }
 
-        public ObservableCollection<AddressTable> Addresses { get; set; }
+        public ObservableCollection<Address> Addresses { get; set; }
 
         public AddressesViewModel()
         {
@@ -42,7 +43,7 @@ namespace FinancniInformacniSystemBanky.ViewModel
             EditAddressCommand = new RelayCommand(EditAddress);
             DeleteAddressCommand = new RelayCommand(DeleteAddressFromDatabase, CanDeleteAddress);
 
-            Addresses = new ObservableCollection<AddressTable>();
+            Addresses = new ObservableCollection<Address>();
             LoadAddressesFromDatabase();
         }
 
@@ -51,7 +52,8 @@ namespace FinancniInformacniSystemBanky.ViewModel
         {
             if(CanDeleteAddress())
             {
-                _addressService.DeleteAddress(SelectedAddress.AddressId);
+                //MessageBox.Show($"Selected address: {SelectedAddress.Id}, {SelectedAddress.City}");
+                _addressService.DeleteAddress(SelectedAddress.Id);
                 LoadAddressesFromDatabase();
             }
         }

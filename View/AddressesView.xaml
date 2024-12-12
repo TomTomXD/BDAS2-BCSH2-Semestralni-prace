@@ -52,7 +52,7 @@
                 <DataGrid ItemsSource="{Binding Addresses}" AutoGenerateColumns="False" Height="490" 
                       SelectedItem="{Binding SelectedAddress}" Width="880" Margin="0,5">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID adresy" Binding="{Binding AddressId}" Width="*">
+                        <DataGridTextColumn Header="ID adresy" Binding="{Binding Id}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -60,7 +60,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Ulice" Binding="{Binding StreetName}" Width="*">
+                        <DataGridTextColumn Header="Ulice" Binding="{Binding Street}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

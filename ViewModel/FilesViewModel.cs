@@ -4,7 +4,6 @@ using InformacniSystemBanky.View;
 using InformacniSystemBanky.ViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace FinancniInformacniSystemBanky.ViewModel
@@ -66,7 +65,6 @@ namespace FinancniInformacniSystemBanky.ViewModel
 
         private void AddFileToDatabase()
         {
-            //_fileService.UploadFile();
             var addFileView = new AddFileView();
             addFileView.ShowDialog();
             LoadFilesFromDatabase();
@@ -75,12 +73,15 @@ namespace FinancniInformacniSystemBanky.ViewModel
         private void LoadFilesFromDatabase()
         {
             IEnumerable<File> files;
+
+            // Klienti vidí pouze své soubory
             if (Session.Instance.EmulatedRoleId == 1 || Session.Instance.CurrentRoleId == 1)
             {
                  files = _fileService.GetFilesById(Session.Instance.EmulatedUserId ?? Session.Instance.CurrentUserId);
             }
             else
             {
+                // Zaměstnanci a admin vidí všechny soubory
                 files = _fileService.GetFiles();
             }
 

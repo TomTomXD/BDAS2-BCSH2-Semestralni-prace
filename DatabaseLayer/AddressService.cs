@@ -14,21 +14,21 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             _databaseService = new DatabaseService();
         }
 
-        public IEnumerable<AddressTable> GetAddresses()
+        public IEnumerable<Address> GetAddresses()
         {
             string query = "SELECT a.id_adresa, a.cislo_popisne, a.ulice, a. mesto, a.psc FROM ADRESY a";
 
-            return _databaseService.ExecuteSelect(query, reader => new AddressTable
+            return _databaseService.ExecuteSelect(query, reader => new Address
             {
-                AddressId = reader.GetInt32(0),
+                Id = reader.GetInt32(0),
                 HouseNumber = reader.GetString(1),
-                StreetName = reader.GetString(2),
+                Street = reader.GetString(2),
                 City = reader.GetString(3),
-                PostalCode = reader.GetInt32(4)
+                PostalCode = reader.GetString(4)
             });
         }
 
-        public void AddAddress(string streetName, string city, string houseNumber, int postalCode)
+        public void AddAddress(string streetName, string city, string houseNumber, string postalCode)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
         }
 
 
-        public void UpdateAddress(int addressId, string streetName, string city, string houseNumber, int postalCode)
+        public void UpdateAddress(int addressId, string streetName, string city, string houseNumber, string postalCode)
         {
 
             try

@@ -215,7 +215,7 @@ namespace FinancniInformacniSystemBanky.DatabaseLayer
             string query = "SELECT * FROM VSICHNI_KLIENTI_VIEW";
             return _databaseService.ExecuteSelect(query, reader => new Client
             {
-                ClientId = reader.GetInt32(0),
+                Id = reader.GetInt32(0),
                 FirstName = reader.GetString(1),
                 LastName = reader.GetString(2),
                 NationalIdNumber = reader.GetString(3)
